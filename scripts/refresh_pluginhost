@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+main() {
+  if is_audio_plugin_host_active; then
+    audio_plugin_host_psid=$(get_audio_plugin_host_psid)
+    kill $audio_plugin_host_psid
+  fi
+  restart_audio_plugin_host
+}
+
+is_audio_plugin_host_active() {
+  if [ $(ps aux | ag AudioPluginHost | wc -l) -gt 1 ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+get_audio_plugin_host_psid() {
+  ps aux \
+    | ag AudioPluginHost \
+    | ag -v "ag AudioPluginHost" \
+    | awk '{print $2}'
+}
+
+restart_audio_plugin_host() {
+  open -a ~/Projects/fractal-flow/JUCE/extras/AudioPluginHost/Builds/MacOSX/build/Debug/AudioPluginHost.app/Contents/MacOS/AudioPluginHost
+}
+
+main

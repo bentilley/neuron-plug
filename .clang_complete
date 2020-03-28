@@ -1,0 +1,4 @@
+-DDEBUG=1
+-std=c++14
+-Wall
+-I/Users/MrSquee/Projects/fractal-flow/JUCE/modules

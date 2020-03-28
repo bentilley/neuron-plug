@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+main() {
+  compile_vst
+}
+
+compile_vst() {
+  xcodebuild \
+    -project Builds/MacOSX/Wells.xcodeproj \
+    -target "Wells - VST3"
+}
+
+main
