@@ -1,0 +1,14 @@
+{
+  "Source/WellNeurons/*.cpp": {
+    "type": "model",
+    "alternate": ["tests/{}.test.cpp", "Source/WellNeurons/{}.hpp"]
+  },
+  "Source/WellNeurons/*.hpp": {
+    "type": "modelheader",
+    "alternate": ["Source/WellNeurons/{}.cpp", "test/{}.test.cpp"]
+  },
+  "tests/*.test.cpp": {
+    "type": "test",
+    "alternate": ["Source/WellNeurons/{}.hpp"]
+  }
+}

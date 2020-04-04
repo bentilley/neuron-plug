@@ -34,6 +34,9 @@ There are two sets of tests for this project:
 
 1. JUCE tests - written using the JUCE `UnitTestRunner` to test the code
    written using JUCE [TODO];
+   - see
+     https://forum.juce.com/t/any-better-way-to-write-unit-tests-in-juce/25288/4
+   - and https://docs.juce.com/master/classUnitTestRunner.html
 2. Catch2 tests - written using the catch2 library to test algorithmic code
    that does not depend on the JUCE library (i.e. the well models).
 
