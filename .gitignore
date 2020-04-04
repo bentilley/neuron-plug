@@ -1,5 +1,9 @@
 Builds/**
 JuceLibraryCode/**
 libs/**
+obj/**
+tests/obj/**
 xcodebuild.log
 playground.filtergraph
+*.swp
+*.swo

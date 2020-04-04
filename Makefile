@@ -1,7 +1,7 @@
 # Usage:
 # make		# compile plugin and restart audio plugin host
 
-.PHONY: all compile
+.PHONY: all compile clean
 
 all: compile
 
@@ -18,11 +18,29 @@ compile:
 
 GCC = gcc-9
 COMPILER_OPTIONS = -lstdc++ -Ilibs
+FILES_TO_TEST = Source/WellNeurons/*.cpp
+
+ODIR = obj
+BRAIN_HEADERS = $(wildcard Source/WellNeurons/*.hpp)
+BRAIN_SRC = $(wildcard Source/WellNeurons/*.cpp)
+BRAIN_TESTS_SRC = $(wildcard tests/*.test.cpp)
+BRAIN_OBJ = $(patsubst Source/WellNeurons/%.cpp,obj/%.o,$(BRAIN_SRC))
+BRAIN_TESTS_OBJ = $(patsubst tests/%.cpp,tests/obj/%.o,$(BRAIN_TESTS_SRC))
 
 test: tests/run_tests
 	@./tests/run_tests
 
-tests/run_tests: tests/run_tests.cpp tests/*.test.cpp
+tests/run_tests: $(BRAIN_TESTS_OBJ) $(BRAIN_OBJ)
 	@$(GCC) $(COMPILER_OPTIONS) \
-	  tests/run_tests.cpp \
+	  $(BRAIN_TESTS_OBJ) $(BRAIN_OBJ)\
 	  -o tests/run_tests
+
+tests/obj/%.test.o: tests/%.test.cpp $(BRAIN_HEADERS)
+	@$(GCC) $(COMPILER_OPTIONS) -c $< -o $@
+
+obj/%.o: Source/WellNeurons/%.cpp $(BRAIN_HEADERS)
+	@$(GCC) $(COMPILER_OPTIONS) -c $< -o $@
+
+clean:
+	@rm obj/*
+	@rm tests/obj/*
