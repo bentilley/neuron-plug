@@ -3,6 +3,7 @@ JuceLibraryCode/**
 libs/**
 obj/**
 tests/obj/**
+tests/run_tests
 xcodebuild.log
 playground.filtergraph
 *.swp
