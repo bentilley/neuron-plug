@@ -24,6 +24,10 @@ WellsAudioProcessor::WellsAudioProcessor()
       )
 #endif
 {
+  // TODO set tests to only run conditionally on debug mode
+  UnitTestRunner testRunner;
+  testRunner.runAllTests();
+
   brain.set_connection_weights(std::vector<std::vector<int>>{
       std::vector<int>{-5, 2, 1}, std::vector<int>{1, -6, 2},
       std::vector<int>{2, 1, -7}});
