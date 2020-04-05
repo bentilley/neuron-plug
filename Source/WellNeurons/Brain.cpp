@@ -75,7 +75,7 @@ void Brain::set_threshold_for_neuron(int neuron_num, int new_threshold) {
  * Methods
  */
 
-int Brain::num_neurons() { return neurons.size(); };
+int Brain::num_neurons() { return static_cast<int>(neurons.size()); };
 
 void Brain::add_neuron() {
   neurons.push_back(Neuron());
