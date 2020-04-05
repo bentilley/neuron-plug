@@ -11,6 +11,7 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "WellNeurons/Brain.hpp"
 
 //==============================================================================
 /**
@@ -59,6 +60,8 @@ public:
   //==Logging=====================================================================
   FileLogger logger{File("~/Projects/fractal-flow/well-plug/plugin.log"),
                     String("Well Neuron Plugin Logs")};
+  //==Model=======================================================================
+  Brain brain;
 private:
   //==============================================================================
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WellsAudioProcessor)

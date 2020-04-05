@@ -24,6 +24,9 @@ WellsAudioProcessor::WellsAudioProcessor()
       )
 #endif
 {
+  brain.set_connection_weights(std::vector<std::vector<int>>{
+      std::vector<int>{-5, 2, 1}, std::vector<int>{1, -6, 2},
+      std::vector<int>{2, 1, -7}});
 }
 
 WellsAudioProcessor::~WellsAudioProcessor() {}
@@ -138,6 +141,12 @@ void WellsAudioProcessor::processBlock(AudioBuffer<float> &buffer,
 
     // ..do something to the data...
   }
+
+  // Well Neuron Processing
+
+  brain.process_next(std::vector<int>{1, 1, 1});
+  std::vector<int> output = brain.get_output();
+  log_vec(logger, "model output", output);
 
   MidiBuffer processedMidi;
   int time;
