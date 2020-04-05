@@ -56,6 +56,9 @@ public:
   void getStateInformation(MemoryBlock &destData) override;
   void setStateInformation(const void *data, int sizeInBytes) override;
 
+  //==Logging=====================================================================
+  FileLogger logger{File("~/Projects/fractal-flow/well-plug/plugin.log"),
+                    String("Well Neuron Plugin Logs")};
 private:
   //==============================================================================
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WellsAudioProcessor)

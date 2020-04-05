@@ -8,3 +8,5 @@ xcodebuild.log
 playground.filtergraph
 *.swp
 *.swo
+.DS_store
+plugin.log

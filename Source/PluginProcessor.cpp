@@ -107,6 +107,11 @@ bool WellsAudioProcessor::isBusesLayoutSupported(
 }
 #endif
 
+void log_vec(FileLogger &logger, String vec_name, std::vector<int> vec) {
+  logger.logMessage(vec_name + ": (" + String(vec.at(0)) + ", " +
+                    String(vec.at(1)) + ", " + String(vec.at(2)) + ")");
+}
+
 void WellsAudioProcessor::processBlock(AudioBuffer<float> &buffer,
                                        MidiBuffer &midiMessages) {
   ScopedNoDenormals noDenormals;
