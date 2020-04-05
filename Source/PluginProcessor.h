@@ -11,6 +11,7 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "MidiProcessor/MidiProcessor.hpp"
 #include "WellNeurons/Brain.hpp"
 
 //==============================================================================
@@ -62,6 +63,8 @@ public:
                     String("Well Neuron Plugin Logs")};
   //==Model=======================================================================
   Brain brain;
+  MidiProcessor midiProcessor;
+
 private:
   //==============================================================================
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WellsAudioProcessor)

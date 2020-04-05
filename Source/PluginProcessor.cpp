@@ -153,20 +153,23 @@ void WellsAudioProcessor::processBlock(AudioBuffer<float> &buffer,
   log_vec(logger, "model output", output);
 
   MidiBuffer processedMidi;
-  int time;
-  MidiMessage m;
+  midiProcessor.render_buffer(processedMidi, output);
 
-  for (MidiBuffer::Iterator i(midiMessages); i.getNextEvent(m, time);) {
-    if (m.isNoteOn()) {
-      uint8 newVel = (uint8)noteOnVel;
-      m = MidiMessage::noteOn(m.getChannel(), m.getNoteNumber(), newVel);
-    } else if (m.isNoteOff()) {
-    } else if (m.isAftertouch()) {
-    } else if (m.isPitchWheel()) {
-    }
+  /* MidiBuffer processedMidi; */
+  /* int time; */
+  /* MidiMessage m; */
 
-    processedMidi.addEvent(m, time);
-  }
+  /* for (MidiBuffer::Iterator i(midiMessages); i.getNextEvent(m, time);) { */
+  /*   if (m.isNoteOn()) { */
+  /*     uint8 newVel = (uint8)noteOnVel; */
+  /*     m = MidiMessage::noteOn(m.getChannel(), m.getNoteNumber(), newVel); */
+  /*   } else if (m.isNoteOff()) { */
+  /*   } else if (m.isAftertouch()) { */
+  /*   } else if (m.isPitchWheel()) { */
+  /*   } */
+
+  /* processedMidi.addEvent(m, time); */
+  /* } */
 
   midiMessages.swapWith(processedMidi);
 }
