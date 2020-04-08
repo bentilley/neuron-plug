@@ -40,6 +40,14 @@ There are two sets of tests for this project:
 2. Catch2 tests - written using the catch2 library to test algorithmic code
    that does not depend on the JUCE library (i.e. the well models).
 
-To run the JUCE test... TODO.
+To run the JUCE tests run `make jucetest`.
 
 To run the Catch tests run `make test`.
+
+### Test Entry Points
+
+There are two sets of test entry points - one for the JUCE tests and one for
+the catch tests.
+
+- `Source/test-main.cpp` for the JUCE tests, and;
+- `tests/main.test.cpp` for the catch tests.

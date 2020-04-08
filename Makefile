@@ -1,7 +1,7 @@
 # Usage:
 # make		# compile plugin and restart audio plugin host
 
-.PHONY: all compile clean
+.PHONY: all compile clean test jucetest
 
 all: compile
 
@@ -44,3 +44,11 @@ obj/%.o: Source/WellNeurons/%.cpp $(BRAIN_HEADERS)
 clean:
 	@rm obj/*
 	@rm tests/obj/*
+
+jucetest:
+	@xcodebuild \
+	  -project Builds/MacOSX/Wells.xcodeproj \
+	  -target "testwells" \
+	  | xcpretty
+	@./tests/run_juce_tests
+

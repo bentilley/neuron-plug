@@ -10,3 +10,4 @@ playground.filtergraph
 *.swo
 .DS_store
 plugin.log
+tests/run_juce_tests

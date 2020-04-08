@@ -5,7 +5,6 @@
  * Distributed under terms of the MIT license.
  */
 
-#include "../../JuceLibraryCode/JuceHeader.h"
 #include "MidiProcessor.hpp"
 
 class MidiProcessorTests : public UnitTest {
