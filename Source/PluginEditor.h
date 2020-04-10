@@ -12,12 +12,12 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
+#include "UI/MainComponent.hpp"
 
 //==============================================================================
 /**
  */
-class WellsAudioProcessorEditor : public AudioProcessorEditor,
-                                  private Slider::Listener {
+class WellsAudioProcessorEditor : public AudioProcessorEditor {
 public:
   WellsAudioProcessorEditor(WellsAudioProcessor &);
   ~WellsAudioProcessorEditor();
@@ -31,9 +31,7 @@ private:
   // access the processor object that created it.
   WellsAudioProcessor &processor;
 
-  Slider midiVolume;
-
-  void sliderValueChanged(Slider *slider) override;
+  MainComponent mainComponent;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WellsAudioProcessorEditor)
 };
