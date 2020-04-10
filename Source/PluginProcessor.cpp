@@ -148,28 +148,26 @@ void WellsAudioProcessor::processBlock(AudioBuffer<float> &buffer,
 
   // Well Neuron Processing
 
-  brain.process_next(std::vector<int>{1, 1, 1});
-  std::vector<int> output = brain.get_output();
-  log_vec(logger, "model output", output);
-
   MidiBuffer processedMidi;
-  midiProcessor.render_buffer(processedMidi, output);
+  double sample_rate = getSampleRate();
+  int num_buffer_samples = buffer.getNumSamples();
+  AudioPlayHead::CurrentPositionInfo pos;
+  getPlayHead()->getCurrentPosition(pos);
 
-  /* MidiBuffer processedMidi; */
-  /* int time; */
-  /* MidiMessage m; */
+  beatClock.configure(sample_rate, pos);
 
-  /* for (MidiBuffer::Iterator i(midiMessages); i.getNextEvent(m, time);) { */
-  /*   if (m.isNoteOn()) { */
-  /*     uint8 newVel = (uint8)noteOnVel; */
-  /*     m = MidiMessage::noteOn(m.getChannel(), m.getNoteNumber(), newVel); */
-  /*   } else if (m.isNoteOff()) { */
-  /*   } else if (m.isAftertouch()) { */
-  /*   } else if (m.isPitchWheel()) { */
-  /*   } */
+  if (pos.isPlaying) {
+    for (int time = 0; time < num_buffer_samples; ++time) {
+      if (beatClock.should_play(time)) {
+        brain.process_next(std::vector<int>{1, 1, 1});
+        std::vector<int> output = brain.get_output();
+        log_vec(logger, "model output", output);
 
-  /* processedMidi.addEvent(m, time); */
-  /* } */
+        midiProcessor.render_buffer(processedMidi, output, time);
+      }
+    }
+    beatClock.reset();
+  }
 
   midiMessages.swapWith(processedMidi);
 }

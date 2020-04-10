@@ -11,6 +11,7 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "BeatClock/BeatClock.hpp"
 #include "MidiProcessor/MidiProcessor.hpp"
 #include "WellNeurons/Brain.hpp"
 
@@ -64,6 +65,7 @@ public:
   //==Model=======================================================================
   Brain brain;
   MidiProcessor midiProcessor;
+  BeatClock beatClock;
 
 private:
   //==============================================================================
