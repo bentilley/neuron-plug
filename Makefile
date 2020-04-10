@@ -1,9 +1,12 @@
 # Usage:
 # make		# compile plugin and restart audio plugin host
 
-.PHONY: all compile clean test jucetest
+.PHONY: all compile clean test jucetest xcode
 
 all: compile
+
+xcode:
+	@open Builds/MacOSX/Wells.xcodeproj	
 
 compile:
 	@xcodebuild \
