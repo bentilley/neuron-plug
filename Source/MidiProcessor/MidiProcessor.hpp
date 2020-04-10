@@ -15,10 +15,11 @@ public:
   MidiProcessor();
   ~MidiProcessor();
 
-  bool test();
-  bool testFail();
+  std::vector<int> get_midi_map();
 
-  void render_buffer(MidiBuffer &buffer, std::vector<int> next_output);
+  void render_buffer(MidiBuffer &buffer, std::vector<int> next_output,
+                     int sample_num);
 
 private:
+  std::vector<int> midi_map;
 };

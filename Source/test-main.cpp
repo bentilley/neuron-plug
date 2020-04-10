@@ -1,5 +1,5 @@
 //
-//  main.cpp
+//  test-main.cpp
 //  JUCE Tests
 //
 //  Created by Benjamin Tilley on 08/04/2020.
@@ -9,8 +9,8 @@
 #include <iostream>
 
 int main(int argc, const char *argv[]) {
-  // insert code here...
-  std::cout << "Hello, World! My gully and my pride...\n";
+
+  std::cout << "Running all JUCE tests!\n";
 
   UnitTestRunner testRunner;
   testRunner.runAllTests();

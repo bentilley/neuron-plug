@@ -45,10 +45,11 @@ clean:
 	@rm obj/*
 	@rm tests/obj/*
 
-jucetest:
+jucetest: tests/run_juce_tests
+	@./tests/run_juce_tests
+
+tests/run_juce_tests: Source/test-main.cpp $(wildcard Source/MidiProcessor/*.cpp) $(wildcard Source/BeatClock/*.cpp)
 	@xcodebuild \
 	  -project Builds/MacOSX/Wells.xcodeproj \
 	  -target "testwells" \
 	  | xcpretty
-	@./tests/run_juce_tests
-
