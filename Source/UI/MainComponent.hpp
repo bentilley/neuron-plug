@@ -9,6 +9,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
+#include "PluginBody.hpp"
 #include "TitleBar.hpp"
 
 class MainComponent : public Component {
@@ -25,6 +26,7 @@ private:
   int titleHeight{80};
 
   TitleBar titleBar;
+  PluginBody pluginBody;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };
