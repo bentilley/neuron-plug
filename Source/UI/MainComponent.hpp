@@ -9,7 +9,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-class MainComponent : public Component, private Slider::Listener {
+class MainComponent : public Component {
 public:
   MainComponent();
   ~MainComponent();
@@ -19,9 +19,7 @@ public:
 
 private:
   String currentSizeAsString;
-  Slider midiVolume;
 
-  void sliderValueChanged(Slider *slider) override;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };
