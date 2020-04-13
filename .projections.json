@@ -10,5 +10,13 @@
   "tests/*.test.cpp": {
     "type": "test",
     "alternate": ["Source/WellNeurons/{}.hpp"]
+  },
+  "Source/UI/*.cpp": {
+    "type": "ui",
+    "alternate": ["Source/UI/{}.hpp"]
+  },
+  "Source/UI/*.hpp": {
+    "type": "uiheader",
+    "alternate": ["Source/UI/{}.cpp"]
   }
 }
