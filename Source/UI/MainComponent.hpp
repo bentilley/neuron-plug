@@ -9,6 +9,8 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
+#include "TitleBar.hpp"
+
 class MainComponent : public Component {
 public:
   MainComponent();
@@ -20,6 +22,9 @@ public:
 private:
   String currentSizeAsString;
 
+  int titleHeight{80};
+
+  TitleBar titleBar;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };

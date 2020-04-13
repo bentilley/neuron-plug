@@ -9,11 +9,14 @@
 
 MainComponent::MainComponent() {
 
+  addAndMakeVisible(&titleBar);
 };
 MainComponent::~MainComponent(){};
 
 void MainComponent::paint(Graphics &g) {}
 
 void MainComponent::resized() {
+  auto area = getLocalBounds();
 
+  titleBar.setBounds(area.removeFromTop(titleHeight));
 }
