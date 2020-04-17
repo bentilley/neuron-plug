@@ -114,11 +114,6 @@ bool WellsAudioProcessor::isBusesLayoutSupported(
 }
 #endif
 
-void log_vec(FileLogger &logger, String vec_name, std::vector<int> vec) {
-  logger.logMessage(vec_name + ": (" + String(vec.at(0)) + ", " +
-                    String(vec.at(1)) + ", " + String(vec.at(2)) + ")");
-}
-
 void WellsAudioProcessor::processBlock(AudioBuffer<float> &buffer,
                                        MidiBuffer &midiMessages) {
   ScopedNoDenormals noDenormals;
@@ -161,7 +156,7 @@ void WellsAudioProcessor::processBlock(AudioBuffer<float> &buffer,
       if (beatClock.should_play(time)) {
         brain.process_next(std::vector<int>{1, 1, 1});
         std::vector<int> output = brain.get_output();
-        log_vec(logger, "model output", output);
+        PluginLogger::logger.log_vec("model output", output);
 
         midiProcessor.render_buffer(processedMidi, output, time);
       }

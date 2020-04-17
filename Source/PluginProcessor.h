@@ -13,6 +13,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "BeatClock/BeatClock.hpp"
 #include "MidiProcessor/MidiProcessor.hpp"
+#include "Utils/PluginLogger.hpp"
 #include "WellNeurons/Brain.hpp"
 
 //==============================================================================
@@ -59,9 +60,6 @@ public:
   void getStateInformation(MemoryBlock &destData) override;
   void setStateInformation(const void *data, int sizeInBytes) override;
 
-  //==Logging=====================================================================
-  FileLogger logger{File("~/Projects/fractal-flow/well-plug/plugin.log"),
-                    String("Well Neuron Plugin Logs")};
   //==Model=======================================================================
   Brain brain;
   MidiProcessor midiProcessor;
