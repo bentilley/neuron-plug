@@ -9,6 +9,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "../PluginProcessor.h"
+#include "../Utils/PluginLogger.hpp"
 
 class TitleBar : public Component, private Button::Listener {
 public:

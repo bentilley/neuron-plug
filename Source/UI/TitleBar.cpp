@@ -47,7 +47,6 @@ void TitleBar::paint(Graphics &g) {
   g.fillRect(area);
   g.setColour(darkGrey);
   g.fillRect(bottomBorder);
-
 }
 
 void TitleBar::resized() {
@@ -77,5 +76,10 @@ void TitleBar::resized() {
 }
 
 void TitleBar::buttonClicked(Button *b) {
+  if (b == &onOffButton) {
+    processor.toggleOnOff();
+  } else if (b == &receivesMidiButton) {
+    PluginLogger::logger.logMessage("Toggle Receives MIDI");
+  }
 };
 void TitleBar::buttonStateChanged(Button *b){};

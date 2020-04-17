@@ -61,9 +61,13 @@ public:
   void setStateInformation(const void *data, int sizeInBytes) override;
 
   //==Model=======================================================================
+  bool isBrainOn;
+
   Brain brain;
   MidiProcessor midiProcessor;
   BeatClock beatClock;
+
+  void toggleOnOff();
 
 private:
   //==============================================================================

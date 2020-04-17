@@ -21,9 +21,10 @@ WellsAudioProcessor::WellsAudioProcessor()
 #endif
                          .withOutput("Output", AudioChannelSet::stereo(), true)
 #endif
-      )
+                         ),
 #endif
-{
+      isBrainOn{false} {
+
   // TODO set tests to only run conditionally on debug mode
   UnitTestRunner testRunner;
   testRunner.runAllTests();
@@ -151,7 +152,7 @@ void WellsAudioProcessor::processBlock(AudioBuffer<float> &buffer,
 
   beatClock.configure(sample_rate, pos);
 
-  if (pos.isPlaying) {
+  if (isBrainOn && pos.isPlaying) {
     for (int time = 0; time < num_buffer_samples; ++time) {
       if (beatClock.should_play(time)) {
         brain.process_next(std::vector<int>{1, 1, 1});
@@ -166,6 +167,8 @@ void WellsAudioProcessor::processBlock(AudioBuffer<float> &buffer,
 
   midiMessages.swapWith(processedMidi);
 }
+
+void WellsAudioProcessor::toggleOnOff() { isBrainOn = !isBrainOn; };
 
 //==============================================================================
 bool WellsAudioProcessor::hasEditor() const {
