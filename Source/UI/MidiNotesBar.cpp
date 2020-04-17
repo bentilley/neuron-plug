@@ -10,14 +10,14 @@
 MidiNotesBar::MidiNotesBar() {
 
   StringArray midiNoteNums;
-  for (int i = 0; i < 128; ++i) {
+  for (int i = 1; i < 128; ++i) {
     midiNoteNums.add(String(i));
   }
 
   for (int i = 0; i < numNeurons; ++i) {
     std::unique_ptr<ComboBox> combo =
         std::make_unique<ComboBox>("midiCombo" + String(i));
-    combo->addItemList(midiNoteNums, 0);
+    combo->addItemList(midiNoteNums, 1);
     combo->setEditableText(false);
     combo->setSelectedId(60);
     addAndMakeVisible(*combo);
