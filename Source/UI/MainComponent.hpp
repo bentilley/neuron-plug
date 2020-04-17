@@ -8,20 +8,20 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
-
+#include "../PluginProcessor.h"
 #include "PluginBody.hpp"
 #include "TitleBar.hpp"
 
 class MainComponent : public Component {
 public:
-  MainComponent();
+  MainComponent(WellsAudioProcessor &p);
   ~MainComponent();
 
   void paint(Graphics &) override;
   void resized() override;
 
 private:
-  String currentSizeAsString;
+  WellsAudioProcessor &processor;
 
   int titleHeight{80};
 

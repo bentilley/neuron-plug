@@ -13,7 +13,7 @@
 
 //==============================================================================
 WellsAudioProcessorEditor::WellsAudioProcessorEditor(WellsAudioProcessor &p)
-    : AudioProcessorEditor(&p), processor(p) {
+    : AudioProcessorEditor(&p), processor(p), mainComponent(p) {
   // Make sure that before the constructor has finished, you've set the
   // editor's size to whatever you need it to be.
   setResizable(true, true);

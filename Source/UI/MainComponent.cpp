@@ -7,8 +7,8 @@
 
 #include "MainComponent.hpp"
 
-MainComponent::MainComponent() {
-
+MainComponent::MainComponent(WellsAudioProcessor &p)
+    : processor(p), titleBar(p) {
   addAndMakeVisible(&titleBar);
   addAndMakeVisible(&pluginBody);
 };

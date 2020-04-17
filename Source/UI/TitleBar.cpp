@@ -7,12 +7,10 @@
 
 #include "TitleBar.hpp"
 
-TitleBar::TitleBar() : 
-  onOffButton("On/Off"),
-  receivesMidiButton("MIDI In"),
-  subdivisionSlider("Subdivision"),
-  globalVolumeSlider("Volume"),
-  volumeRange("MIDI Volume Range") {
+TitleBar::TitleBar(WellsAudioProcessor &p)
+    : processor(p), onOffButton("On/Off"), receivesMidiButton("MIDI In"),
+      subdivisionSlider("Subdivision"), globalVolumeSlider("Volume"),
+      volumeRange("MIDI Volume Range") {
 
   subdivisionSlider.setSliderStyle(Slider::RotaryVerticalDrag);
   subdivisionSlider.setRange(1, 256, 1);
@@ -50,7 +48,6 @@ void TitleBar::paint(Graphics &g) {
 }
 
 void TitleBar::resized() {
-  currentSizeAsString = String(getWidth()) + " x " + String(getHeight());
 
   auto area = getLocalBounds();
   area.removeFromBottom(bottomBorderPx);

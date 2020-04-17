@@ -8,17 +8,18 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "../PluginProcessor.h"
 
 class TitleBar : public Component {
 public:
-  TitleBar();
+  TitleBar(WellsAudioProcessor &p);
   ~TitleBar();
 
   void paint(Graphics &) override;
   void resized() override;
 
 private:
-  String currentSizeAsString;
+  WellsAudioProcessor &processor;
 
   Colour lightGrey{221, 221, 221};
   Colour darkGrey{51, 51, 51};
