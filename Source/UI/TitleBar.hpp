@@ -10,7 +10,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "../PluginProcessor.h"
 
-class TitleBar : public Component {
+class TitleBar : public Component, private Button::Listener {
 public:
   TitleBar(WellsAudioProcessor &p);
   ~TitleBar();
@@ -31,6 +31,11 @@ private:
   Slider subdivisionSlider;
   Slider globalVolumeSlider;
   Slider volumeRange;
+
+  // methods
+
+  void buttonClicked(Button *b) override;
+  void buttonStateChanged(Button *b) override;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TitleBar)
 };

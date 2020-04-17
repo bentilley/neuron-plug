@@ -12,6 +12,9 @@ TitleBar::TitleBar(WellsAudioProcessor &p)
       subdivisionSlider("Subdivision"), globalVolumeSlider("Volume"),
       volumeRange("MIDI Volume Range") {
 
+  onOffButton.addListener(this);
+  receivesMidiButton.addListener(this);
+
   subdivisionSlider.setSliderStyle(Slider::RotaryVerticalDrag);
   subdivisionSlider.setRange(1, 256, 1);
   subdivisionSlider.setTextBoxStyle(Slider::NoTextBox, false, 10, 0);
@@ -73,3 +76,7 @@ void TitleBar::resized() {
   componentPadding.subtractFrom(buttonArea);
   volumeRange.setBounds(buttonArea);
 }
+
+void TitleBar::buttonClicked(Button *b) {
+};
+void TitleBar::buttonStateChanged(Button *b){};
