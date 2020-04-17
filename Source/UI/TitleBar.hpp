@@ -23,8 +23,12 @@ private:
 
   Colour lightGrey{221, 221, 221};
   Colour darkGrey{51, 51, 51};
+  Colour buttonOnColour{255, 0, 0};
+  Colour buttonOffColour{0, 255, 0};
 
   int bottomBorderPx{1};
+  BorderSize<int> componentPadding{10, 5, 10, 5};
+  int componentWidth{100};
 
   TextButton onOffButton;
   TextButton receivesMidiButton;

@@ -54,25 +54,24 @@ void TitleBar::resized() {
 
   auto area = getLocalBounds();
   area.removeFromBottom(bottomBorderPx);
-  auto componentPadding = BorderSize<int>{10, 5, 10, 5};
-  auto buttonArea = area.removeFromLeft(100);
+  auto buttonArea = area.removeFromLeft(componentWidth);
 
   componentPadding.subtractFrom(buttonArea);
   onOffButton.setBounds(buttonArea);
 
-  buttonArea = area.removeFromLeft(100);
+  buttonArea = area.removeFromLeft(componentWidth);
   componentPadding.subtractFrom(buttonArea);
   receivesMidiButton.setBounds(buttonArea);
 
-  buttonArea = area.removeFromLeft(100);
+  buttonArea = area.removeFromLeft(componentWidth);
   componentPadding.subtractFrom(buttonArea);
   subdivisionSlider.setBounds(buttonArea);
 
-  buttonArea = area.removeFromLeft(100);
+  buttonArea = area.removeFromLeft(componentWidth);
   componentPadding.subtractFrom(buttonArea);
   globalVolumeSlider.setBounds(buttonArea);
 
-  buttonArea = area.removeFromLeft(200);
+  buttonArea = area.removeFromLeft(2 * componentWidth);
   componentPadding.subtractFrom(buttonArea);
   volumeRange.setBounds(buttonArea);
 }
