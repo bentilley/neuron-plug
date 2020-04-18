@@ -8,13 +8,31 @@
 #pragma once
 
 #include "../../JuceLibraryCode/JuceHeader.h"
+#include "../Utils/PluginLogger.hpp"
+#include "BeatClock/BeatClock.hpp"
+#include "MidiProcessor/MidiProcessor.hpp"
+#include "WellNeurons/Brain.hpp"
 
 class MidiGenerator {
 public:
   MidiGenerator();
   ~MidiGenerator();
 
-  bool test();
+  // Getters
+  bool get_is_on();
+
+  // Audio Thread
+  void generate_next_midi_buffer(MidiBuffer &b,
+                                 AudioPlayHead::CurrentPositionInfo &pos,
+                                 double sample_rate, int num_samples);
+
+  // GUI Thread
+  void toggleOnOff();
 
 private:
+  bool is_on;
+
+  Brain brain;
+  MidiProcessor midiProcessor;
+  BeatClock beatClock;
 };
