@@ -17,7 +17,41 @@ public:
     // == Instantiation ==
     beginTest("Instantiation");
 
-    expect(generator.test());
+    expect(!generator.get_is_on(), "midi generator default on state wrong");
+
+    // == toggleOnOff ==
+    beginTest("toggleOnOff");
+
+    generator.toggleOnOff();
+    expect(generator.get_is_on(), "midi generator should have been on");
+
+    generator.toggleOnOff();
+    expect(!generator.get_is_on(), "midi generator should have been off");
+
+    // == generate_next_midi_buffer ==
+    beginTest("generate_next_midi_buffer");
+
+    MidiBuffer buffer;
+    double sample_rate{44100};
+    int num_samples{64};
+    AudioPlayHead::CurrentPositionInfo pos;
+    pos.bpm = 100;
+    pos.timeInSamples = 0;
+
+    generator.generate_next_midi_buffer(buffer, pos, sample_rate, num_samples);
+
+    expect(buffer.getNumEvents() == 3, "Wrong number of MIDI events");
+    expect(buffer.getFirstEventTime() == 0,
+           "MIDI events have wrong sample number");
+
+    std::vector<int> expected_notes{60, 64, 67};
+    int j{0};
+    int time;
+    MidiMessage m;
+    for (MidiBuffer::Iterator i(buffer); i.getNextEvent(m, time); ++j) {
+      expect(m.getNoteNumber() == expected_notes.at(j),
+             "note number is incorrect");
+    }
   };
 };
 
