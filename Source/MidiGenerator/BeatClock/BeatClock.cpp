@@ -65,10 +65,5 @@ float BeatClock::get_samples_per_subdivision(float bpm, double sample_rate) {
 
 float BeatClock::get_sample_num_remainder(float samples_per_subdivision,
                                           double current_sample_num) {
-  /* float bpm = (float)pos.bpm; */
-  /* double current_sample_num = (double)pos.timeInSamples; */
-
-  /* float samples_per_subdivision = get_samples_per_subdivision(bpm,
-   * sample_rate); */
   return fmod(current_sample_num, samples_per_subdivision);
 }
