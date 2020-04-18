@@ -48,10 +48,12 @@ clean:
 	@rm obj/*
 	@rm tests/obj/*
 
+MIDI_GENERATOR_DIR = Source/MidiGenerator/
+
 jucetest: tests/run_juce_tests
 	@./tests/run_juce_tests
 
-tests/run_juce_tests: Source/test-main.cpp $(wildcard Source/MidiProcessor/*.cpp) $(wildcard Source/BeatClock/*.cpp)
+tests/run_juce_tests: Source/test-main.cpp $(shell find $(MIDI_GENERATOR_DIR) -name "*.cpp")
 	@xcodebuild \
 	  -project Builds/MacOSX/Wells.xcodeproj \
 	  -target "testwells" \

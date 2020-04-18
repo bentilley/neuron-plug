@@ -19,6 +19,18 @@
     "type": "test",
     "alternate": ["Source/MidiGenerator/WellNeurons/{}.hpp"]
   },
+  "Source/MidiGenerator/*.cpp": {
+    "type": "midi",
+    "alternate": ["Source/MidiGenerator/{}.test.cpp", "Source/MidiGenerator/WellNeurons/{}.hpp"]
+  },
+  "Source/MidiGenerator/*.hpp": {
+    "type": "midiheader",
+    "alternate": ["Source/MidiGenerator/{}.cpp", "Source/MidiGenerator/{}.test.cpp"]
+  },
+  "Source/MidiGenerator/*.test.cpp": {
+    "type": "miditest",
+    "alternate": ["Source/MidiGenerator/{}.hpp", "Source/MidiGenerator/{}.cpp"]
+  },
   "Source/UI/*.cpp": {
     "type": "ui",
     "alternate": ["Source/MidiGenerator/UI/{}.hpp"]
