@@ -156,8 +156,6 @@ void WellsAudioProcessor::processBlock(AudioBuffer<float> &buffer,
   midiMessages.swapWith(processedMidi);
 }
 
-void WellsAudioProcessor::toggleOnOff() { isBrainOn = !isBrainOn; };
-
 //==============================================================================
 bool WellsAudioProcessor::hasEditor() const {
   return true; // (change this to false if you choose to not supply an editor)
