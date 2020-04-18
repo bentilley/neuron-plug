@@ -23,7 +23,7 @@ public:
 
   // Audio Thread
   void generate_next_midi_buffer(MidiBuffer &b,
-                                 AudioPlayHead::CurrentPositionInfo &pos,
+                                 const AudioPlayHead::CurrentPositionInfo &pos,
                                  double sample_rate, int num_samples);
 
   // GUI Thread

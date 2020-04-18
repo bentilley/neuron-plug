@@ -34,7 +34,7 @@ void BeatClock::set_subdivision(int new_subdiv) { subdivision = new_subdiv; }
  * Public Methods
  */
 
-void BeatClock::configure(double sample_rate, posinfo &pos) {
+void BeatClock::configure(double sample_rate, const posinfo &pos) {
   float bpm = (float)pos.bpm;
   double current_sample_num = (double)pos.timeInSamples;
   samples_per_subdivision = get_samples_per_subdivision(bpm, sample_rate);

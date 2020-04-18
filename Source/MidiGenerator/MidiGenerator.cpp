@@ -25,7 +25,7 @@ bool MidiGenerator::get_is_on() { return is_on; };
  */
 
 void MidiGenerator::generate_next_midi_buffer(
-    MidiBuffer &midiBuffer, AudioPlayHead::CurrentPositionInfo &pos,
+    MidiBuffer &midiBuffer, const AudioPlayHead::CurrentPositionInfo &pos,
     double sample_rate, int num_samples) {
 
   beatClock.configure(sample_rate, pos);

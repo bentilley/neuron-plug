@@ -77,7 +77,7 @@ void TitleBar::resized() {
 
 void TitleBar::buttonClicked(Button *b) {
   if (b == &onOffButton) {
-    processor.toggleOnOff();
+    processor.midiGenerator.toggleOnOff();
   } else if (b == &receivesMidiButton) {
     PluginLogger::logger.logMessage("Toggle Receives MIDI");
   }

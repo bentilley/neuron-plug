@@ -23,7 +23,7 @@ public:
 
   void set_subdivision(int new_subdivision);
 
-  void configure(double sample_rate, posinfo &pos);
+  void configure(double sample_rate, const posinfo &pos);
   bool should_play(int buffer_sample_num);
   void reset();
 
