@@ -11,10 +11,7 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "MidiGenerator/BeatClock/BeatClock.hpp"
-#include "MidiGenerator/MidiProcessor/MidiProcessor.hpp"
-#include "MidiGenerator/WellNeurons/Brain.hpp"
-#include "Utils/PluginLogger.hpp"
+#include "MidiGenerator/MidiGenerator.hpp"
 
 //==============================================================================
 /**
@@ -61,13 +58,7 @@ public:
   void setStateInformation(const void *data, int sizeInBytes) override;
 
   //==Model=======================================================================
-  bool isBrainOn;
-
-  Brain brain;
-  MidiProcessor midiProcessor;
-  BeatClock beatClock;
-
-  void toggleOnOff();
+  MidiGenerator midiGenerator;
 
 private:
   //==============================================================================

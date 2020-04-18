@@ -21,18 +21,14 @@ WellsAudioProcessor::WellsAudioProcessor()
 #endif
                          .withOutput("Output", AudioChannelSet::stereo(), true)
 #endif
-                         ),
+      )
 #endif
-      isBrainOn{false} {
+{
 
   // Run all tests when plugin loads in debug
 #ifdef DEBUG
   UnitTestRunner testRunner;
   testRunner.runAllTests();
-
-  brain.set_connection_weights(std::vector<std::vector<int>>{
-      std::vector<int>{-5, 2, 1}, std::vector<int>{1, -6, 2},
-      std::vector<int>{2, 1, -7}});
 #endif
 }
 
@@ -152,19 +148,9 @@ void WellsAudioProcessor::processBlock(AudioBuffer<float> &buffer,
   AudioPlayHead::CurrentPositionInfo pos;
   getPlayHead()->getCurrentPosition(pos);
 
-  beatClock.configure(sample_rate, pos);
-
-  if (isBrainOn && pos.isPlaying) {
-    for (int time = 0; time < num_buffer_samples; ++time) {
-      if (beatClock.should_play(time)) {
-        brain.process_next(std::vector<int>{1, 1, 1});
-        std::vector<int> output = brain.get_output();
-        PluginLogger::logger.log_vec("model output", output);
-
-        midiProcessor.render_buffer(processedMidi, output, time);
-      }
-    }
-    beatClock.reset();
+  if (midiGenerator.get_is_on() && pos.isPlaying) {
+    midiGenerator.generate_next_midi_buffer(processedMidi, pos, sample_rate,
+                                            num_buffer_samples);
   }
 
   midiMessages.swapWith(processedMidi);
