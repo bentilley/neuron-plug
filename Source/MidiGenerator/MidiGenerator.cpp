@@ -7,7 +7,7 @@
 
 #include "MidiGenerator.hpp"
 
-MidiGenerator::MidiGenerator() : is_on{false} {
+MidiGenerator::MidiGenerator() : is_on{false}, receives_midi{false} {
   brain.set_connection_weights(std::vector<std::vector<int>>{
       std::vector<int>{-5, 2, 1}, std::vector<int>{1, -6, 2},
       std::vector<int>{2, 1, -7}});
@@ -19,6 +19,7 @@ MidiGenerator::~MidiGenerator() {}
  */
 
 bool MidiGenerator::get_is_on() { return is_on; };
+bool MidiGenerator::get_receives_midi() { return receives_midi; };
 
 /*
  * Audio Thread
@@ -48,3 +49,4 @@ void MidiGenerator::generate_next_midi_buffer(
  */
 
 void MidiGenerator::toggleOnOff() { is_on = !is_on; };
+void MidiGenerator::toggleReceivesMidi() { receives_midi = receives_midi; };

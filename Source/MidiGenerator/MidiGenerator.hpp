@@ -20,6 +20,7 @@ public:
 
   // Getters
   bool get_is_on();
+  bool get_receives_midi();
 
   // Audio Thread
   void generate_next_midi_buffer(MidiBuffer &b,
@@ -28,9 +29,10 @@ public:
 
   // GUI Thread
   void toggleOnOff();
+  void toggleReceivesMidi();
 
 private:
-  bool is_on;
+  bool is_on, receives_midi;
 
   Brain brain;
   MidiProcessor midiProcessor;

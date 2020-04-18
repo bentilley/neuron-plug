@@ -19,7 +19,7 @@ public:
 
     expect(!generator.get_is_on(), "midi generator default on state wrong");
 
-    // == toggleOnOff ==
+    // == Toggling Settings ==
     beginTest("toggleOnOff");
 
     generator.toggleOnOff();
@@ -27,6 +27,17 @@ public:
 
     generator.toggleOnOff();
     expect(!generator.get_is_on(), "midi generator should have been off");
+
+    beginTest("toggleReceivesMidi");
+
+    // the component can't currently process midi so this should always be false
+    generator.toggleReceivesMidi();
+    expect(!generator.get_receives_midi(),
+           "midi generator should not receive midi");
+
+    generator.toggleReceivesMidi();
+    expect(!generator.get_receives_midi(),
+           "midi generator should not receive midi");
 
     // == generate_next_midi_buffer ==
     beginTest("generate_next_midi_buffer");
