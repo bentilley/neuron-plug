@@ -25,13 +25,15 @@ WellsAudioProcessor::WellsAudioProcessor()
 #endif
       isBrainOn{false} {
 
-  // TODO set tests to only run conditionally on debug mode
+  // Run all tests when plugin loads in debug
+#ifdef DEBUG
   UnitTestRunner testRunner;
   testRunner.runAllTests();
 
   brain.set_connection_weights(std::vector<std::vector<int>>{
       std::vector<int>{-5, 2, 1}, std::vector<int>{1, -6, 2},
       std::vector<int>{2, 1, -7}});
+#endif
 }
 
 WellsAudioProcessor::~WellsAudioProcessor() {}
