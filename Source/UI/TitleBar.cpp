@@ -8,12 +8,9 @@
 #include "TitleBar.hpp"
 
 TitleBar::TitleBar(WellsAudioProcessor &p)
-    : processor(p), onOffButton("On/Off"), receivesMidiButton("MIDI In"),
+    : processor(p), onOffButton(p), receivesMidiButton(p),
       subdivisionSlider("Subdivision"), globalVolumeSlider("Volume"),
       volumeRange("MIDI Volume Range") {
-
-  onOffButton.addListener(this);
-  receivesMidiButton.addListener(this);
 
   subdivisionSlider.setSliderStyle(Slider::RotaryVerticalDrag);
   subdivisionSlider.setRange(1, 256, 1);
@@ -75,11 +72,51 @@ void TitleBar::resized() {
   volumeRange.setBounds(buttonArea);
 }
 
-void TitleBar::buttonClicked(Button *b) {
-  if (b == &onOffButton) {
-    processor.midiGenerator.toggleOnOff();
-  } else if (b == &receivesMidiButton) {
-    PluginLogger::logger.logMessage("Toggle Receives MIDI");
+void TitleBar::updateComponents() {
+  // TODO only update GUI when needed
+  onOffButton.updateComponent();
+  receivesMidiButton.updateComponent();
+}
+
+void TitleBar::sliderValueChanged(Slider *s) {
+  if (s == &subdivisionSlider) {
+
+  } else if (s == &globalVolumeSlider) {
+
+  } else if (s == &volumeRange) {
   }
-};
-void TitleBar::buttonStateChanged(Button *b){};
+}
+void TitleBar::sliderDragStarted(Slider *s) {}
+void TitleBar::sliderDragEnded(Slider *s) {}
+
+/*
+ * On/Off Button
+ */
+
+OnOffButton::OnOffButton(WellsAudioProcessor &p)
+    : TextButton("On/Off"), processor(p) {
+  onClick = [this]() { processor.midiGenerator.toggleOnOff(); };
+}
+OnOffButton::~OnOffButton() {}
+
+void OnOffButton::updateComponent() {
+  setColour(TextButton::ColourIds::buttonColourId,
+            processor.midiGenerator.get_is_on() ? buttonOnColour
+                                                : buttonOffColour);
+}
+
+/*
+ * Receives MIDI Button
+ */
+
+ReceivesMidiButton::ReceivesMidiButton(WellsAudioProcessor &p)
+    : TextButton("MIDI In"), processor(p) {
+  onClick = [this]() { processor.midiGenerator.toggleReceivesMidi(); };
+}
+ReceivesMidiButton::~ReceivesMidiButton() {}
+
+void ReceivesMidiButton::updateComponent() {
+  setColour(TextButton::ColourIds::buttonColourId,
+            processor.midiGenerator.get_receives_midi() ? buttonOnColour
+                                                        : buttonOffColour);
+}

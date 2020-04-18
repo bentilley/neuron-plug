@@ -11,6 +11,7 @@ MainComponent::MainComponent(WellsAudioProcessor &p)
     : processor(p), titleBar(p) {
   addAndMakeVisible(&titleBar);
   addAndMakeVisible(&pluginBody);
+  startTimer(100);
 };
 MainComponent::~MainComponent(){};
 
@@ -22,3 +23,5 @@ void MainComponent::resized() {
   titleBar.setBounds(area.removeFromTop(titleHeight));
   pluginBody.setBounds(area.removeFromLeft(area.getWidth() * 0.8));
 }
+
+void MainComponent::timerCallback() { titleBar.updateComponents(); };

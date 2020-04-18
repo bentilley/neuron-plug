@@ -12,7 +12,7 @@
 #include "PluginBody.hpp"
 #include "TitleBar.hpp"
 
-class MainComponent : public Component {
+class MainComponent : public Component, private Timer {
 public:
   MainComponent(WellsAudioProcessor &p);
   ~MainComponent();
@@ -27,6 +27,8 @@ private:
 
   TitleBar titleBar;
   PluginBody pluginBody;
+
+  void timerCallback() override;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };
