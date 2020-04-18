@@ -11,10 +11,10 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "BeatClock/BeatClock.hpp"
-#include "MidiProcessor/MidiProcessor.hpp"
+#include "MidiGenerator/BeatClock/BeatClock.hpp"
+#include "MidiGenerator/MidiProcessor/MidiProcessor.hpp"
+#include "MidiGenerator/WellNeurons/Brain.hpp"
 #include "Utils/PluginLogger.hpp"
-#include "WellNeurons/Brain.hpp"
 
 //==============================================================================
 /**

@@ -1,22 +1,30 @@
 {
-  "Source/WellNeurons/*.cpp": {
-    "type": "model",
-    "alternate": ["tests/{}.test.cpp", "Source/WellNeurons/{}.hpp"]
+  "Source/*.cpp": {
+    "type": "juce",
+    "alternate": ["Source/{}.h"]
   },
-  "Source/WellNeurons/*.hpp": {
+  "Source/*.h": {
+    "type": "juceheader",
+    "alternate": ["Source/{}.cpp"]
+  },
+  "Source/MidiGenerator/WellNeurons/*.cpp": {
+    "type": "model",
+    "alternate": ["tests/{}.test.cpp", "Source/MidiGenerator/WellNeurons/{}.hpp"]
+  },
+  "Source/MidiGenerator/WellNeurons/*.hpp": {
     "type": "modelheader",
-    "alternate": ["Source/WellNeurons/{}.cpp", "test/{}.test.cpp"]
+    "alternate": ["Source/MidiGenerator/WellNeurons/{}.cpp", "test/{}.test.cpp"]
   },
   "tests/*.test.cpp": {
     "type": "test",
-    "alternate": ["Source/WellNeurons/{}.hpp"]
+    "alternate": ["Source/MidiGenerator/WellNeurons/{}.hpp"]
   },
   "Source/UI/*.cpp": {
     "type": "ui",
-    "alternate": ["Source/UI/{}.hpp"]
+    "alternate": ["Source/MidiGenerator/UI/{}.hpp"]
   },
   "Source/UI/*.hpp": {
     "type": "uiheader",
-    "alternate": ["Source/UI/{}.cpp"]
+    "alternate": ["Source/MidiGenerator/UI/{}.cpp"]
   }
 }
