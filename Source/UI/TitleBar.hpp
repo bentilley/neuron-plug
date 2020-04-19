@@ -40,6 +40,48 @@ private:
 };
 
 /*
+ * Subdivision Slider - changes the subdivision in the BeatClock
+ */
+
+class SubdivisionSlider : public Slider {
+public:
+  SubdivisionSlider(WellsAudioProcessor &p);
+  ~SubdivisionSlider();
+  void updateComponent();
+
+private:
+  WellsAudioProcessor &processor;
+};
+
+/*
+ * Global Volume Slider - changes the volume of all midi notes created
+ */
+
+class GlobalVolumeSlider : public Slider {
+public:
+  GlobalVolumeSlider(WellsAudioProcessor &p);
+  ~GlobalVolumeSlider();
+  void updateComponent();
+
+private:
+  WellsAudioProcessor &processor;
+};
+
+/*
+ * Volume Range Slider - clips the volume range of midi notes created
+ */
+
+class VolumeRangeSlider : public Slider {
+public:
+  VolumeRangeSlider(WellsAudioProcessor &p);
+  ~VolumeRangeSlider();
+  void updateComponent();
+
+private:
+  WellsAudioProcessor &processor;
+};
+
+/*
  * Title Bar
  *
  * The main title bar at the top of the app. Holds the global controls:
@@ -50,7 +92,7 @@ private:
  *   - Volume Range Slider
  */
 
-class TitleBar : public Component, private Slider::Listener {
+class TitleBar : public Component {
 public:
   TitleBar(WellsAudioProcessor &p);
   ~TitleBar();
@@ -61,8 +103,6 @@ public:
   void updateComponents();
 
 private:
-  WellsAudioProcessor &processor;
-
   Colour lightGrey{221, 221, 221};
   Colour darkGrey{51, 51, 51};
 
@@ -72,13 +112,9 @@ private:
 
   OnOffButton onOffButton;
   ReceivesMidiButton receivesMidiButton;
-  Slider subdivisionSlider;
-  Slider globalVolumeSlider;
-  Slider volumeRange;
-
-  void sliderValueChanged(Slider *slider) override;
-  void sliderDragStarted(Slider *slider) override;
-  void sliderDragEnded(Slider *slider) override;
+  SubdivisionSlider subdivisionSlider;
+  GlobalVolumeSlider globalVolumeSlider;
+  VolumeRangeSlider volumeRange;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TitleBar)
 };

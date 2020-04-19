@@ -8,25 +8,8 @@
 #include "TitleBar.hpp"
 
 TitleBar::TitleBar(WellsAudioProcessor &p)
-    : processor(p), onOffButton(p), receivesMidiButton(p),
-      subdivisionSlider("Subdivision"), globalVolumeSlider("Volume"),
-      volumeRange("MIDI Volume Range") {
-
-  subdivisionSlider.setSliderStyle(Slider::RotaryVerticalDrag);
-  subdivisionSlider.setRange(1, 256, 1);
-  subdivisionSlider.setTextBoxStyle(Slider::NoTextBox, false, 10, 0);
-  subdivisionSlider.setPopupDisplayEnabled(true, false, this);
-
-  globalVolumeSlider.setSliderStyle(Slider::RotaryVerticalDrag);
-  globalVolumeSlider.setRange(0.0, 1.0, 0.00);
-  globalVolumeSlider.setNumDecimalPlacesToDisplay(2);
-  globalVolumeSlider.setTextBoxStyle(Slider::NoTextBox, false, 10, 0);
-  globalVolumeSlider.setPopupDisplayEnabled(true, false, this);
-
-  volumeRange.setSliderStyle(Slider::TwoValueHorizontal);
-  volumeRange.setRange(0, 127, 1);
-  volumeRange.setTextBoxStyle(Slider::NoTextBox, false, 10, 0);
-  volumeRange.setPopupDisplayEnabled(true, false, this);
+    : onOffButton(p), receivesMidiButton(p), subdivisionSlider(p),
+      globalVolumeSlider(p), volumeRange(p) {
 
   addAndMakeVisible(onOffButton);
   addAndMakeVisible(receivesMidiButton);
@@ -76,18 +59,8 @@ void TitleBar::updateComponents() {
   // TODO only update GUI when needed
   onOffButton.updateComponent();
   receivesMidiButton.updateComponent();
+  subdivisionSlider.updateComponent();
 }
-
-void TitleBar::sliderValueChanged(Slider *s) {
-  if (s == &subdivisionSlider) {
-
-  } else if (s == &globalVolumeSlider) {
-
-  } else if (s == &volumeRange) {
-  }
-}
-void TitleBar::sliderDragStarted(Slider *s) {}
-void TitleBar::sliderDragEnded(Slider *s) {}
 
 /*
  * On/Off Button
@@ -119,4 +92,64 @@ void ReceivesMidiButton::updateComponent() {
   setColour(TextButton::ColourIds::buttonColourId,
             processor.midiGenerator.get_receives_midi() ? buttonOnColour
                                                         : buttonOffColour);
+}
+
+/*
+ * Subdivision Slider
+ */
+
+SubdivisionSlider::SubdivisionSlider(WellsAudioProcessor &p)
+    : Slider("Subdivision"), processor(p) {
+  setSliderStyle(Slider::RotaryVerticalDrag);
+  setRange(1, 256, 1);
+  setTextBoxStyle(Slider::NoTextBox, false, 10, 0);
+  setPopupDisplayEnabled(true, false, getParentComponent());
+  onValueChange = [this]() {
+    processor.midiGenerator.set_subdivision(getValue());
+  };
+}
+SubdivisionSlider::~SubdivisionSlider() {}
+
+void SubdivisionSlider::updateComponent() {
+  setValue(processor.midiGenerator.get_subdivision());
+}
+
+/*
+ * Global Volume Slider
+ */
+
+GlobalVolumeSlider::GlobalVolumeSlider(WellsAudioProcessor &p)
+    : Slider("Volume"), processor(p) {
+  setSliderStyle(Slider::RotaryVerticalDrag);
+  setRange(0.0, 1.0, 0.00);
+  setNumDecimalPlacesToDisplay(2);
+  setTextBoxStyle(Slider::NoTextBox, false, 10, 0);
+  setPopupDisplayEnabled(true, false, getParentComponent());
+  onValueChange = [this]() { processor.midiGenerator.set_volume(getValue()); };
+}
+GlobalVolumeSlider::~GlobalVolumeSlider() {}
+
+void GlobalVolumeSlider::updateComponent() {
+  setValue(processor.midiGenerator.get_volume());
+}
+
+/*
+ * Volume Range Slider
+ */
+
+VolumeRangeSlider::VolumeRangeSlider(WellsAudioProcessor &p)
+    : Slider("MIDI Volume Range"), processor(p) {
+  setSliderStyle(Slider::TwoValueHorizontal);
+  setRange(0, 127, 1);
+  setTextBoxStyle(Slider::NoTextBox, false, 10, 0);
+  setPopupDisplayEnabled(true, false, getParentComponent());
+  onValueChange = [this]() {
+    processor.midiGenerator.set_volume_clip(getMinValue(), getMaxValue());
+  };
+}
+VolumeRangeSlider::~VolumeRangeSlider() {}
+
+void VolumeRangeSlider::updateComponent() {
+  setMinValue(processor.midiGenerator.get_volume_clip_min());
+  setMaxValue(processor.midiGenerator.get_volume_clip_max());
 }

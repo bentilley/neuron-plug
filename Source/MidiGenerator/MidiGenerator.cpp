@@ -15,11 +15,28 @@ MidiGenerator::MidiGenerator() : is_on{false}, receives_midi{false} {
 MidiGenerator::~MidiGenerator() {}
 
 /*
- * Getters
+ * Getters & Setters
  */
 
+void MidiGenerator::toggleOnOff() { is_on = !is_on; };
 bool MidiGenerator::get_is_on() { return is_on; };
+void MidiGenerator::toggleReceivesMidi() { receives_midi = receives_midi; };
 bool MidiGenerator::get_receives_midi() { return receives_midi; };
+
+int MidiGenerator::get_subdivision() { return beatClock.get_subdivision(); }
+void MidiGenerator::set_subdivision(int s) { beatClock.set_subdivision(s); }
+
+float MidiGenerator::get_volume() { return midiProcessor.get_global_volume(); };
+void MidiGenerator::set_volume(float v) { midiProcessor.set_global_volume(v); };
+int MidiGenerator::get_volume_clip_min() {
+  return midiProcessor.get_volume_clip_min();
+};
+int MidiGenerator::get_volume_clip_max() {
+  return midiProcessor.get_volume_clip_max();
+};
+void MidiGenerator::set_volume_clip(int min, int max) {
+  midiProcessor.set_volume_clip(min, max);
+};
 
 /*
  * Audio Thread
@@ -43,10 +60,3 @@ void MidiGenerator::generate_next_midi_buffer(
 
   beatClock.reset();
 };
-
-/*
- * GUI Thread
- */
-
-void MidiGenerator::toggleOnOff() { is_on = !is_on; };
-void MidiGenerator::toggleReceivesMidi() { receives_midi = receives_midi; };

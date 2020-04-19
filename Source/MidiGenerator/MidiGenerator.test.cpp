@@ -39,6 +39,40 @@ public:
     expect(!generator.get_receives_midi(),
            "midi generator should not receive midi");
 
+    // == getters and setters ==
+    beginTest("subdivision - get / set");
+
+    expect(generator.get_subdivision() == 1,
+           "default subdivision is wrong value");
+    generator.set_subdivision(8);
+    expect(generator.get_subdivision() == 8,
+           "subdivision was not set correctly");
+    generator.set_subdivision(2);
+    expect(generator.get_subdivision() == 2,
+           "subdivision was not set correctly");
+
+    beginTest("volume - get / set");
+
+    expectWithinAbsoluteError<float>(generator.get_volume(), 1.0, 0.01,
+                                     "default volume is wrong value");
+    generator.set_volume(0.5);
+    expectWithinAbsoluteError<float>(generator.get_volume(), 0.5, 0.01,
+                                     "volume was not set correctly");
+    generator.set_volume(0.77);
+    expectWithinAbsoluteError<float>(generator.get_volume(), 0.77, 0.01,
+                                     "volume was not set correctly");
+
+    expect(generator.get_volume_clip_min() == 1, "default volume clip wrong");
+    expect(generator.get_volume_clip_max() == 127, "default volume clip wrong");
+
+    generator.set_volume_clip(15, 100);
+    expect(generator.get_volume_clip_min() == 15, "vol clip should be 15");
+    expect(generator.get_volume_clip_max() == 100, "vol clip should be 100");
+
+    generator.set_volume_clip(1, 45);
+    expect(generator.get_volume_clip_min() == 1, "vol clip should be 1");
+    expect(generator.get_volume_clip_max() == 45, "vol clip should be 45");
+
     // == generate_next_midi_buffer ==
     beginTest("generate_next_midi_buffer");
 

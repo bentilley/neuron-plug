@@ -18,18 +18,25 @@ public:
   MidiGenerator();
   ~MidiGenerator();
 
-  // Getters
+  // Getters & Setters - mostly called on the GUI thread
+  void toggleOnOff();
   bool get_is_on();
+  void toggleReceivesMidi();
   bool get_receives_midi();
+
+  int get_subdivision();
+  void set_subdivision(int s);
+
+  float get_volume();
+  void set_volume(float v);
+  int get_volume_clip_min();
+  int get_volume_clip_max();
+  void set_volume_clip(int min, int max);
 
   // Audio Thread
   void generate_next_midi_buffer(MidiBuffer &b,
                                  const AudioPlayHead::CurrentPositionInfo &pos,
                                  double sample_rate, int num_samples);
-
-  // GUI Thread
-  void toggleOnOff();
-  void toggleReceivesMidi();
 
 private:
   bool is_on, receives_midi;
