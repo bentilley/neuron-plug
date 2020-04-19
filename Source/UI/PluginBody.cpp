@@ -7,7 +7,7 @@
 
 #include "PluginBody.hpp"
 
-PluginBody::PluginBody() {
+PluginBody::PluginBody(WellsAudioProcessor &p) : midiNotesBar(p) {
   addAndMakeVisible(neuronTitleBar);
   addAndMakeVisible(midiNotesBar);
   addAndMakeVisible(inputWeightsBar);
@@ -19,7 +19,6 @@ PluginBody::~PluginBody() {}
 void PluginBody::paint(Graphics &g) {}
 
 void PluginBody::resized() {
-  currentSizeAsString = String(getWidth()) + " x " + String(getHeight());
   auto area = getLocalBounds();
 
   int neuronTitleBarHeight{40};
@@ -32,3 +31,5 @@ void PluginBody::resized() {
 
   connectionWeightsMatrix.setBounds(area);
 }
+
+void PluginBody::updateComponents() { midiNotesBar.updateComponents(); }

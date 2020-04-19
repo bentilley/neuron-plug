@@ -7,7 +7,7 @@
 
 #include "MidiNotesBar.hpp"
 
-MidiNotesBar::MidiNotesBar() {
+MidiNotesBar::MidiNotesBar(WellsAudioProcessor &p) : processor(p) {
 
   StringArray midiNoteNums;
   for (int i = 1; i < 128; ++i) {

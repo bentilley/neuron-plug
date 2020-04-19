@@ -8,6 +8,7 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "../PluginProcessor.h"
 #include "ConnectionWeightsMatrix.hpp"
 #include "InputWeightsBar.hpp"
 #include "MidiNotesBar.hpp"
@@ -16,15 +17,15 @@
 
 class PluginBody : public Component {
 public:
-  PluginBody();
+  PluginBody(WellsAudioProcessor &p);
   ~PluginBody();
 
   void paint(Graphics &) override;
   void resized() override;
 
-private:
-  String currentSizeAsString;
+  void updateComponents();
 
+private:
   /* Colour lightGrey{221, 221, 221}; */
   Colour darkGrey{51, 51, 51};
 

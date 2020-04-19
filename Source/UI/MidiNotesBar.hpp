@@ -8,17 +8,22 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "../PluginProcessor.h"
 #include <memory>
 
 class MidiNotesBar : public Component {
 public:
-  MidiNotesBar();
+  MidiNotesBar(WellsAudioProcessor &p);
   ~MidiNotesBar();
 
   void paint(Graphics &) override;
   void resized() override;
 
+  void updateComponents();
+
 private:
+  WellsAudioProcessor &processor;
+
   Colour lightGrey{221, 221, 221};
   Colour darkGrey{51, 51, 51};
 

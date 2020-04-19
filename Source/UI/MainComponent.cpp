@@ -8,7 +8,7 @@
 #include "MainComponent.hpp"
 
 MainComponent::MainComponent(WellsAudioProcessor &p)
-    : processor(p), titleBar(p) {
+    : processor(p), titleBar(p), pluginBody(p) {
   addAndMakeVisible(&titleBar);
   addAndMakeVisible(&pluginBody);
   startTimer(100);
@@ -24,4 +24,7 @@ void MainComponent::resized() {
   pluginBody.setBounds(area.removeFromLeft(area.getWidth() * 0.8));
 }
 
-void MainComponent::timerCallback() { titleBar.updateComponents(); };
+void MainComponent::timerCallback() {
+  titleBar.updateComponents();
+  pluginBody.updateComponents();
+};
