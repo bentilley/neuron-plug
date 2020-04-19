@@ -33,10 +33,10 @@
   },
   "Source/UI/*.cpp": {
     "type": "ui",
-    "alternate": ["Source/MidiGenerator/UI/{}.hpp"]
+    "alternate": ["Source/UI/{}.hpp"]
   },
   "Source/UI/*.hpp": {
     "type": "uiheader",
-    "alternate": ["Source/MidiGenerator/UI/{}.cpp"]
+    "alternate": ["Source/UI/{}.cpp"]
   }
 }
