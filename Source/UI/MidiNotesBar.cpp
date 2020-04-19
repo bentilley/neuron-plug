@@ -9,17 +9,9 @@
 
 MidiNotesBar::MidiNotesBar(WellsAudioProcessor &p) : processor(p) {
 
-  StringArray midiNoteNums;
-  for (int i = 1; i < 128; ++i) {
-    midiNoteNums.add(String(i));
-  }
-
-  for (int i = 0; i < numNeurons; ++i) {
-    std::unique_ptr<ComboBox> combo =
-        std::make_unique<ComboBox>("midiCombo" + String(i));
-    combo->addItemList(midiNoteNums, 1);
-    combo->setEditableText(false);
-    combo->setSelectedId(60);
+  for (int i = 0; i < p.midiGenerator.num_neurons(); ++i) {
+    std::unique_ptr<MidiNoteComboBox> combo =
+        std::make_unique<MidiNoteComboBox>(processor, i);
     addAndMakeVisible(*combo);
     midiNoteSelectors.push_back(std::move(combo));
   }
@@ -47,9 +39,43 @@ void MidiNotesBar::resized() {
   area.removeFromLeft(rowLabelWidth);
 
   for (auto combo = midiNoteSelectors.begin(); combo != midiNoteSelectors.end();
-       combo++) {
+       ++combo) {
     auto componentArea = area.removeFromLeft(colWidth);
     componentPadding.subtractFrom(componentArea);
     (*combo)->setBounds(componentArea);
   }
 }
+
+void MidiNotesBar::updateComponents() {
+  for (auto combo = midiNoteSelectors.begin(); combo != midiNoteSelectors.end();
+       ++combo) {
+    (*combo)->updateComponent();
+  }
+}
+
+/*
+ * MIDI Note Combo Box
+ */
+
+MidiNoteComboBox::MidiNoteComboBox(WellsAudioProcessor &p, int idx)
+    : ComboBox("midiCombo" + String(idx)), processor(p), neuron_index(idx) {
+  StringArray midiNoteNums;
+  for (int i = 1; i < 128; ++i) {
+    midiNoteNums.add(String(i));
+  }
+
+  addItemList(midiNoteNums, 1);
+  setEditableText(false);
+  onChange = [this]() {
+    processor.midiGenerator.set_neuron_midi_note(neuron_index,
+                                                 getText().getIntValue());
+  };
+}
+MidiNoteComboBox::~MidiNoteComboBox() {}
+
+void MidiNoteComboBox::updateComponent() {
+  int id{get_midi_note_id(
+      processor.midiGenerator.get_neuron_midi_note(neuron_index))};
+  setSelectedId(id);
+}
+int MidiNoteComboBox::get_midi_note_id(int note_num) { return note_num; }

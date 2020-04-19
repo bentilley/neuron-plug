@@ -8,6 +8,7 @@
 #pragma once
 
 #include "../../../JuceLibraryCode/JuceHeader.h"
+#include "../../Utils/PluginLogger.hpp"
 #include <utility>
 #include <vector>
 
@@ -25,6 +26,8 @@ public:
   int get_volume_clip_range();
 
   std::vector<int> get_midi_map();
+  int get_note_at(int neuron_idx);
+  void set_note_at(int neuron_idx, int new_note_number);
 
   // Methods
   int clip_brain_output(int output);

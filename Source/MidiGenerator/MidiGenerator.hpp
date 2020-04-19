@@ -33,6 +33,12 @@ public:
   int get_volume_clip_max();
   void set_volume_clip(int min, int max);
 
+  int get_neuron_midi_note(int neuron_idx);
+  void set_neuron_midi_note(int neuron_idx, int new_note_number);
+
+  // Neuron Model Methods
+  int num_neurons();
+
   // Audio Thread
   void generate_next_midi_buffer(MidiBuffer &b,
                                  const AudioPlayHead::CurrentPositionInfo &pos,

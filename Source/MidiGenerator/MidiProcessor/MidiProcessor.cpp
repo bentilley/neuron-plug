@@ -30,6 +30,14 @@ int MidiProcessor::get_volume_clip_range() {
 }
 
 std::vector<int> MidiProcessor::get_midi_map() { return midi_map; }
+int MidiProcessor::get_note_at(int neuron_idx) {
+  return midi_map.at(neuron_idx);
+}
+void MidiProcessor::set_note_at(int neuron_idx, int new_note_number) {
+  midi_map.at(neuron_idx) = new_note_number;
+  PluginLogger::logger.log_vec("midi notes", midi_map);
+}
+
 // Methods
 
 int MidiProcessor::clip_brain_output(int output) {

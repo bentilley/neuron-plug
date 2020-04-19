@@ -38,6 +38,19 @@ void MidiGenerator::set_volume_clip(int min, int max) {
   midiProcessor.set_volume_clip(min, max);
 };
 
+int MidiGenerator::get_neuron_midi_note(int neuron_idx) {
+  return midiProcessor.get_note_at(neuron_idx);
+}
+void MidiGenerator::set_neuron_midi_note(int neuron_idx, int new_note_number) {
+  midiProcessor.set_note_at(neuron_idx, new_note_number);
+}
+
+/*
+ * Neuron Model Methods
+ */
+
+int MidiGenerator::num_neurons() { return brain.num_neurons(); };
+
 /*
  * Audio Thread
  */

@@ -73,8 +73,32 @@ public:
     expect(generator.get_volume_clip_min() == 1, "vol clip should be 1");
     expect(generator.get_volume_clip_max() == 45, "vol clip should be 45");
 
+    // == MIDI getters and setters
+    beginTest("midi getters and setters");
+
+    expect(generator.get_neuron_midi_note(0) == 60, "default should be 60");
+    expect(generator.get_neuron_midi_note(1) == 64, "default should be 64");
+    expect(generator.get_neuron_midi_note(2) == 67, "default should be 67");
+
+    generator.set_neuron_midi_note(0, 34);
+    generator.set_neuron_midi_note(1, 74);
+    generator.set_neuron_midi_note(2, 100);
+
+    expect(generator.get_neuron_midi_note(0) == 34, "midi note should be 34");
+    expect(generator.get_neuron_midi_note(1) == 74, "midi note should be 74");
+    expect(generator.get_neuron_midi_note(2) == 100, "midi note should be 100");
+
+    // == Neuron Model Methods ==
+    beginTest("Neuron Model Methods");
+
+    expect(generator.num_neurons() == 3, "model should load with 3 neurons");
+
     // == generate_next_midi_buffer ==
     beginTest("generate_next_midi_buffer");
+
+    generator.set_neuron_midi_note(0, 60);
+    generator.set_neuron_midi_note(1, 64);
+    generator.set_neuron_midi_note(2, 67);
 
     MidiBuffer buffer;
     double sample_rate{44100};

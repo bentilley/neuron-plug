@@ -46,6 +46,21 @@ public:
     expect(processor.get_volume_clip_range() == 48, "wrong vol clip set");
     processor.set_volume_clip(1, 127);
 
+    // == MIDI Notes ==
+    beginTest("MIDI Notes");
+
+    expect(processor.get_note_at(0) == 60, "default note is 60");
+    expect(processor.get_note_at(1) == 64, "default note is 64");
+    expect(processor.get_note_at(2) == 67, "default note is 67");
+
+    processor.set_note_at(0, 25);
+    processor.set_note_at(1, 89);
+    processor.set_note_at(2, 111);
+
+    expect(processor.get_note_at(0) == 25, "new note is 25");
+    expect(processor.get_note_at(1) == 89, "new note is 89");
+    expect(processor.get_note_at(2) == 111, "new note is 111");
+
     // == Clip Midi Volume ==
     beginTest("clip_brain_output");
 
@@ -92,6 +107,10 @@ public:
 
     // == render_buffer ==
     beginTest("render_buffer");
+
+    processor.set_note_at(0, 60);
+    processor.set_note_at(1, 64);
+    processor.set_note_at(2, 67);
 
     std::vector<int> output{1, 1, 1};
     MidiBuffer buffer;
