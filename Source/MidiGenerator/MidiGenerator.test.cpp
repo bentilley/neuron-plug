@@ -73,7 +73,7 @@ public:
     expect(generator.get_volume_clip_min() == 1, "vol clip should be 1");
     expect(generator.get_volume_clip_max() == 45, "vol clip should be 45");
 
-    // == MIDI getters and setters
+    // == MIDI getters and setters ==
     beginTest("midi getters and setters");
 
     expect(generator.get_neuron_midi_note(0) == 60, "default should be 60");
@@ -88,6 +88,90 @@ public:
     expect(generator.get_neuron_midi_note(1) == 74, "midi note should be 74");
     expect(generator.get_neuron_midi_note(2) == 100, "midi note should be 100");
 
+    // == Neuron input getters and setters ==
+    beginTest("neuron input weights get/set");
+
+    expect(generator.get_neuron_input_weight(0) == 1);
+    expect(generator.get_neuron_input_weight(1) == 1);
+    expect(generator.get_neuron_input_weight(2) == 1);
+
+    generator.set_neuron_input_weight(0, 18);
+    generator.set_neuron_input_weight(1, 5);
+    generator.set_neuron_input_weight(2, 103);
+
+    expect(generator.get_neuron_input_weight(0) == 18);
+    expect(generator.get_neuron_input_weight(1) == 5);
+    expect(generator.get_neuron_input_weight(2) == 103);
+
+    // reset to default values for the rest of the tests
+    generator.set_neuron_input_weight(0, 1);
+    generator.set_neuron_input_weight(1, 1);
+    generator.set_neuron_input_weight(2, 1);
+
+    // == Neuron threshold getters and setters ==
+    beginTest("neuron threshold get/set");
+
+    expect(generator.get_neuron_threshold(0) == 0);
+    expect(generator.get_neuron_threshold(1) == 0);
+    expect(generator.get_neuron_threshold(2) == 0);
+
+    generator.set_neuron_threshold(0, 8);
+    generator.set_neuron_threshold(1, 52);
+    generator.set_neuron_threshold(2, 10);
+
+    expect(generator.get_neuron_threshold(0) == 8);
+    expect(generator.get_neuron_threshold(1) == 52);
+    expect(generator.get_neuron_threshold(2) == 10);
+
+    // reset to default values for the rest of the tests
+    generator.set_neuron_threshold(0, 0);
+    generator.set_neuron_threshold(1, 0);
+    generator.set_neuron_threshold(2, 0);
+
+    // == Neuron connection weights getters and setters ==
+    beginTest("neuron connection weights get/set");
+
+    expect(generator.get_neuron_connection_weight(0, 0) == 0);
+    expect(generator.get_neuron_connection_weight(0, 1) == 0);
+    expect(generator.get_neuron_connection_weight(0, 2) == 0);
+    expect(generator.get_neuron_connection_weight(1, 0) == 0);
+    expect(generator.get_neuron_connection_weight(1, 1) == 0);
+    expect(generator.get_neuron_connection_weight(1, 2) == 0);
+    expect(generator.get_neuron_connection_weight(2, 0) == 0);
+    expect(generator.get_neuron_connection_weight(2, 1) == 0);
+    expect(generator.get_neuron_connection_weight(2, 2) == 0);
+
+    generator.set_neuron_connection_weight(0, 0, 18);
+    generator.set_neuron_connection_weight(0, 1, -3);
+    generator.set_neuron_connection_weight(0, 2, 8);
+    generator.set_neuron_connection_weight(1, 0, 13);
+    generator.set_neuron_connection_weight(1, 1, 38);
+    generator.set_neuron_connection_weight(1, 2, -8);
+    generator.set_neuron_connection_weight(2, 0, -58);
+    generator.set_neuron_connection_weight(2, 1, 1);
+    generator.set_neuron_connection_weight(2, 2, 180);
+
+    expect(generator.get_neuron_connection_weight(0, 0) == 18);
+    expect(generator.get_neuron_connection_weight(0, 1) == -3);
+    expect(generator.get_neuron_connection_weight(0, 2) == 8);
+    expect(generator.get_neuron_connection_weight(1, 0) == 13);
+    expect(generator.get_neuron_connection_weight(1, 1) == 38);
+    expect(generator.get_neuron_connection_weight(1, 2) == -8);
+    expect(generator.get_neuron_connection_weight(2, 0) == -58);
+    expect(generator.get_neuron_connection_weight(2, 1) == 1);
+    expect(generator.get_neuron_connection_weight(2, 2) == 180);
+
+    // reset to default values for the rest of the tests
+    generator.set_neuron_connection_weight(0, 0, 0);
+    generator.set_neuron_connection_weight(0, 1, 0);
+    generator.set_neuron_connection_weight(0, 2, 0);
+    generator.set_neuron_connection_weight(1, 0, 0);
+    generator.set_neuron_connection_weight(1, 1, 0);
+    generator.set_neuron_connection_weight(1, 2, 0);
+    generator.set_neuron_connection_weight(2, 0, 0);
+    generator.set_neuron_connection_weight(2, 1, 0);
+    generator.set_neuron_connection_weight(2, 2, 0);
+
     // == Neuron Model Methods ==
     beginTest("Neuron Model Methods");
 
@@ -99,6 +183,16 @@ public:
     generator.set_neuron_midi_note(0, 60);
     generator.set_neuron_midi_note(1, 64);
     generator.set_neuron_midi_note(2, 67);
+
+    generator.set_neuron_connection_weight(0, 0, -5);
+    generator.set_neuron_connection_weight(0, 1, 2);
+    generator.set_neuron_connection_weight(0, 2, 1);
+    generator.set_neuron_connection_weight(1, 0, 1);
+    generator.set_neuron_connection_weight(1, 1, -6);
+    generator.set_neuron_connection_weight(1, 2, 2);
+    generator.set_neuron_connection_weight(2, 0, 2);
+    generator.set_neuron_connection_weight(2, 1, 1);
+    generator.set_neuron_connection_weight(2, 2, -7);
 
     MidiBuffer buffer;
     double sample_rate{44100};

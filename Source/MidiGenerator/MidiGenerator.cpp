@@ -7,11 +7,7 @@
 
 #include "MidiGenerator.hpp"
 
-MidiGenerator::MidiGenerator() : is_on{false}, receives_midi{false} {
-  brain.set_connection_weights(std::vector<std::vector<int>>{
-      std::vector<int>{-5, 2, 1}, std::vector<int>{1, -6, 2},
-      std::vector<int>{2, 1, -7}});
-}
+MidiGenerator::MidiGenerator() : is_on{false}, receives_midi{false} {}
 MidiGenerator::~MidiGenerator() {}
 
 /*
@@ -38,11 +34,38 @@ void MidiGenerator::set_volume_clip(int min, int max) {
   midiProcessor.set_volume_clip(min, max);
 };
 
+// MIDI Notes
 int MidiGenerator::get_neuron_midi_note(int neuron_idx) {
   return midiProcessor.get_note_at(neuron_idx);
 }
 void MidiGenerator::set_neuron_midi_note(int neuron_idx, int new_note_number) {
   midiProcessor.set_note_at(neuron_idx, new_note_number);
+}
+
+// Input Weight
+int MidiGenerator::get_neuron_input_weight(int neuron_idx) {
+  return brain.get_input_weight_for_neuron(neuron_idx);
+}
+void MidiGenerator::set_neuron_input_weight(int neuron_idx,
+                                            int new_input_weight) {
+  brain.set_input_weight_for_neuron(neuron_idx, new_input_weight);
+}
+
+// Threshold
+int MidiGenerator::get_neuron_threshold(int neuron_idx) {
+  return brain.get_threshold_for_neuron(neuron_idx);
+}
+void MidiGenerator::set_neuron_threshold(int neuron_idx, int new_threshold) {
+  brain.set_threshold_for_neuron(neuron_idx, new_threshold);
+}
+
+// Connection Weights
+int MidiGenerator::get_neuron_connection_weight(int from, int to) {
+  return brain.get_connection_weight_for_neurons(from, to);
+}
+void MidiGenerator::set_neuron_connection_weight(int from, int to,
+                                                 int new_connection_weight) {
+  brain.set_connection_weight_for_neurons(from, to, new_connection_weight);
 }
 
 /*
