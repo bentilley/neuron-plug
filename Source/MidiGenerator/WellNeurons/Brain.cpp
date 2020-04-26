@@ -11,7 +11,7 @@
 
 Brain::Brain() {
   neurons = std::vector<Neuron>{Neuron(), Neuron(), Neuron()};
-  input_weights = std::vector<int>{1, 1, 1};
+  input_weights = std::vector<int>{0, 0, 0};
   connection_weights = std::vector<std::vector<int>>{std::vector<int>{0, 0, 0},
                                                      std::vector<int>{0, 0, 0},
                                                      std::vector<int>{0, 0, 0}};
