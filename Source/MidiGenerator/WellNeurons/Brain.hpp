@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "../../Utils/PluginLogger.hpp"
 #include "Neuron.hpp"
 #include <algorithm>
 #include <cassert>

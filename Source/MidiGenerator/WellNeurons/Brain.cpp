@@ -6,6 +6,7 @@
  */
 
 #include "Brain.hpp"
+#include <algorithm>
 #include <iostream>
 
 Brain::Brain() {
@@ -70,14 +71,21 @@ void Brain::set_connection_weights(std::vector<std::vector<int>> new_weights) {
 void Brain::set_connection_weight_for_neurons(int from, int to,
                                               int new_weight) {
   connection_weights.at(from).at(to) = new_weight;
+  PluginLogger::logger.log_vec("Connection weights from " + String(from),
+                               connection_weights.at(from));
 };
 
 void Brain::set_input_weight_for_neuron(int neuron_num, int new_weight) {
   input_weights.at(neuron_num) = new_weight;
+  PluginLogger::logger.log_vec("input weights", input_weights);
 };
 
 void Brain::set_threshold_for_neuron(int neuron_num, int new_threshold) {
   neurons.at(neuron_num).set_threshold(new_threshold);
+  std::vector<int> thresholds(3, 0);
+  std::transform(neurons.begin(), neurons.end(), thresholds.begin(),
+                 [](Neuron n) { return n.get_threshold(); });
+  PluginLogger::logger.log_vec("thresholds", thresholds);
 };
 
 /*
