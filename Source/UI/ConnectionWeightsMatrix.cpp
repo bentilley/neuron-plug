@@ -7,7 +7,11 @@
 
 #include "ConnectionWeightsMatrix.hpp"
 
-ConnectionWeightsMatrix::ConnectionWeightsMatrix() {
+/*
+ * Connection Weight Matrix
+ */
+
+ConnectionWeightsMatrix::ConnectionWeightsMatrix(WellsAudioProcessor &p) {
   for (int i = 0; i < numNeurons; ++i) {
     std::unique_ptr<Label> label = std::make_unique<Label>(
         "neuron" + String(i + 1), "Neuron " + String(i + 1));
@@ -59,6 +63,16 @@ void ConnectionWeightsMatrix::resized() {
       auto sliderArea = rowArea.removeFromLeft(colWidth);
       componentPadding.subtractFrom(sliderArea);
       connectionWeightSliders.at(i).at(j)->setBounds(sliderArea);
+    }
+  }
+}
+
+void ConnectionWeightsMatrix::updateComponents() {
+  for (auto sliderRow = connectionWeightSliders.begin();
+       sliderRow != connectionWeightSliders.end(); ++sliderRow) {
+    for (auto slider = sliderRow->begin(); slider != sliderRow->end();
+         ++slider) {
+      (*slider)->updateComponent();
     }
   }
 }

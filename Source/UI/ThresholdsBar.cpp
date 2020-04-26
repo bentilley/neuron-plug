@@ -7,7 +7,11 @@
 
 #include "ThresholdsBar.hpp"
 
-ThresholdsBar::ThresholdsBar() {
+/*
+ * Threshold Bar
+ */
+
+ThresholdsBar::ThresholdsBar(WellsAudioProcessor &p) {
   for (int i = 0; i < numNeurons; ++i) {
     std::unique_ptr<Slider> slider =
         std::make_unique<Slider>("thresholdSlider" + String(i));
@@ -45,5 +49,12 @@ void ThresholdsBar::resized() {
     auto componentArea = area.removeFromLeft(colWidth);
     componentPadding.subtractFrom(componentArea);
     (*slider)->setBounds(componentArea);
+  }
+}
+
+void ThresholdsBar::updateComponents() {
+  for (auto slider = thresholdSliders.begin(); slider != thresholdSliders.end();
+       ++slider) {
+    (*slider)->updateComponent();
   }
 }

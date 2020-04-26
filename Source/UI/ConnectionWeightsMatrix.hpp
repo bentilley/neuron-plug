@@ -8,14 +8,17 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "../PluginProcessor.h"
 
 class ConnectionWeightsMatrix : public Component {
 public:
-  ConnectionWeightsMatrix();
+  ConnectionWeightsMatrix(WellsAudioProcessor &p);
   ~ConnectionWeightsMatrix();
 
   void paint(Graphics &) override;
   void resized() override;
+
+  void updateComponents();
 
 private:
   int numNeurons{3};

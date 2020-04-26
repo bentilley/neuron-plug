@@ -8,14 +8,17 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "../PluginProcessor.h"
 
 class InputWeightsBar : public Component {
 public:
-  InputWeightsBar();
+  InputWeightsBar(WellsAudioProcessor &p);
   ~InputWeightsBar();
 
   void paint(Graphics &) override;
   void resized() override;
+
+  void updateComponents();
 
 private:
   Colour lightGrey{221, 221, 221};

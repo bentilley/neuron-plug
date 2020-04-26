@@ -8,14 +8,17 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "../PluginProcessor.h"
 
 class ThresholdsBar : public Component {
 public:
-  ThresholdsBar();
+  ThresholdsBar(WellsAudioProcessor &p);
   ~ThresholdsBar();
 
   void paint(Graphics &) override;
   void resized() override;
+
+  void updateComponents();
 
 private:
   Colour lightGrey{221, 221, 221};

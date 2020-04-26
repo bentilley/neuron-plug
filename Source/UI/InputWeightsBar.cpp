@@ -7,7 +7,11 @@
 
 #include "InputWeightsBar.hpp"
 
-InputWeightsBar::InputWeightsBar() {
+/*
+ * Input Weight Bar
+ */
+
+InputWeightsBar::InputWeightsBar(WellsAudioProcessor &processor) {
   for (int i = 0; i < numNeurons; ++i) {
     std::unique_ptr<Slider> slider =
         std::make_unique<Slider>("inputWeightSlider" + String(i));
@@ -45,5 +49,12 @@ void InputWeightsBar::resized() {
     auto componentArea = area.removeFromLeft(colWidth);
     componentPadding.subtractFrom(componentArea);
     (*slider)->setBounds(componentArea);
+  }
+}
+
+void InputWeightsBar::updateComponents() {
+  for (auto slider = inputWeightSliders.begin();
+       slider != inputWeightSliders.end(); ++slider) {
+    (*slider)->updateComponent();
   }
 }
