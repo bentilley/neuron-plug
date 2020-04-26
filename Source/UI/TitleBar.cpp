@@ -60,6 +60,8 @@ void TitleBar::updateComponents() {
   onOffButton.updateComponent();
   receivesMidiButton.updateComponent();
   subdivisionSlider.updateComponent();
+  globalVolumeSlider.updateComponent();
+  volumeRange.updateComponent();
 }
 
 /*
