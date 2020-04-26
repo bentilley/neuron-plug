@@ -36,6 +36,18 @@ std::vector<std::vector<int>> Brain::get_connection_weights() {
 
 std::vector<int> Brain::get_input_weights() { return input_weights; }
 
+int Brain::get_input_weight_for_neuron(int neuron_num) {
+  return input_weights.at(neuron_num);
+}
+
+int Brain::get_connection_weight_for_neurons(int from, int to) {
+  return connection_weights.at(from).at(to);
+}
+
+int Brain::get_threshold_for_neuron(int neuron_num) {
+  return neurons.at(neuron_num).get_threshold();
+}
+
 /*
  * Setters
  */

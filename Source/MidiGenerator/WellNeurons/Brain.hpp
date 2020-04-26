@@ -26,6 +26,9 @@ public:
   void set_input_weights(std::vector<int> new_weights);
   void set_connection_weights(std::vector<std::vector<int>> new_weights);
 
+  int get_input_weight_for_neuron(int neuron_num);
+  int get_connection_weight_for_neurons(int from, int to);
+  int get_threshold_for_neuron(int neuron_num);
   void set_input_weight_for_neuron(int neuron_num, int new_weight);
   void set_connection_weight_for_neurons(int from, int to, int new_weight);
   void set_threshold_for_neuron(int neuron_num, int new_threshold);
