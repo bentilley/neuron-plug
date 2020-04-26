@@ -13,11 +13,8 @@
 
 InputWeightsBar::InputWeightsBar(WellsAudioProcessor &processor) {
   for (int i = 0; i < numNeurons; ++i) {
-    std::unique_ptr<Slider> slider =
-        std::make_unique<Slider>("inputWeightSlider" + String(i));
-    slider->setSliderStyle(Slider::IncDecButtons);
-    slider->setRange(1, 256, 1);
-    slider->setColour(Slider::ColourIds::textBoxBackgroundColourId, darkGrey);
+    std::unique_ptr<InputWeightSlider> slider =
+        std::make_unique<InputWeightSlider>(processor, i);
     addAndMakeVisible(*slider);
     inputWeightSliders.push_back(std::move(slider));
   }
@@ -57,4 +54,23 @@ void InputWeightsBar::updateComponents() {
        slider != inputWeightSliders.end(); ++slider) {
     (*slider)->updateComponent();
   }
+}
+
+/*
+ * Input Weight Inc/Dec Sliders
+ */
+
+InputWeightSlider::InputWeightSlider(WellsAudioProcessor &p, int i)
+    : Slider("inputWeightSlider" + String(i)), processor(p), neuron_index(i) {
+  setSliderStyle(Slider::IncDecButtons);
+  setRange(-256, 256, 1);
+  setColour(Slider::ColourIds::textBoxBackgroundColourId, darkGrey);
+  onValueChange = [this]() {
+    processor.midiGenerator.set_neuron_input_weight(neuron_index, getValue());
+  };
+}
+InputWeightSlider::~InputWeightSlider() {}
+
+void InputWeightSlider::updateComponent() {
+  setValue(processor.midiGenerator.get_neuron_input_weight(neuron_index));
 }
