@@ -13,21 +13,16 @@
 
 ConnectionWeightsMatrix::ConnectionWeightsMatrix(WellsAudioProcessor &p) {
   for (int i = 0; i < numNeurons; ++i) {
-    std::unique_ptr<Label> label = std::make_unique<Label>(
-        "neuron" + String(i + 1), "Neuron " + String(i + 1));
-    label->setColour(Label::ColourIds::textColourId, darkGrey);
+    std::unique_ptr<NeuronRowLabel> label = std::make_unique<NeuronRowLabel>(i);
     addAndMakeVisible(*label);
     neuronRowLabels.push_back(std::move(label));
   }
 
   for (int i = 0; i < numNeurons; ++i) {
-    std::vector<std::unique_ptr<Slider>> sliderRow{};
+    std::vector<std::unique_ptr<ConnectionWeightSlider>> sliderRow{};
     for (int j = 0; j < numNeurons; ++j) {
-      std::unique_ptr<Slider> slider = std::make_unique<Slider>(
-          "connectionWeightSlider" + String(i) + "-" + String(j));
-      slider->setSliderStyle(Slider::IncDecButtons);
-      slider->setRange(1, 256, 1);
-      slider->setColour(Slider::ColourIds::textBoxBackgroundColourId, darkGrey);
+      std::unique_ptr<ConnectionWeightSlider> slider =
+          std::make_unique<ConnectionWeightSlider>(p, i, j);
       addAndMakeVisible(*slider);
       sliderRow.push_back(std::move(slider));
     }
@@ -75,4 +70,37 @@ void ConnectionWeightsMatrix::updateComponents() {
       (*slider)->updateComponent();
     }
   }
+}
+
+/*
+ * Neuron Row Label
+ */
+
+NeuronRowLabel::NeuronRowLabel(int i)
+    : Label("neuron" + String(i + 1), "Neuron " + String(i + 1)) {
+  setColour(Label::ColourIds::textColourId, darkGrey);
+}
+NeuronRowLabel::~NeuronRowLabel() {}
+
+/*
+ * Connection Weight Slider
+ */
+
+ConnectionWeightSlider::ConnectionWeightSlider(WellsAudioProcessor &p, int from,
+                                               int to)
+    : Slider("connectionWeightSlider" + String(from) + "-" + String(to)),
+      processor(p), neuron_from(from), neuron_to(to) {
+  setSliderStyle(Slider::IncDecButtons);
+  setRange(-256, 256, 1);
+  setColour(Slider::ColourIds::textBoxBackgroundColourId, darkGrey);
+  onValueChange = [this]() {
+    processor.midiGenerator.set_neuron_connection_weight(neuron_from, neuron_to,
+                                                         getValue());
+  };
+}
+ConnectionWeightSlider::~ConnectionWeightSlider() {}
+
+void ConnectionWeightSlider::updateComponent() {
+  setValue(processor.midiGenerator.get_neuron_connection_weight(neuron_from,
+                                                                neuron_to));
 }
