@@ -5,7 +5,7 @@
  * Distributed under terms of the MIT license.
  */
 
-#include "../Source/WellNeurons/Brain.hpp"
+#include "../Source/MidiGenerator/WellNeurons/Brain.hpp"
 #include <catch2/catch.hpp>
 #include <iostream>
 

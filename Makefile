@@ -21,13 +21,14 @@ compile:
 
 GCC = gcc-9
 COMPILER_OPTIONS = -lstdc++ -Ilibs
-FILES_TO_TEST = Source/WellNeurons/*.cpp
 
 ODIR = obj
-BRAIN_HEADERS = $(wildcard Source/WellNeurons/*.hpp)
-BRAIN_SRC = $(wildcard Source/WellNeurons/*.cpp)
+MIDI_GENERATOR_DIR = Source/MidiGenerator/
+
+BRAIN_HEADERS = $(wildcard $(MIDI_GENERATOR_DIR)/WellNeurons/*.hpp)
+BRAIN_SRC = $(wildcard $(MIDI_GENERATOR_DIR)/WellNeurons/*.cpp)
 BRAIN_TESTS_SRC = $(wildcard tests/*.test.cpp)
-BRAIN_OBJ = $(patsubst Source/WellNeurons/%.cpp,obj/%.o,$(BRAIN_SRC))
+BRAIN_OBJ = $(patsubst $(MIDI_GENERATOR_DIR)/WellNeurons/%.cpp,obj/%.o,$(BRAIN_SRC))
 BRAIN_TESTS_OBJ = $(patsubst tests/%.cpp,tests/obj/%.o,$(BRAIN_TESTS_SRC))
 
 test: tests/run_tests
@@ -41,14 +42,12 @@ tests/run_tests: $(BRAIN_TESTS_OBJ) $(BRAIN_OBJ)
 tests/obj/%.test.o: tests/%.test.cpp $(BRAIN_HEADERS)
 	@$(GCC) $(COMPILER_OPTIONS) -c $< -o $@
 
-obj/%.o: Source/WellNeurons/%.cpp $(BRAIN_HEADERS)
+obj/%.o: $(MIDI_GENERATOR_DIR)/WellNeurons/%.cpp $(BRAIN_HEADERS)
 	@$(GCC) $(COMPILER_OPTIONS) -c $< -o $@
 
 clean:
 	@rm obj/*
 	@rm tests/obj/*
-
-MIDI_GENERATOR_DIR = Source/MidiGenerator/
 
 jucetest: tests/run_juce_tests
 	@./tests/run_juce_tests

@@ -5,7 +5,7 @@
  * Distributed under terms of the MIT license.
  */
 
-#include "../Source/WellNeurons/Neuron.hpp"
+#include "../Source/MidiGenerator/WellNeurons/Neuron.hpp"
 #include <catch2/catch.hpp>
 
 SCENARIO("A Neuron") {
