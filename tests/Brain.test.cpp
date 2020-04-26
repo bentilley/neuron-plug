@@ -66,9 +66,9 @@ SCENARIO("The Brain") {
     }
 
     WHEN("we set the input weights of individual neurons") {
-      brain.set_input_weight_for_neuron(1, 5);
-      brain.set_input_weight_for_neuron(2, -1);
-      brain.set_input_weight_for_neuron(3, 20);
+      brain.set_input_weight_for_neuron(0, 5);
+      brain.set_input_weight_for_neuron(1, -1);
+      brain.set_input_weight_for_neuron(2, 20);
       std::vector<int> input_weights = brain.get_input_weights();
       REQUIRE(input_weights.at(0) == 5);
       REQUIRE(input_weights.at(1) == -1);
@@ -76,11 +76,11 @@ SCENARIO("The Brain") {
     }
 
     WHEN("we set the connection weights between individual neurons") {
-      brain.set_connection_weight_for_neurons(1, 1, -17);
-      brain.set_connection_weight_for_neurons(1, 2, 7);
-      brain.set_connection_weight_for_neurons(1, 3, -1);
-      brain.set_connection_weight_for_neurons(2, 3, -4);
-      brain.set_connection_weight_for_neurons(3, 1, 9);
+      brain.set_connection_weight_for_neurons(0, 0, -17);
+      brain.set_connection_weight_for_neurons(0, 1, 7);
+      brain.set_connection_weight_for_neurons(0, 2, -1);
+      brain.set_connection_weight_for_neurons(1, 2, -4);
+      brain.set_connection_weight_for_neurons(2, 0, 9);
       std::vector<std::vector<int>> connection_weights =
           brain.get_connection_weights();
       REQUIRE(connection_weights.at(0).at(0) == -17);
@@ -91,9 +91,9 @@ SCENARIO("The Brain") {
     }
 
     WHEN("we set the thresholds of individual neurons") {
-      brain.set_threshold_for_neuron(1, 1);
-      brain.set_threshold_for_neuron(2, 41);
-      brain.set_threshold_for_neuron(3, -24);
+      brain.set_threshold_for_neuron(0, 1);
+      brain.set_threshold_for_neuron(1, 41);
+      brain.set_threshold_for_neuron(2, -24);
       std::vector<Neuron> neurons = brain.get_neurons();
       REQUIRE(neurons.at(0).get_threshold() == 1);
       REQUIRE(neurons.at(1).get_threshold() == 41);
@@ -239,14 +239,14 @@ SCENARIO("The Brain") {
         std::vector<int>{-3, 1, 4}, std::vector<int>{1, -2, 1},
         std::vector<int>{2, 1, -7}});
     brain.add_neuron();
-    brain.set_input_weight_for_neuron(4, 2);
-    brain.set_connection_weight_for_neurons(1, 4, 1);
-    brain.set_connection_weight_for_neurons(2, 4, 1);
-    brain.set_connection_weight_for_neurons(3, 4, -2);
-    brain.set_connection_weight_for_neurons(4, 1, 2);
-    brain.set_connection_weight_for_neurons(4, 2, -2);
-    brain.set_connection_weight_for_neurons(4, 4, -3);
-    brain.set_threshold_for_neuron(1, 1);
+    brain.set_input_weight_for_neuron(3, 2);
+    brain.set_connection_weight_for_neurons(0, 3, 1);
+    brain.set_connection_weight_for_neurons(1, 3, 1);
+    brain.set_connection_weight_for_neurons(2, 3, -2);
+    brain.set_connection_weight_for_neurons(3, 0, 2);
+    brain.set_connection_weight_for_neurons(3, 1, -2);
+    brain.set_connection_weight_for_neurons(3, 3, -3);
+    brain.set_threshold_for_neuron(0, 1);
 
     THEN("it should handle multiple state updates") {
       brain.process_next(std::vector<int>{1, 1, 1, 0});

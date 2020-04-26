@@ -69,18 +69,15 @@ void Brain::set_connection_weights(std::vector<std::vector<int>> new_weights) {
 
 void Brain::set_connection_weight_for_neurons(int from, int to,
                                               int new_weight) {
-  int from_idx = from - 1, to_idx = to - 1;
-  connection_weights.at(from_idx).at(to_idx) = new_weight;
+  connection_weights.at(from).at(to) = new_weight;
 };
 
 void Brain::set_input_weight_for_neuron(int neuron_num, int new_weight) {
-  int neuron_idx = neuron_num - 1;
-  input_weights.at(neuron_idx) = new_weight;
+  input_weights.at(neuron_num) = new_weight;
 };
 
 void Brain::set_threshold_for_neuron(int neuron_num, int new_threshold) {
-  int neuron_idx = neuron_num - 1;
-  neurons.at(neuron_idx).set_threshold(new_threshold);
+  neurons.at(neuron_num).set_threshold(new_threshold);
 };
 
 /*
