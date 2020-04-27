@@ -7,7 +7,11 @@
 
 #include "NeuronTitleBar.hpp"
 
-NeuronTitleBar::NeuronTitleBar() : addNeurons("+") {
+/*
+ * Neuron Title Bar
+ */
+
+NeuronTitleBar::NeuronTitleBar(WellsAudioProcessor &p) : addNeuron(p) {
   for (int i = 0; i < numNeurons; ++i) {
     std::unique_ptr<Label> label = std::make_unique<Label>(
         "neuron" + String(i + 1), "Neuron " + String(i + 1));
@@ -16,7 +20,7 @@ NeuronTitleBar::NeuronTitleBar() : addNeurons("+") {
     addAndMakeVisible(*label);
     neuronColumnLabels.push_back(std::move(label));
   }
-  addAndMakeVisible(addNeurons);
+  addAndMakeVisible(addNeuron);
 }
 NeuronTitleBar::~NeuronTitleBar() {}
 
@@ -35,5 +39,15 @@ void NeuronTitleBar::resized() {
   }
   auto buttonArea = area.removeFromLeft(colWidth);
   componentPadding.subtractFrom(buttonArea);
-  addNeurons.setBounds(buttonArea);
+  addNeuron.setBounds(buttonArea);
 }
+
+/*
+ * Add Neuron Button
+ */
+
+AddNeuronButton::AddNeuronButton(WellsAudioProcessor &p)
+    : TextButton("+"), processor(p) {
+  onClick = [this]() { processor.midiGenerator.add_neuron(); };
+}
+AddNeuronButton::~AddNeuronButton() {}

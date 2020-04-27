@@ -8,7 +8,7 @@
 #include "PluginBody.hpp"
 
 PluginBody::PluginBody(WellsAudioProcessor &p)
-    : midiNotesBar(p), inputWeightsBar(p), thresholdsBar(p),
+    : neuronTitleBar(p), midiNotesBar(p), inputWeightsBar(p), thresholdsBar(p),
       connectionWeightsMatrix(p) {
   addAndMakeVisible(neuronTitleBar);
   addAndMakeVisible(midiNotesBar);
