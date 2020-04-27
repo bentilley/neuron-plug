@@ -91,9 +91,9 @@ public:
     // == Neuron input getters and setters ==
     beginTest("neuron input weights get/set");
 
-    expect(generator.get_neuron_input_weight(0) == 1);
-    expect(generator.get_neuron_input_weight(1) == 1);
-    expect(generator.get_neuron_input_weight(2) == 1);
+    expect(generator.get_neuron_input_weight(0) == 0);
+    expect(generator.get_neuron_input_weight(1) == 0);
+    expect(generator.get_neuron_input_weight(2) == 0);
 
     generator.set_neuron_input_weight(0, 18);
     generator.set_neuron_input_weight(1, 5);
