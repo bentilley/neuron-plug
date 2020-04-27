@@ -8,6 +8,9 @@
 #include "PluginLogger.hpp"
 
 void PluginLogger::log_vec(String vec_name, std::vector<int> vec) {
+  if (!isLogging) {
+    return;
+  }
   String msg = vec_name + ": (";
   for (auto it = vec.begin(); it != vec.end(); ++it) {
     msg += String(*it);

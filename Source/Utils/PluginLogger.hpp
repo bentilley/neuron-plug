@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "../../JuceLibraryCode/JuceHeader.h"
 
 class PluginLogger : public FileLogger {
 public:
@@ -21,4 +21,5 @@ public:
   void log_vec(String vec_name, std::vector<int> vec);
 
 private:
+  bool isLogging{true};
 };
