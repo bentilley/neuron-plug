@@ -12,6 +12,7 @@
 #include "BeatClock/BeatClock.hpp"
 #include "MidiProcessor/MidiProcessor.hpp"
 #include "WellNeurons/Brain.hpp"
+#include <memory>
 
 class MidiGenerator {
 public:
@@ -45,6 +46,9 @@ public:
 
   // Neuron Model Methods
   int num_neurons();
+  void add_neuron();
+  void remove_neuron();
+  void remove_neuron_at(int index);
 
   // Audio Thread
   void generate_next_midi_buffer(MidiBuffer &b,
@@ -54,7 +58,7 @@ public:
 private:
   bool is_on, receives_midi;
 
-  Brain brain;
+  std::unique_ptr<Brain> brain;
   MidiProcessor midiProcessor;
   BeatClock beatClock;
 };

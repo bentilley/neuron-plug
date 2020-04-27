@@ -7,7 +7,9 @@
 
 #include "MidiGenerator.hpp"
 
-MidiGenerator::MidiGenerator() : is_on{false}, receives_midi{false} {}
+MidiGenerator::MidiGenerator() : is_on{false}, receives_midi{false} {
+  brain = std::make_unique<Brain>();
+}
 MidiGenerator::~MidiGenerator() {}
 
 /*
@@ -44,35 +46,60 @@ void MidiGenerator::set_neuron_midi_note(int neuron_idx, int new_note_number) {
 
 // Input Weight
 int MidiGenerator::get_neuron_input_weight(int neuron_idx) {
-  return brain.get_input_weight_for_neuron(neuron_idx);
+  PluginLogger::logger.log_vec("input weights", brain->get_input_weights());
+  return brain->get_input_weight_for_neuron(neuron_idx);
 }
 void MidiGenerator::set_neuron_input_weight(int neuron_idx,
                                             int new_input_weight) {
-  brain.set_input_weight_for_neuron(neuron_idx, new_input_weight);
+  brain->set_input_weight_for_neuron(neuron_idx, new_input_weight);
+  PluginLogger::logger.log_vec("input weights", brain->get_input_weights());
 }
 
 // Threshold
 int MidiGenerator::get_neuron_threshold(int neuron_idx) {
-  return brain.get_threshold_for_neuron(neuron_idx);
+  return brain->get_threshold_for_neuron(neuron_idx);
 }
 void MidiGenerator::set_neuron_threshold(int neuron_idx, int new_threshold) {
-  brain.set_threshold_for_neuron(neuron_idx, new_threshold);
+  brain->set_threshold_for_neuron(neuron_idx, new_threshold);
+  std::vector<int> thresholds(3, 0);
+  std::vector<Neuron> neurons = brain->get_neurons();
+  std::transform(neurons.begin(), neurons.end(), thresholds.begin(),
+                 [](Neuron n) { return n.get_threshold(); });
+  PluginLogger::logger.log_vec("thresholds", thresholds);
 }
 
 // Connection Weights
 int MidiGenerator::get_neuron_connection_weight(int from, int to) {
-  return brain.get_connection_weight_for_neurons(from, to);
+  return brain->get_connection_weight_for_neurons(from, to);
 }
 void MidiGenerator::set_neuron_connection_weight(int from, int to,
                                                  int new_connection_weight) {
-  brain.set_connection_weight_for_neurons(from, to, new_connection_weight);
+  brain->set_connection_weight_for_neurons(from, to, new_connection_weight);
+  PluginLogger::logger.log_vec("Connection weights from " + String(from),
+                               brain->get_connection_weights().at(from));
 }
 
 /*
  * Neuron Model Methods
  */
 
-int MidiGenerator::num_neurons() { return brain.num_neurons(); };
+int MidiGenerator::num_neurons() { return brain->num_neurons(); };
+
+void MidiGenerator::add_neuron() {
+  std::unique_ptr<Brain> new_brain = std::make_unique<Brain>(*brain);
+  new_brain->add_neuron();
+  brain = std::move(new_brain);
+}
+void MidiGenerator::remove_neuron() {
+  std::unique_ptr<Brain> new_brain = std::make_unique<Brain>(*brain);
+  new_brain->remove_neuron();
+  brain = std::move(new_brain);
+}
+void MidiGenerator::remove_neuron_at(int index) {
+  std::unique_ptr<Brain> new_brain = std::make_unique<Brain>(*brain);
+  new_brain->remove_neuron_at(index);
+  brain = std::move(new_brain);
+}
 
 /*
  * Audio Thread
@@ -86,8 +113,8 @@ void MidiGenerator::generate_next_midi_buffer(
 
   for (int time = 0; time < num_samples; ++time) {
     if (beatClock.should_play(time)) {
-      brain.process_next(std::vector<int>{1, 1, 1});
-      std::vector<int> output = brain.get_output();
+      brain->process_next(std::vector<int>{1, 1, 1});
+      std::vector<int> output = brain->get_output();
       PluginLogger::logger.log_vec("model output", output);
 
       midiProcessor.render_buffer(midiBuffer, output, time);
