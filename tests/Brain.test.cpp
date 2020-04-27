@@ -46,7 +46,7 @@ SCENARIO("The Brain") {
       brain.set_connection_weights(std::vector<std::vector<int>>{
           std::vector<int>{1, 2, 3}, std::vector<int>{4, 5, 6},
           std::vector<int>{7, 8, 9}});
-      brain.remove_neuron(2);
+      brain.remove_neuron_at(1);
       THEN("the correct conection and input weights are removed") {
         REQUIRE(brain.get_input_weights() == std::vector<int>{1, 3});
         REQUIRE(brain.get_connection_weights() ==

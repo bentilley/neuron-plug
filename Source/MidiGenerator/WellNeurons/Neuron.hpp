@@ -25,7 +25,7 @@ public:
   void update_state();
 
 private:
-  int input = 0;
-  int state = 0;
-  int threshold = 0;
+  int input{0};
+  int state{0};
+  int threshold{0};
 };

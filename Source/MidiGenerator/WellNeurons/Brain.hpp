@@ -7,7 +7,6 @@
 
 #pragma once
 
-#include "../../Utils/PluginLogger.hpp"
 #include "Neuron.hpp"
 #include <algorithm>
 #include <cassert>
@@ -36,7 +35,7 @@ public:
 
   void add_neuron();
   void remove_neuron(); // removes last added neuron
-  void remove_neuron(int neuron_number);
+  void remove_neuron_at(int neuron_index);
 
   int num_neurons();
   std::vector<int> get_weighted_input(std::vector<int> input);
