@@ -12,6 +12,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MidiGenerator/MidiGenerator.hpp"
+#include <memory>
 
 //==============================================================================
 /**
@@ -58,7 +59,8 @@ public:
   void setStateInformation(const void *data, int sizeInBytes) override;
 
   //==Model=======================================================================
-  MidiGenerator midiGenerator;
+  std::unique_ptr<MidiGenerator> midiGenerator;
+  void add_neuron();
 
 private:
   //==============================================================================

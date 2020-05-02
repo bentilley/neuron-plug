@@ -21,9 +21,9 @@ WellsAudioProcessor::WellsAudioProcessor()
 #endif
                          .withOutput("Output", AudioChannelSet::stereo(), true)
 #endif
-      )
+                         ),
 #endif
-{
+      midiGenerator(std::make_unique<MidiGenerator>(5)) {
 
   // Run all tests when plugin loads in debug
 #ifdef DEBUG
@@ -123,7 +123,7 @@ void WellsAudioProcessor::processBlock(AudioBuffer<float> &buffer,
   // channels that didn't contain input data, (because these aren't
   // guaranteed to be empty - they may contain garbage).
   // This is here to avoid people getting screaming feedback
-  // when they first compile a plugin, but obviously you don't need to keep
+  // when they first compile a plugin, but obviously you don't need to keep
   // this code if your algorithm always overwrites all the output channels.
   for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
     buffer.clear(i, 0, buffer.getNumSamples());
@@ -148,12 +148,19 @@ void WellsAudioProcessor::processBlock(AudioBuffer<float> &buffer,
   AudioPlayHead::CurrentPositionInfo pos;
   getPlayHead()->getCurrentPosition(pos);
 
-  if (midiGenerator.get_is_on() && pos.isPlaying) {
-    midiGenerator.generate_next_midi_buffer(processedMidi, pos, sample_rate,
-                                            num_buffer_samples);
+  if (midiGenerator->get_is_on() && pos.isPlaying) {
+    midiGenerator->generate_next_midi_buffer(processedMidi, pos, sample_rate,
+                                             num_buffer_samples);
   }
 
   midiMessages.swapWith(processedMidi);
+}
+
+void WellsAudioProcessor::add_neuron() {
+  std::unique_ptr<MidiGenerator> new_generator =
+      std::make_unique<MidiGenerator>(*midiGenerator);
+  new_generator->add_neuron();
+  midiGenerator = std::move(new_generator);
 }
 
 //==============================================================================
