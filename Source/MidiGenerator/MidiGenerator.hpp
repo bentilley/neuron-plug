@@ -16,7 +16,7 @@
 
 class MidiGenerator {
 public:
-  MidiGenerator();
+  MidiGenerator(int num_neurons);
   ~MidiGenerator();
 
   // Getters & Setters - mostly called on the GUI thread
@@ -58,7 +58,7 @@ public:
 private:
   bool is_on, receives_midi;
 
-  std::unique_ptr<Brain> brain;
+  Brain brain;
   MidiProcessor midiProcessor;
   BeatClock beatClock;
 };

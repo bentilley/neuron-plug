@@ -12,7 +12,7 @@ public:
   MidiGeneratorTests() : UnitTest("MidiGenerator Testing") {}
 
   void runTest() override {
-    MidiGenerator generator;
+    MidiGenerator generator(3);
 
     // == Instantiation ==
     beginTest("Instantiation");
@@ -76,9 +76,9 @@ public:
     // == MIDI getters and setters ==
     beginTest("midi getters and setters");
 
-    expect(generator.get_neuron_midi_note(0) == 60, "default should be 60");
-    expect(generator.get_neuron_midi_note(1) == 64, "default should be 64");
-    expect(generator.get_neuron_midi_note(2) == 67, "default should be 67");
+    expect(generator.get_neuron_midi_note(0) == 1, "default should be 1");
+    expect(generator.get_neuron_midi_note(1) == 1, "default should be 1");
+    expect(generator.get_neuron_midi_note(2) == 1, "default should be 1");
 
     generator.set_neuron_midi_note(0, 34);
     generator.set_neuron_midi_note(1, 74);
