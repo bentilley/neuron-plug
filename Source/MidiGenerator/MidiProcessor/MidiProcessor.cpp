@@ -9,9 +9,9 @@
 #include "assert.h"
 #include <cmath>
 
-MidiProcessor::MidiProcessor()
+MidiProcessor::MidiProcessor(int num_notes)
     : max_brain_output{1}, global_volume{1.0}, volume_clip{1, 127} {
-  midi_map = std::vector<int>{60, 64, 67};
+  midi_map = std::vector<int>(num_notes, 1);
 };
 MidiProcessor::~MidiProcessor(){};
 

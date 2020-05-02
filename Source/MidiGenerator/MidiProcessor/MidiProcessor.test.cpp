@@ -12,12 +12,12 @@ public:
   MidiProcessorTests() : UnitTest("MidiProcessor Testing") {}
 
   void runTest() override {
-    MidiProcessor processor;
+    MidiProcessor processor(3);
 
     // == Instantiation ==
     beginTest("Instantiation");
 
-    expect(processor.get_midi_map() == std::vector<int>{60, 64, 67},
+    expect(processor.get_midi_map() == std::vector<int>{1, 1, 1},
            "MidiProcessor missing default `midi_map`");
 
     // == Getters & Setters
@@ -49,9 +49,9 @@ public:
     // == MIDI Notes ==
     beginTest("MIDI Notes");
 
-    expect(processor.get_note_at(0) == 60, "default note is 60");
-    expect(processor.get_note_at(1) == 64, "default note is 64");
-    expect(processor.get_note_at(2) == 67, "default note is 67");
+    expect(processor.get_note_at(0) == 1, "1st default note is 1");
+    expect(processor.get_note_at(1) == 1, "2nd default note is 1");
+    expect(processor.get_note_at(2) == 1, "3rd default note is 1");
 
     processor.set_note_at(0, 25);
     processor.set_note_at(1, 89);

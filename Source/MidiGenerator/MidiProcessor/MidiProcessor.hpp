@@ -14,7 +14,7 @@
 
 class MidiProcessor {
 public:
-  MidiProcessor();
+  MidiProcessor(int num_notes);
   ~MidiProcessor();
 
   // Getters & Setters
