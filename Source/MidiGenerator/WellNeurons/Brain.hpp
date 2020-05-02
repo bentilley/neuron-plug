@@ -15,7 +15,7 @@
 
 class Brain {
 public:
-  Brain();
+  Brain(int starting_num_neurons);
   ~Brain();
 
   std::vector<int> get_output();

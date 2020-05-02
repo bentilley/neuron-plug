@@ -11,52 +11,53 @@
 
 SCENARIO("The Brain") {
   GIVEN("we have an instance of Brain") {
-    Brain brain;
+    Brain brain(4);
 
     WHEN("we have just initialised the brain the defaults are correct") {
-      REQUIRE(brain.num_neurons() == 3);
-      REQUIRE(brain.get_connection_weights().size() == 3);
-      REQUIRE(brain.get_connection_weights().at(0).size() == 3);
+      REQUIRE(brain.num_neurons() == 4);
+      REQUIRE(brain.get_connection_weights().size() == 4);
+      REQUIRE(brain.get_connection_weights().at(0).size() == 4);
       REQUIRE(brain.get_connection_weights() ==
-              std::vector<std::vector<int>>{std::vector<int>{0, 0, 0},
-                                            std::vector<int>{0, 0, 0},
-                                            std::vector<int>{0, 0, 0}});
+              std::vector<std::vector<int>>{
+                  std::vector<int>{0, 0, 0, 0}, std::vector<int>{0, 0, 0, 0},
+                  std::vector<int>{0, 0, 0, 0}, std::vector<int>{0, 0, 0, 0}});
     }
 
     WHEN("we add a neuron to the brain") {
       brain.add_neuron();
       THEN("the neurons and connections resize") {
-        REQUIRE(brain.num_neurons() == 4);
-        REQUIRE(brain.get_connection_weights().size() == 4);
-        REQUIRE(brain.get_connection_weights().at(0).size() == 4);
+        REQUIRE(brain.num_neurons() == 5);
+        REQUIRE(brain.get_connection_weights().size() == 5);
+        REQUIRE(brain.get_connection_weights().at(0).size() == 5);
       }
     }
 
     WHEN("we remove a neuron from the brain") {
       brain.remove_neuron();
       THEN("the neurons and connections resize") {
-        REQUIRE(brain.num_neurons() == 2);
-        REQUIRE(brain.get_connection_weights().size() == 2);
-        REQUIRE(brain.get_connection_weights().at(0).size() == 2);
+        REQUIRE(brain.num_neurons() == 3);
+        REQUIRE(brain.get_connection_weights().size() == 3);
+        REQUIRE(brain.get_connection_weights().at(0).size() == 3);
       }
     }
 
     WHEN("we remove a specific  neuron from the brain") {
-      brain.set_input_weights(std::vector<int>{1, 2, 3});
+      brain.set_input_weights(std::vector<int>{1, 2, 3, 4});
       brain.set_connection_weights(std::vector<std::vector<int>>{
-          std::vector<int>{1, 2, 3}, std::vector<int>{4, 5, 6},
-          std::vector<int>{7, 8, 9}});
+          std::vector<int>{1, 2, 3, 4}, std::vector<int>{5, 6, 7, 8},
+          std::vector<int>{9, 10, 11, 12}, std::vector<int>{13, 14, 15, 16}});
       brain.remove_neuron_at(1);
       THEN("the correct conection and input weights are removed") {
-        REQUIRE(brain.get_input_weights() == std::vector<int>{1, 3});
+        REQUIRE(brain.get_input_weights() == std::vector<int>{1, 3, 4});
         REQUIRE(brain.get_connection_weights() ==
-                std::vector<std::vector<int>>{std::vector<int>{1, 3},
-                                              std::vector<int>{7, 9}});
+                std::vector<std::vector<int>>{std::vector<int>{1, 3, 4},
+                                              std::vector<int>{9, 11, 12},
+                                              std::vector<int>{13, 15, 16}});
       }
     }
 
     WHEN("we try and set weights with the wrong size vectors it fails") {
-      REQUIRE_THROWS(brain.set_input_weights(std::vector<int>{1, 2, 3, 4}));
+      REQUIRE_THROWS(brain.set_input_weights(std::vector<int>{1, 2, 3, 4, 5}));
       REQUIRE_THROWS(brain.set_connection_weights(std::vector<std::vector<int>>{
           std::vector<int>{1, 2, 3}, std::vector<int>{4, 5, 6},
           std::vector<int>{7, 8, 9}, std::vector<int>{10, 11, 12}}));
@@ -66,6 +67,7 @@ SCENARIO("The Brain") {
     }
 
     WHEN("we set the input weights of individual neurons") {
+      brain.remove_neuron();
       brain.set_input_weight_for_neuron(0, 5);
       brain.set_input_weight_for_neuron(1, -1);
       brain.set_input_weight_for_neuron(2, 20);
@@ -76,6 +78,7 @@ SCENARIO("The Brain") {
     }
 
     WHEN("we set the connection weights between individual neurons") {
+      brain.remove_neuron();
       brain.set_connection_weight_for_neurons(0, 0, -17);
       brain.set_connection_weight_for_neurons(0, 1, 7);
       brain.set_connection_weight_for_neurons(0, 2, -1);
@@ -91,6 +94,7 @@ SCENARIO("The Brain") {
     }
 
     WHEN("we set the thresholds of individual neurons") {
+      brain.remove_neuron();
       brain.set_threshold_for_neuron(0, 1);
       brain.set_threshold_for_neuron(1, 41);
       brain.set_threshold_for_neuron(2, -24);
@@ -101,12 +105,12 @@ SCENARIO("The Brain") {
     }
 
     THEN("there is no output from the neurons in this default state") {
-      REQUIRE(brain.get_output() == std::vector<int>{0, 0, 0});
+      REQUIRE(brain.get_output() == std::vector<int>{0, 0, 0, 0});
     }
   }
 
   GIVEN("A brain with input weights set up") {
-    Brain brain;
+    Brain brain(3);
     brain.set_input_weights(std::vector<int>{1, 0, -2});
 
     WHEN("we have an input signal") {
@@ -125,7 +129,7 @@ SCENARIO("The Brain") {
   }
 
   GIVEN("a Brain with connection weights set up") {
-    Brain brain;
+    Brain brain(3);
     brain.set_connection_weights(std::vector<std::vector<int>>{
         std::vector<int>{1, 2, 3}, std::vector<int>{1, 2, 3},
         std::vector<int>{3, 2, 1}});
@@ -156,7 +160,7 @@ SCENARIO("The Brain") {
   }
 
   GIVEN("a Brain with input weights and connection weights set up") {
-    Brain brain;
+    Brain brain(3);
     brain.set_input_weights(std::vector<int>{1, 0, -2});
     brain.set_connection_weights(std::vector<std::vector<int>>{
         std::vector<int>{1, 2, 3}, std::vector<int>{1, 2, 3},
@@ -180,8 +184,7 @@ SCENARIO("The Brain") {
   }
 
   GIVEN("a Brain with 2 neurons with input and connection weights setup") {
-    Brain brain;
-    brain.remove_neuron();
+    Brain brain(2);
     brain.set_input_weights(std::vector<int>{1, 1});
     brain.set_connection_weights(std::vector<std::vector<int>>{
         std::vector<int>{-3, 1}, std::vector<int>{1, -3}});
@@ -206,8 +209,7 @@ SCENARIO("The Brain") {
   }
 
   GIVEN("a Brain with 2 neurons with input and connection weights setup") {
-    Brain brain;
-    brain.remove_neuron();
+    Brain brain(2);
     brain.set_input_weights(std::vector<int>{1, 1});
     brain.set_connection_weights(std::vector<std::vector<int>>{
         std::vector<int>{-3, 1}, std::vector<int>{1, -2}});
@@ -233,7 +235,7 @@ SCENARIO("The Brain") {
   }
 
   GIVEN("a Brain with 4 neurons with input and connection weights setup") {
-    Brain brain;
+    Brain brain(3);
     brain.set_input_weights(std::vector<int>{1, 1, 1});
     brain.set_connection_weights(std::vector<std::vector<int>>{
         std::vector<int>{-3, 1, 4}, std::vector<int>{1, -2, 1},

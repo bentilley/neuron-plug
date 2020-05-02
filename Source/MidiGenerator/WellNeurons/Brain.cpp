@@ -9,12 +9,10 @@
 #include <algorithm>
 #include <iostream>
 
-Brain::Brain() {
-  neurons = std::vector<Neuron>{Neuron(), Neuron(), Neuron()};
-  input_weights = std::vector<int>{0, 0, 0};
-  connection_weights = std::vector<std::vector<int>>{std::vector<int>{0, 0, 0},
-                                                     std::vector<int>{0, 0, 0},
-                                                     std::vector<int>{0, 0, 0}};
+Brain::Brain(int starting_num_neurons) {
+  for (int i{0}; i < starting_num_neurons; ++i) {
+    add_neuron();
+  }
 };
 Brain::~Brain(){};
 
