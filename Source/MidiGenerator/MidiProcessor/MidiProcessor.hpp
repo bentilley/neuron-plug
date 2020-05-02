@@ -35,6 +35,10 @@ public:
   int get_clipped_midi_volume(float vel);
   uint8 get_note_velocity(int brain_output_value);
 
+  void add_midi_note();
+  void add_midi_note(int note_num);
+  void remove_midi_note();
+  void remove_midi_note_at(int index);
   void render_buffer(MidiBuffer &buffer, std::vector<int> next_output,
                      int sample_num);
 

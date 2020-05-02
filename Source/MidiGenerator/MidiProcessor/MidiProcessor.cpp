@@ -57,6 +57,15 @@ uint8 MidiProcessor::get_note_velocity(int brain_output_value) {
   return std::round(get_clipped_midi_volume(output) * global_volume);
 }
 
+void MidiProcessor::add_midi_note() { midi_map.push_back(1); }
+void MidiProcessor::add_midi_note(int note_num) {
+  midi_map.push_back(note_num);
+}
+void MidiProcessor::remove_midi_note() { midi_map.pop_back(); }
+void MidiProcessor::remove_midi_note_at(int index) {
+  midi_map.erase(midi_map.begin() + index);
+}
+
 void MidiProcessor::render_buffer(MidiBuffer &buffer,
                                   std::vector<int> new_output, int sample_num) {
   assert(midi_map.size() == new_output.size());

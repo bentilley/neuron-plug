@@ -105,6 +105,33 @@ public:
     processor.set_global_volume(1.0f);
     processor.set_volume_clip(1, 127);
 
+    // == add_midi_note, remove_midi_note, remove_midi_note_at ==
+    beginTest("add_midi_note");
+
+    processor.set_note_at(0, 60);
+    processor.set_note_at(1, 64);
+    processor.set_note_at(2, 67);
+
+    expect(processor.get_midi_map() == std::vector<int>{60, 64, 67});
+
+    processor.add_midi_note(60);
+    expect(processor.get_midi_map() == std::vector<int>{60, 64, 67, 60});
+
+    processor.add_midi_note(8);
+    expect(processor.get_midi_map() == std::vector<int>{60, 64, 67, 60, 8});
+
+    processor.remove_midi_note();
+    expect(processor.get_midi_map() == std::vector<int>{60, 64, 67, 60});
+
+    processor.remove_midi_note_at(0);
+    expect(processor.get_midi_map() == std::vector<int>{64, 67, 60});
+
+    processor.remove_midi_note_at(1);
+    expect(processor.get_midi_map() == std::vector<int>{64, 60});
+
+    processor.add_midi_note();
+    expect(processor.get_midi_map() == std::vector<int>{64, 60, 1});
+
     // == render_buffer ==
     beginTest("render_buffer");
 
