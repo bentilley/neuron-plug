@@ -9,9 +9,9 @@
 
 MidiNotesBar::MidiNotesBar(WellsAudioProcessor &p) : processor(p) {
 
-  for (int i = 0; i < p.midiGenerator.num_neurons(); ++i) {
+  for (int i = 0; i < p.midiGenerator->num_neurons(); ++i) {
     std::unique_ptr<MidiNoteComboBox> combo =
-        std::make_unique<MidiNoteComboBox>(processor, i);
+        std::make_unique<MidiNoteComboBox>(p, i);
     addAndMakeVisible(*combo);
     midiNoteSelectors.push_back(std::move(combo));
   }
@@ -67,7 +67,7 @@ MidiNoteComboBox::MidiNoteComboBox(WellsAudioProcessor &p, int idx)
   addItemList(midiNoteNums, 1);
   setEditableText(false);
   onChange = [this]() {
-    processor.midiGenerator.set_neuron_midi_note(neuron_index,
+    processor.midiGenerator->set_neuron_midi_note(neuron_index,
                                                  getText().getIntValue());
   };
 }
@@ -75,7 +75,7 @@ MidiNoteComboBox::~MidiNoteComboBox() {}
 
 void MidiNoteComboBox::updateComponent() {
   int id{get_midi_note_id(
-      processor.midiGenerator.get_neuron_midi_note(neuron_index))};
+      processor.midiGenerator->get_neuron_midi_note(neuron_index))};
   setSelectedId(id);
 }
 int MidiNoteComboBox::get_midi_note_id(int note_num) { return note_num; }

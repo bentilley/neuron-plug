@@ -59,8 +59,6 @@ public:
   void updateComponents();
 
 private:
-  int numNeurons{3};
-
   Colour lightGrey{221, 221, 221};
   Colour darkGrey{51, 51, 51};
 

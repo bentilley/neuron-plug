@@ -51,7 +51,6 @@ private:
 
   int rowLabelWidth{120};
   BorderSize<int> rowLabelPadding{0, 10, 0, 0};
-  int numNeurons{3};
   int colWidth{80};
   BorderSize<int> componentPadding{10, 5, 10, 5};
   BorderSize<int> blockPadding{5, 5, 5, 5};

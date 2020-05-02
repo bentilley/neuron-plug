@@ -70,13 +70,13 @@ void TitleBar::updateComponents() {
 
 OnOffButton::OnOffButton(WellsAudioProcessor &p)
     : TextButton("On/Off"), processor(p) {
-  onClick = [this]() { processor.midiGenerator.toggleOnOff(); };
+  onClick = [this]() { processor.midiGenerator->toggleOnOff(); };
 }
 OnOffButton::~OnOffButton() {}
 
 void OnOffButton::updateComponent() {
   setColour(TextButton::ColourIds::buttonColourId,
-            processor.midiGenerator.get_is_on() ? buttonOnColour
+            processor.midiGenerator->get_is_on() ? buttonOnColour
                                                 : buttonOffColour);
 }
 
@@ -86,13 +86,13 @@ void OnOffButton::updateComponent() {
 
 ReceivesMidiButton::ReceivesMidiButton(WellsAudioProcessor &p)
     : TextButton("MIDI In"), processor(p) {
-  onClick = [this]() { processor.midiGenerator.toggleReceivesMidi(); };
+  onClick = [this]() { processor.midiGenerator->toggleReceivesMidi(); };
 }
 ReceivesMidiButton::~ReceivesMidiButton() {}
 
 void ReceivesMidiButton::updateComponent() {
   setColour(TextButton::ColourIds::buttonColourId,
-            processor.midiGenerator.get_receives_midi() ? buttonOnColour
+            processor.midiGenerator->get_receives_midi() ? buttonOnColour
                                                         : buttonOffColour);
 }
 
@@ -107,13 +107,13 @@ SubdivisionSlider::SubdivisionSlider(WellsAudioProcessor &p)
   setTextBoxStyle(Slider::NoTextBox, false, 10, 0);
   setPopupDisplayEnabled(true, false, getParentComponent());
   onValueChange = [this]() {
-    processor.midiGenerator.set_subdivision(getValue());
+    processor.midiGenerator->set_subdivision(getValue());
   };
 }
 SubdivisionSlider::~SubdivisionSlider() {}
 
 void SubdivisionSlider::updateComponent() {
-  setValue(processor.midiGenerator.get_subdivision());
+  setValue(processor.midiGenerator->get_subdivision());
 }
 
 /*
@@ -127,12 +127,12 @@ GlobalVolumeSlider::GlobalVolumeSlider(WellsAudioProcessor &p)
   setNumDecimalPlacesToDisplay(2);
   setTextBoxStyle(Slider::NoTextBox, false, 10, 0);
   setPopupDisplayEnabled(true, false, getParentComponent());
-  onValueChange = [this]() { processor.midiGenerator.set_volume(getValue()); };
+  onValueChange = [this]() { processor.midiGenerator->set_volume(getValue()); };
 }
 GlobalVolumeSlider::~GlobalVolumeSlider() {}
 
 void GlobalVolumeSlider::updateComponent() {
-  setValue(processor.midiGenerator.get_volume());
+  setValue(processor.midiGenerator->get_volume());
 }
 
 /*
@@ -146,12 +146,12 @@ VolumeRangeSlider::VolumeRangeSlider(WellsAudioProcessor &p)
   setTextBoxStyle(Slider::NoTextBox, false, 10, 0);
   setPopupDisplayEnabled(true, false, getParentComponent());
   onValueChange = [this]() {
-    processor.midiGenerator.set_volume_clip(getMinValue(), getMaxValue());
+    processor.midiGenerator->set_volume_clip(getMinValue(), getMaxValue());
   };
 }
 VolumeRangeSlider::~VolumeRangeSlider() {}
 
 void VolumeRangeSlider::updateComponent() {
-  setMinValue(processor.midiGenerator.get_volume_clip_min());
-  setMaxValue(processor.midiGenerator.get_volume_clip_max());
+  setMinValue(processor.midiGenerator->get_volume_clip_min());
+  setMaxValue(processor.midiGenerator->get_volume_clip_max());
 }

@@ -12,15 +12,15 @@
  */
 
 ConnectionWeightsMatrix::ConnectionWeightsMatrix(WellsAudioProcessor &p) {
-  for (int i = 0; i < numNeurons; ++i) {
+  for (int i = 0; i < p.midiGenerator->num_neurons(); ++i) {
     std::unique_ptr<NeuronRowLabel> label = std::make_unique<NeuronRowLabel>(i);
     addAndMakeVisible(*label);
     neuronRowLabels.push_back(std::move(label));
   }
 
-  for (int i = 0; i < numNeurons; ++i) {
+  for (int i = 0; i < p.midiGenerator->num_neurons(); ++i) {
     std::vector<std::unique_ptr<ConnectionWeightSlider>> sliderRow{};
-    for (int j = 0; j < numNeurons; ++j) {
+    for (int j = 0; j < p.midiGenerator->num_neurons(); ++j) {
       std::unique_ptr<ConnectionWeightSlider> slider =
           std::make_unique<ConnectionWeightSlider>(p, i, j);
       addAndMakeVisible(*slider);
@@ -51,10 +51,10 @@ void ConnectionWeightsMatrix::resized() {
   blockPadding.subtractFrom(area);
   area.removeFromTop(titleHeight);
 
-  for (int i = 0; i < numNeurons; ++i) {
+  for (int i = 0; i < neuronRowLabels.size(); ++i) {
     auto rowArea = area.removeFromTop(rowHeight);
     neuronRowLabels.at(i)->setBounds(rowArea.removeFromLeft(rowLabelWidth));
-    for (int j = 0; j < numNeurons; ++j) {
+    for (int j = 0; j < connectionWeightSliders.size(); ++j) {
       auto sliderArea = rowArea.removeFromLeft(colWidth);
       componentPadding.subtractFrom(sliderArea);
       connectionWeightSliders.at(i).at(j)->setBounds(sliderArea);
@@ -94,13 +94,13 @@ ConnectionWeightSlider::ConnectionWeightSlider(WellsAudioProcessor &p, int from,
   setRange(-256, 256, 1);
   setColour(Slider::ColourIds::textBoxBackgroundColourId, darkGrey);
   onValueChange = [this]() {
-    processor.midiGenerator.set_neuron_connection_weight(neuron_from, neuron_to,
+    processor.midiGenerator->set_neuron_connection_weight(neuron_from, neuron_to,
                                                          getValue());
   };
 }
 ConnectionWeightSlider::~ConnectionWeightSlider() {}
 
 void ConnectionWeightSlider::updateComponent() {
-  setValue(processor.midiGenerator.get_neuron_connection_weight(neuron_from,
+  setValue(processor.midiGenerator->get_neuron_connection_weight(neuron_from,
                                                                 neuron_to));
 }

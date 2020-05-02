@@ -12,7 +12,7 @@
  */
 
 NeuronTitleBar::NeuronTitleBar(WellsAudioProcessor &p) : addNeuron(p) {
-  for (int i = 0; i < numNeurons; ++i) {
+  for (int i = 0; i < p.midiGenerator->num_neurons(); ++i) {
     std::unique_ptr<Label> label = std::make_unique<Label>(
         "neuron" + String(i + 1), "Neuron " + String(i + 1));
     label->setColour(Label::ColourIds::textColourId, darkGrey);
@@ -48,6 +48,6 @@ void NeuronTitleBar::resized() {
 
 AddNeuronButton::AddNeuronButton(WellsAudioProcessor &p)
     : TextButton("+"), processor(p) {
-  onClick = [this]() { processor.midiGenerator.add_neuron(); };
+  onClick = [this]() { processor.add_neuron(); };
 }
 AddNeuronButton::~AddNeuronButton() {}
