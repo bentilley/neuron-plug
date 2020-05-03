@@ -44,6 +44,8 @@ public:
   void resized() override;
 
   void updateComponents();
+  void add_neuron_ui_update();
+  void remove_neuron_ui_update();
 
 private:
   WellsAudioProcessor &processor;
@@ -58,6 +60,8 @@ private:
   BorderSize<int> blockPadding{5, 5, 5, 5};
 
   std::vector<std::unique_ptr<MidiNoteComboBox>> midiNoteSelectors;
+
+  void add_midi_note_selector(int neuron_index);
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MidiNotesBar)
 };

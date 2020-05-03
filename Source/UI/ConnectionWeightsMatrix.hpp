@@ -57,8 +57,12 @@ public:
   void resized() override;
 
   void updateComponents();
+  void add_neuron_ui_update();
+  void remove_neuron_ui_update();
 
 private:
+  WellsAudioProcessor &processor;
+
   Colour lightGrey{221, 221, 221};
   Colour darkGrey{51, 51, 51};
 
@@ -73,6 +77,9 @@ private:
   std::vector<std::unique_ptr<NeuronRowLabel>> neuronRowLabels;
   std::vector<std::vector<std::unique_ptr<ConnectionWeightSlider>>>
       connectionWeightSliders;
+
+  void add_neuron_row_label(int neuron_index);
+  void add_connection_weight_slider(int neuron_index);
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConnectionWeightsMatrix)
 };

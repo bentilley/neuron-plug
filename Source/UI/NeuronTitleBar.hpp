@@ -15,6 +15,8 @@
  * Add Neuron Button - add neurons to the network
  */
 
+class NeuronTitleBar;
+
 class AddNeuronButton : public TextButton {
 public:
   AddNeuronButton(WellsAudioProcessor &p);
@@ -22,6 +24,8 @@ public:
 
 private:
   WellsAudioProcessor &processor;
+
+  NeuronTitleBar *getNeuronTitleBar();
 };
 
 /*
@@ -40,7 +44,14 @@ public:
   void paint(Graphics &) override;
   void resized() override;
 
+  void add_neuron_ui_update();
+  void remove_neuron_ui_update();
+
+  void add_neuron_label();
+
 private:
+  WellsAudioProcessor &processor;
+
   /* Colour lightGrey{221, 221, 221}; */
   Colour darkGrey{51, 51, 51};
 
@@ -51,6 +62,8 @@ private:
 
   AddNeuronButton addNeuron;
   std::vector<std::unique_ptr<Label>> neuronColumnLabels;
+
+  void add_neuron_label(int neuron_num);
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(NeuronTitleBar)
 };

@@ -11,12 +11,9 @@
  * Input Weight Bar
  */
 
-InputWeightsBar::InputWeightsBar(WellsAudioProcessor &p) {
+InputWeightsBar::InputWeightsBar(WellsAudioProcessor &p) : processor(p) {
   for (int i = 0; i < p.midiGenerator->num_neurons(); ++i) {
-    std::unique_ptr<InputWeightSlider> slider =
-        std::make_unique<InputWeightSlider>(p, i);
-    addAndMakeVisible(*slider);
-    inputWeightSliders.push_back(std::move(slider));
+    add_input_weight_slider(i);
   }
 }
 InputWeightsBar::~InputWeightsBar() {}
@@ -49,12 +46,27 @@ void InputWeightsBar::resized() {
   }
 }
 
+void InputWeightsBar::add_input_weight_slider(int neuron_index) {
+  std::unique_ptr<InputWeightSlider> slider =
+      std::make_unique<InputWeightSlider>(processor, neuron_index);
+  addAndMakeVisible(*slider);
+  inputWeightSliders.push_back(std::move(slider));
+}
+
+// Public Methods
+
 void InputWeightsBar::updateComponents() {
   for (auto slider = inputWeightSliders.begin();
        slider != inputWeightSliders.end(); ++slider) {
     (*slider)->updateComponent();
   }
 }
+
+void InputWeightsBar::add_neuron_ui_update() {
+  add_input_weight_slider(inputWeightSliders.size());
+  resized();
+}
+void InputWeightsBar::remove_neuron_ui_update() {}
 
 /*
  * Input Weight Inc/Dec Sliders

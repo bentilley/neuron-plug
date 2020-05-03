@@ -10,10 +10,7 @@
 MidiNotesBar::MidiNotesBar(WellsAudioProcessor &p) : processor(p) {
 
   for (int i = 0; i < p.midiGenerator->num_neurons(); ++i) {
-    std::unique_ptr<MidiNoteComboBox> combo =
-        std::make_unique<MidiNoteComboBox>(p, i);
-    addAndMakeVisible(*combo);
-    midiNoteSelectors.push_back(std::move(combo));
+    add_midi_note_selector(i);
   }
 }
 MidiNotesBar::~MidiNotesBar() {}
@@ -46,12 +43,27 @@ void MidiNotesBar::resized() {
   }
 }
 
+void MidiNotesBar::add_midi_note_selector(int neuron_index) {
+  std::unique_ptr<MidiNoteComboBox> combo =
+      std::make_unique<MidiNoteComboBox>(processor, neuron_index);
+  addAndMakeVisible(*combo);
+  midiNoteSelectors.push_back(std::move(combo));
+}
+
+// Public Methods
+
 void MidiNotesBar::updateComponents() {
   for (auto combo = midiNoteSelectors.begin(); combo != midiNoteSelectors.end();
        ++combo) {
     (*combo)->updateComponent();
   }
 }
+
+void MidiNotesBar::add_neuron_ui_update() {
+  add_midi_note_selector(midiNoteSelectors.size());
+  resized();
+}
+void MidiNotesBar::remove_neuron_ui_update() {}
 
 /*
  * MIDI Note Combo Box
@@ -68,7 +80,7 @@ MidiNoteComboBox::MidiNoteComboBox(WellsAudioProcessor &p, int idx)
   setEditableText(false);
   onChange = [this]() {
     processor.midiGenerator->set_neuron_midi_note(neuron_index,
-                                                 getText().getIntValue());
+                                                  getText().getIntValue());
   };
 }
 MidiNoteComboBox::~MidiNoteComboBox() {}

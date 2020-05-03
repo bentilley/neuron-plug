@@ -26,14 +26,22 @@ public:
   void updateComponents();
 
 private:
+  WellsAudioProcessor &processor;
+
   /* Colour lightGrey{221, 221, 221}; */
   Colour darkGrey{51, 51, 51};
+
+  int editor_num_neurons;
 
   NeuronTitleBar neuronTitleBar;
   MidiNotesBar midiNotesBar;
   InputWeightsBar inputWeightsBar;
   ThresholdsBar thresholdsBar;
   ConnectionWeightsMatrix connectionWeightsMatrix;
+
+  void update_neuron_ui(int neuron_num_change);
+  void add_neuron_ui_update();
+  void remove_neuron_ui_update();
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginBody)
 };

@@ -11,22 +11,14 @@
  * Connection Weight Matrix
  */
 
-ConnectionWeightsMatrix::ConnectionWeightsMatrix(WellsAudioProcessor &p) {
+ConnectionWeightsMatrix::ConnectionWeightsMatrix(WellsAudioProcessor &p)
+    : processor(p) {
   for (int i = 0; i < p.midiGenerator->num_neurons(); ++i) {
-    std::unique_ptr<NeuronRowLabel> label = std::make_unique<NeuronRowLabel>(i);
-    addAndMakeVisible(*label);
-    neuronRowLabels.push_back(std::move(label));
+    add_neuron_row_label(i);
   }
 
   for (int i = 0; i < p.midiGenerator->num_neurons(); ++i) {
-    std::vector<std::unique_ptr<ConnectionWeightSlider>> sliderRow{};
-    for (int j = 0; j < p.midiGenerator->num_neurons(); ++j) {
-      std::unique_ptr<ConnectionWeightSlider> slider =
-          std::make_unique<ConnectionWeightSlider>(p, i, j);
-      addAndMakeVisible(*slider);
-      sliderRow.push_back(std::move(slider));
-    }
-    connectionWeightSliders.push_back(std::move(sliderRow));
+    add_connection_weight_slider(i);
   }
 }
 ConnectionWeightsMatrix::~ConnectionWeightsMatrix() {}
@@ -62,6 +54,34 @@ void ConnectionWeightsMatrix::resized() {
   }
 }
 
+void ConnectionWeightsMatrix::add_neuron_row_label(int neuron_index) {
+  std::unique_ptr<NeuronRowLabel> label =
+      std::make_unique<NeuronRowLabel>(neuron_index);
+  label->setJustificationType(Justification::centred);
+  addAndMakeVisible(*label);
+  neuronRowLabels.push_back(std::move(label));
+}
+
+void ConnectionWeightsMatrix::add_connection_weight_slider(int neuron_index) {
+  for (int i{0}; i < connectionWeightSliders.size(); ++i) {
+    std::unique_ptr<ConnectionWeightSlider> slider =
+        std::make_unique<ConnectionWeightSlider>(processor, i, neuron_index);
+    addAndMakeVisible(*slider);
+    connectionWeightSliders.at(i).push_back(std::move(slider));
+  }
+
+  std::vector<std::unique_ptr<ConnectionWeightSlider>> sliderRow{};
+  for (int j = 0; j < connectionWeightSliders.size() + 1; ++j) {
+    std::unique_ptr<ConnectionWeightSlider> slider =
+        std::make_unique<ConnectionWeightSlider>(processor, neuron_index, j);
+    addAndMakeVisible(*slider);
+    sliderRow.push_back(std::move(slider));
+  }
+  connectionWeightSliders.push_back(std::move(sliderRow));
+}
+
+// Public Methods
+
 void ConnectionWeightsMatrix::updateComponents() {
   for (auto sliderRow = connectionWeightSliders.begin();
        sliderRow != connectionWeightSliders.end(); ++sliderRow) {
@@ -71,6 +91,13 @@ void ConnectionWeightsMatrix::updateComponents() {
     }
   }
 }
+
+void ConnectionWeightsMatrix::add_neuron_ui_update() {
+  add_neuron_row_label(neuronRowLabels.size());
+  add_connection_weight_slider(connectionWeightSliders.size());
+  resized();
+}
+void ConnectionWeightsMatrix::remove_neuron_ui_update() {}
 
 /*
  * Neuron Row Label
@@ -94,13 +121,13 @@ ConnectionWeightSlider::ConnectionWeightSlider(WellsAudioProcessor &p, int from,
   setRange(-256, 256, 1);
   setColour(Slider::ColourIds::textBoxBackgroundColourId, darkGrey);
   onValueChange = [this]() {
-    processor.midiGenerator->set_neuron_connection_weight(neuron_from, neuron_to,
-                                                         getValue());
+    processor.midiGenerator->set_neuron_connection_weight(
+        neuron_from, neuron_to, getValue());
   };
 }
 ConnectionWeightSlider::~ConnectionWeightSlider() {}
 
 void ConnectionWeightSlider::updateComponent() {
   setValue(processor.midiGenerator->get_neuron_connection_weight(neuron_from,
-                                                                neuron_to));
+                                                                 neuron_to));
 }

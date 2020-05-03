@@ -11,7 +11,7 @@
  * Threshold Bar
  */
 
-ThresholdsBar::ThresholdsBar(WellsAudioProcessor &p) {
+ThresholdsBar::ThresholdsBar(WellsAudioProcessor &p) : processor(p) {
   for (int i = 0; i < p.midiGenerator->num_neurons(); ++i) {
     std::unique_ptr<ThresholdSlider> slider =
         std::make_unique<ThresholdSlider>(p, i);
@@ -49,12 +49,27 @@ void ThresholdsBar::resized() {
   }
 }
 
+void ThresholdsBar::add_threshold_slider(int neuron_index) {
+  std::unique_ptr<ThresholdSlider> slider =
+      std::make_unique<ThresholdSlider>(processor, neuron_index);
+  addAndMakeVisible(*slider);
+  thresholdSliders.push_back(std::move(slider));
+}
+
+// Public Methods
+
 void ThresholdsBar::updateComponents() {
   for (auto slider = thresholdSliders.begin(); slider != thresholdSliders.end();
        ++slider) {
     (*slider)->updateComponent();
   }
 }
+
+void ThresholdsBar::add_neuron_ui_update() {
+  add_threshold_slider(thresholdSliders.size());
+  resized();
+}
+void ThresholdsBar::remove_neuron_ui_update() {}
 
 /*
  * Threshold Slider
