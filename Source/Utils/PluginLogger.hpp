@@ -21,5 +21,5 @@ public:
   void log_vec(String vec_name, std::vector<int> vec);
 
 private:
-  bool isLogging{true};
+  bool isLogging{false};
 };
