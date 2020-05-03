@@ -58,6 +58,32 @@ void NeuronTitleBar::remove_neuron_ui_update() {}
 void NeuronTitleBar::add_neuron_label() {
   add_neuron_label(neuronColumnLabels.size() + 1);
 }
+
+/*
+ * Neuron Label
+ */
+
+NeuronLabel::NeuronLabel(WellsAudioProcessor &p, int neuron_index)
+    : processor(p), columnLabel("neuron" + String(neuron_index + 1),
+                                "Neuron " + String(neuron_index + 1)),
+      removeNeuron("-") {
+  columnLabel.setColour(Label::ColourIds::textColourId, darkGrey);
+  columnLabel.setJustificationType(Justification::centred);
+  removeNeuron.onClick = [this]() {
+    PluginLogger::logger.logMessage("remove");
+  };
+  addAndMakeVisible(columnLabel);
+  addAndMakeVisible(removeNeuron);
+}
+NeuronLabel::~NeuronLabel() {}
+
+void NeuronLabel::paint(Graphics &g) {}
+void NeuronLabel::resized() {
+  auto area = getLocalBounds();
+  columnLabel.setBounds(area.removeFromLeft(area.getWidth() * 0.8));
+  removeNeuron.setBounds(area);
+}
+
 /*
  * Add Neuron Button
  */

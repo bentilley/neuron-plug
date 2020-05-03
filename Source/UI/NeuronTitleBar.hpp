@@ -29,6 +29,27 @@ private:
 };
 
 /*
+ * Neuron Label - label a column of neuron parameters, and used to remove neuron
+ */
+
+class NeuronLabel : public Component {
+public:
+  NeuronLabel(WellsAudioProcessor &p, int neuron_index);
+  ~NeuronLabel();
+
+  void paint(Graphics &) override;
+  void resized() override;
+
+private:
+  WellsAudioProcessor &processor;
+
+  Colour darkGrey{51, 51, 51};
+
+  Label columnLabel;
+  TextButton removeNeuron;
+};
+
+/*
  * Neuron Title Bar
  *
  * This is the space at the top of the Plugin Body that shows the column labels
