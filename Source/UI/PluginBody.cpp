@@ -27,7 +27,7 @@ void PluginBody::resized() {
   int neuronTitleBarHeight{40};
   neuronTitleBar.setBounds(area.removeFromTop(neuronTitleBarHeight));
 
-  int controlsBarHeight{80};
+  int controlsBarHeight{50};
   midiNotesBar.setBounds(area.removeFromTop(controlsBarHeight));
   inputWeightsBar.setBounds(area.removeFromTop(controlsBarHeight));
   thresholdsBar.setBounds(area.removeFromTop(controlsBarHeight));

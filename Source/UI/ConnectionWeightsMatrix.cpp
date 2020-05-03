@@ -28,9 +28,9 @@ void ConnectionWeightsMatrix::paint(Graphics &g) {
   blockPadding.subtractFrom(area);
 
   g.setColour(lightGrey);
-  g.fillRoundedRectangle(area.toFloat(), 10.0);
+  g.fillRoundedRectangle(area.toFloat(), 5.0);
   g.setColour(darkGrey);
-  g.drawRoundedRectangle(area.toFloat(), 10.0, 1.0);
+  g.drawRoundedRectangle(area.toFloat(), 5.0, 1.0);
 
   auto titleArea = area.removeFromTop(titleHeight);
   rowLabelPadding.subtractFrom(titleArea);

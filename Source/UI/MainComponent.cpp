@@ -21,7 +21,7 @@ void MainComponent::resized() {
   auto area = getLocalBounds();
 
   titleBar.setBounds(area.removeFromTop(titleHeight));
-  pluginBody.setBounds(area.removeFromLeft(area.getWidth() * 0.8));
+  pluginBody.setBounds(area);
 }
 
 void MainComponent::timerCallback() {
