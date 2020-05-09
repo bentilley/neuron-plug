@@ -66,7 +66,10 @@ void InputWeightsBar::add_neuron_ui_update() {
   add_input_weight_slider(inputWeightSliders.size());
   resized();
 }
-void InputWeightsBar::remove_neuron_ui_update() {}
+void InputWeightsBar::remove_neuron_ui_update() {
+  inputWeightSliders.pop_back();
+  resized();
+}
 
 /*
  * Input Weight Inc/Dec Sliders

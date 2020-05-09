@@ -63,7 +63,10 @@ void MidiNotesBar::add_neuron_ui_update() {
   add_midi_note_selector(midiNoteSelectors.size());
   resized();
 }
-void MidiNotesBar::remove_neuron_ui_update() {}
+void MidiNotesBar::remove_neuron_ui_update() {
+  midiNoteSelectors.pop_back();
+  resized();
+}
 
 /*
  * MIDI Note Combo Box

@@ -69,7 +69,10 @@ void ThresholdsBar::add_neuron_ui_update() {
   add_threshold_slider(thresholdSliders.size());
   resized();
 }
-void ThresholdsBar::remove_neuron_ui_update() {}
+void ThresholdsBar::remove_neuron_ui_update() {
+  thresholdSliders.pop_back();
+  resized();
+}
 
 /*
  * Threshold Slider

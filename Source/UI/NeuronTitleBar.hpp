@@ -42,6 +42,7 @@ public:
 
 private:
   WellsAudioProcessor &processor;
+  int neuron_index;
 
   Colour darkGrey{51, 51, 51};
 
@@ -82,9 +83,9 @@ private:
   BorderSize<int> blockPadding{0, 5, 0, 5};
 
   AddNeuronButton addNeuron;
-  std::vector<std::unique_ptr<Label>> neuronColumnLabels;
+  std::vector<std::unique_ptr<NeuronLabel>> neuronColumnLabels;
 
-  void add_neuron_label(int neuron_num);
+  void add_neuron_label(int neuron_index);
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(NeuronTitleBar)
 };

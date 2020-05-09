@@ -80,6 +80,7 @@ private:
 
   void add_neuron_row_label(int neuron_index);
   void add_connection_weight_slider(int neuron_index);
+  void remove_connection_weight_slider();
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConnectionWeightsMatrix)
 };

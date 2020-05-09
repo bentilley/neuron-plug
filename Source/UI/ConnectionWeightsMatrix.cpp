@@ -80,6 +80,14 @@ void ConnectionWeightsMatrix::add_connection_weight_slider(int neuron_index) {
   connectionWeightSliders.push_back(std::move(sliderRow));
 }
 
+void ConnectionWeightsMatrix::remove_connection_weight_slider() {
+  connectionWeightSliders.pop_back();
+  for (auto sliderRow = connectionWeightSliders.begin();
+       sliderRow != connectionWeightSliders.end(); ++sliderRow) {
+    (*sliderRow).pop_back();
+  }
+}
+
 // Public Methods
 
 void ConnectionWeightsMatrix::updateComponents() {
@@ -97,7 +105,11 @@ void ConnectionWeightsMatrix::add_neuron_ui_update() {
   add_connection_weight_slider(connectionWeightSliders.size());
   resized();
 }
-void ConnectionWeightsMatrix::remove_neuron_ui_update() {}
+void ConnectionWeightsMatrix::remove_neuron_ui_update() {
+  neuronRowLabels.pop_back();
+  remove_connection_weight_slider();
+  resized();
+}
 
 /*
  * Neuron Row Label
