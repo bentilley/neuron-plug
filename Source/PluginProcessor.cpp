@@ -163,6 +163,13 @@ void WellsAudioProcessor::add_neuron() {
   midiGenerator = std::move(new_generator);
 }
 
+void WellsAudioProcessor::remove_neuron_at(int neuron_index) {
+  std::unique_ptr<MidiGenerator> new_generator =
+      std::make_unique<MidiGenerator>(*midiGenerator);
+  new_generator->remove_neuron_at(neuron_index);
+  midiGenerator = std::move(new_generator);
+}
+
 //==============================================================================
 bool WellsAudioProcessor::hasEditor() const {
   return true; // (change this to false if you choose to not supply an editor)

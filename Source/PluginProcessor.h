@@ -61,6 +61,7 @@ public:
   //==Model=======================================================================
   std::unique_ptr<MidiGenerator> midiGenerator;
   void add_neuron();
+  void remove_neuron_at(int neuron_index);
 
 private:
   //==============================================================================
