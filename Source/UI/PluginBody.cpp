@@ -36,17 +36,17 @@ void PluginBody::resized() {
 }
 
 void PluginBody::updateComponents() {
-  midiNotesBar.updateComponents();
-  inputWeightsBar.updateComponents();
-  thresholdsBar.updateComponents();
-  connectionWeightsMatrix.updateComponents();
-
   int processor_num_neurons = processor.midiGenerator->num_neurons();
   if (processor_num_neurons != editor_num_neurons) {
     int neuron_diff = processor_num_neurons - editor_num_neurons;
     editor_num_neurons = processor_num_neurons;
     update_neuron_ui(neuron_diff);
   }
+
+  midiNotesBar.updateComponents();
+  inputWeightsBar.updateComponents();
+  thresholdsBar.updateComponents();
+  connectionWeightsMatrix.updateComponents();
 }
 
 void PluginBody::update_neuron_ui(int neuron_num_change) {
