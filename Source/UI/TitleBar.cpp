@@ -6,6 +6,7 @@
  */
 
 #include "TitleBar.hpp"
+#include "Styles.hpp"
 
 TitleBar::TitleBar(WellsAudioProcessor &p)
     : onOffButton(p), receivesMidiButton(p), subdivisionSlider(p),
@@ -23,9 +24,9 @@ void TitleBar::paint(Graphics &g) {
   auto area = getLocalBounds();
   auto bottomBorder = area.removeFromBottom(bottomBorderPx);
 
-  g.setColour(lightGrey);
+  g.setColour(AppStyle.darkGrey);
   g.fillRect(area);
-  g.setColour(darkGrey);
+  g.setColour(AppStyle.mediumGrey);
   g.fillRect(bottomBorder);
 }
 
@@ -76,8 +77,8 @@ OnOffButton::~OnOffButton() {}
 
 void OnOffButton::updateComponent() {
   setColour(TextButton::ColourIds::buttonColourId,
-            processor.midiGenerator->get_is_on() ? buttonOnColour
-                                                : buttonOffColour);
+            processor.midiGenerator->get_is_on() ? AppStyle.buttonOnColour
+                                                 : AppStyle.buttonOffColour);
 }
 
 /*
@@ -92,8 +93,9 @@ ReceivesMidiButton::~ReceivesMidiButton() {}
 
 void ReceivesMidiButton::updateComponent() {
   setColour(TextButton::ColourIds::buttonColourId,
-            processor.midiGenerator->get_receives_midi() ? buttonOnColour
-                                                        : buttonOffColour);
+            processor.midiGenerator->get_receives_midi()
+                ? AppStyle.buttonOnColour
+                : AppStyle.buttonOffColour);
 }
 
 /*

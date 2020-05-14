@@ -28,9 +28,6 @@ public:
 private:
   WellsAudioProcessor &processor;
 
-  /* Colour lightGrey{221, 221, 221}; */
-  Colour darkGrey{51, 51, 51};
-
   int editor_num_neurons;
 
   NeuronTitleBar neuronTitleBar;

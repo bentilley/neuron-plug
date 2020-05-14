@@ -74,14 +74,6 @@ public:
 private:
   WellsAudioProcessor &processor;
 
-  /* Colour lightGrey{221, 221, 221}; */
-  Colour darkGrey{51, 51, 51};
-
-  int rowLabelPadding{120};
-  int colWidth{80};
-  BorderSize<int> componentPadding{10, 5, 10, 5};
-  BorderSize<int> blockPadding{0, 5, 0, 5};
-
   AddNeuronButton addNeuron;
   std::vector<std::unique_ptr<NeuronLabel>> neuronColumnLabels;
 

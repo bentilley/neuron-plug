@@ -6,6 +6,7 @@
  */
 
 #include "NeuronTitleBar.hpp"
+#include "Styles.hpp"
 
 /*
  * Neuron Title Bar
@@ -24,16 +25,15 @@ void NeuronTitleBar::paint(Graphics &g) {}
 
 void NeuronTitleBar::resized() {
   auto area = getLocalBounds();
-  blockPadding.subtractFrom(area);
-  area.removeFromLeft(rowLabelPadding);
+  AppStyle.blockPadding.subtractFrom(area);
+  area.removeFromLeft(AppStyle.rowLabelWidth);
 
   for (auto it = neuronColumnLabels.begin(); it != neuronColumnLabels.end();
        it++) {
-    auto labelArea = area.removeFromLeft(colWidth);
+    auto labelArea = area.removeFromLeft(AppStyle.colWidth);
     (*it)->setBounds(labelArea);
   }
-  auto buttonArea = area.removeFromLeft(colWidth);
-  componentPadding.subtractFrom(buttonArea);
+  auto buttonArea = area.removeFromLeft(AppStyle.colWidth);
   addNeuron.setBounds(buttonArea);
 }
 
@@ -67,7 +67,7 @@ NeuronLabel::NeuronLabel(WellsAudioProcessor &p, int idx)
     : processor(p), neuron_index(idx),
       columnLabel("neuron" + String(idx + 1), "Neuron " + String(idx + 1)),
       removeNeuron("-") {
-  columnLabel.setColour(Label::ColourIds::textColourId, darkGrey);
+  columnLabel.setColour(Label::ColourIds::textColourId, AppStyle.lightGrey);
   columnLabel.setJustificationType(Justification::centred);
   removeNeuron.onClick = [this]() { processor.remove_neuron_at(neuron_index); };
   addAndMakeVisible(columnLabel);

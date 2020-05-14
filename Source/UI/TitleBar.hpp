@@ -21,8 +21,6 @@ public:
 
 private:
   WellsAudioProcessor &processor;
-  Colour buttonOnColour{133, 150, 241};
-  Colour buttonOffColour{39, 44, 71};
 };
 
 // Receives MIDI Button - for toggling whether the plugin responds to MIDI in.
@@ -35,8 +33,6 @@ public:
 
 private:
   WellsAudioProcessor &processor;
-  Colour buttonOnColour{133, 150, 241};
-  Colour buttonOffColour{39, 44, 71};
 };
 
 /*
@@ -103,9 +99,6 @@ public:
   void updateComponents();
 
 private:
-  Colour lightGrey{221, 221, 221};
-  Colour darkGrey{51, 51, 51};
-
   int bottomBorderPx{1};
   BorderSize<int> componentPadding{10, 5, 10, 5};
   int componentWidth{100};

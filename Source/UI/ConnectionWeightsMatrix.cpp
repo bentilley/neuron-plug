@@ -6,6 +6,7 @@
  */
 
 #include "ConnectionWeightsMatrix.hpp"
+#include "Styles.hpp"
 
 /*
  * Connection Weight Matrix
@@ -25,30 +26,32 @@ ConnectionWeightsMatrix::~ConnectionWeightsMatrix() {}
 
 void ConnectionWeightsMatrix::paint(Graphics &g) {
   auto area = getLocalBounds();
-  blockPadding.subtractFrom(area);
+  AppStyle.blockPadding.subtractFrom(area);
 
-  g.setColour(lightGrey);
+  g.setColour(AppStyle.darkGrey);
   g.fillRoundedRectangle(area.toFloat(), 5.0);
-  g.setColour(darkGrey);
+  g.setColour(AppStyle.mediumGrey);
   g.drawRoundedRectangle(area.toFloat(), 5.0, 1.0);
 
-  auto titleArea = area.removeFromTop(titleHeight);
-  rowLabelPadding.subtractFrom(titleArea);
-  g.setFont(16.0f);
+  auto titleArea = area.removeFromTop(AppStyle.connectionMatrixTitleHeight);
+  AppStyle.rowLabelPadding.subtractFrom(titleArea);
+  g.setFont(AppStyle.fontSizeMedium);
+  g.setColour(AppStyle.lightGrey);
   g.drawText("Connection Weights", titleArea, Justification::centredLeft, true);
 }
 
 void ConnectionWeightsMatrix::resized() {
   auto area = getLocalBounds();
-  blockPadding.subtractFrom(area);
-  area.removeFromTop(titleHeight);
+  AppStyle.blockPadding.subtractFrom(area);
+  area.removeFromTop(AppStyle.connectionMatrixTitleHeight);
 
   for (int i = 0; i < neuronRowLabels.size(); ++i) {
-    auto rowArea = area.removeFromTop(rowHeight);
-    neuronRowLabels.at(i)->setBounds(rowArea.removeFromLeft(rowLabelWidth));
+    auto rowArea = area.removeFromTop(AppStyle.connectionMatrixRowHeight);
+    neuronRowLabels.at(i)->setBounds(
+        rowArea.removeFromLeft(AppStyle.rowLabelWidth));
     for (int j = 0; j < connectionWeightSliders.size(); ++j) {
-      auto sliderArea = rowArea.removeFromLeft(colWidth);
-      componentPadding.subtractFrom(sliderArea);
+      auto sliderArea = rowArea.removeFromLeft(AppStyle.colWidth);
+      AppStyle.componentPadding.subtractFrom(sliderArea);
       connectionWeightSliders.at(i).at(j)->setBounds(sliderArea);
     }
   }
@@ -58,6 +61,7 @@ void ConnectionWeightsMatrix::add_neuron_row_label(int neuron_index) {
   std::unique_ptr<NeuronRowLabel> label =
       std::make_unique<NeuronRowLabel>(neuron_index);
   label->setJustificationType(Justification::centred);
+  label->setColour(Label::ColourIds::textColourId, AppStyle.lightGrey);
   addAndMakeVisible(*label);
   neuronRowLabels.push_back(std::move(label));
 }
@@ -117,7 +121,7 @@ void ConnectionWeightsMatrix::remove_neuron_ui_update() {
 
 NeuronRowLabel::NeuronRowLabel(int i)
     : Label("neuron" + String(i + 1), "Neuron " + String(i + 1)) {
-  setColour(Label::ColourIds::textColourId, darkGrey);
+  setColour(Label::ColourIds::textColourId, AppStyle.darkGrey);
 }
 NeuronRowLabel::~NeuronRowLabel() {}
 
@@ -131,7 +135,7 @@ ConnectionWeightSlider::ConnectionWeightSlider(WellsAudioProcessor &p, int from,
       processor(p), neuron_from(from), neuron_to(to) {
   setSliderStyle(Slider::IncDecButtons);
   setRange(-256, 256, 1);
-  setColour(Slider::ColourIds::textBoxBackgroundColourId, darkGrey);
+  setColour(Slider::ColourIds::textBoxBackgroundColourId, AppStyle.darkGrey);
   onValueChange = [this]() {
     processor.midiGenerator->set_neuron_connection_weight(
         neuron_from, neuron_to, getValue());

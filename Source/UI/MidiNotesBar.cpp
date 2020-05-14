@@ -6,6 +6,7 @@
  */
 
 #include "MidiNotesBar.hpp"
+#include "Styles.hpp"
 
 MidiNotesBar::MidiNotesBar(WellsAudioProcessor &p) : processor(p) {
 
@@ -17,28 +18,29 @@ MidiNotesBar::~MidiNotesBar() {}
 
 void MidiNotesBar::paint(Graphics &g) {
   auto area = getLocalBounds();
-  blockPadding.subtractFrom(area);
+  AppStyle.blockPadding.subtractFrom(area);
 
-  g.setColour(lightGrey);
+  g.setColour(AppStyle.darkGrey);
   g.fillRoundedRectangle(area.toFloat(), 5.0);
-  g.setColour(darkGrey);
+  g.setColour(AppStyle.mediumGrey);
   g.drawRoundedRectangle(area.toFloat(), 5.0, 1.0);
 
-  auto rowLabelArea = area.removeFromLeft(rowLabelWidth);
-  rowLabelPadding.subtractFrom(rowLabelArea);
-  g.setFont(16.0f);
+  auto rowLabelArea = area.removeFromLeft(AppStyle.rowLabelWidth);
+  AppStyle.rowLabelPadding.subtractFrom(rowLabelArea);
+  g.setFont(AppStyle.fontSizeMedium);
+  g.setColour(AppStyle.lightGrey);
   g.drawText("MIDI Notes", rowLabelArea, Justification::centredLeft, true);
 }
 
 void MidiNotesBar::resized() {
   auto area = getLocalBounds();
-  blockPadding.subtractFrom(area);
-  area.removeFromLeft(rowLabelWidth);
+  AppStyle.blockPadding.subtractFrom(area);
+  area.removeFromLeft(AppStyle.rowLabelWidth);
 
   for (auto combo = midiNoteSelectors.begin(); combo != midiNoteSelectors.end();
        ++combo) {
-    auto componentArea = area.removeFromLeft(colWidth);
-    componentPadding.subtractFrom(componentArea);
+    auto componentArea = area.removeFromLeft(AppStyle.colWidth);
+    AppStyle.componentPadding.subtractFrom(componentArea);
     (*combo)->setBounds(componentArea);
   }
 }

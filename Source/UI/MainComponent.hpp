@@ -23,8 +23,6 @@ public:
 private:
   WellsAudioProcessor &processor;
 
-  int titleHeight{80};
-
   TitleBar titleBar;
   PluginBody pluginBody;
 

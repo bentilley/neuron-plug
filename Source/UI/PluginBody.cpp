@@ -6,6 +6,7 @@
  */
 
 #include "PluginBody.hpp"
+#include "Styles.hpp"
 
 PluginBody::PluginBody(WellsAudioProcessor &p)
     : processor(p), editor_num_neurons{p.midiGenerator->num_neurons()},
@@ -24,13 +25,11 @@ void PluginBody::paint(Graphics &g) {}
 void PluginBody::resized() {
   auto area = getLocalBounds();
 
-  int neuronTitleBarHeight{40};
-  neuronTitleBar.setBounds(area.removeFromTop(neuronTitleBarHeight));
+  neuronTitleBar.setBounds(area.removeFromTop(AppStyle.neuronTitleBarHeight));
 
-  int controlsBarHeight{50};
-  midiNotesBar.setBounds(area.removeFromTop(controlsBarHeight));
-  inputWeightsBar.setBounds(area.removeFromTop(controlsBarHeight));
-  thresholdsBar.setBounds(area.removeFromTop(controlsBarHeight));
+  midiNotesBar.setBounds(area.removeFromTop(AppStyle.controlsBarHeight));
+  inputWeightsBar.setBounds(area.removeFromTop(AppStyle.controlsBarHeight));
+  thresholdsBar.setBounds(area.removeFromTop(AppStyle.controlsBarHeight));
 
   connectionWeightsMatrix.setBounds(area);
 }
