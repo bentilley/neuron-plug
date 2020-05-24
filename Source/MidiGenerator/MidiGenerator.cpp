@@ -112,7 +112,9 @@ void MidiGenerator::generate_next_midi_buffer(
     if (beatClock.should_play(time)) {
       brain.process_next(std::vector<int>(num_neurons(), 1));
       std::vector<int> output = brain.get_output();
+      // TODO remove model output logging
       PluginLogger::logger.log_vec("model output", output);
+      // TODO get neuron output for James to analyse
 
       midiProcessor.render_buffer(midiBuffer, output, time);
     }

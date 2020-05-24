@@ -13,8 +13,6 @@ MainComponent::MainComponent(WellsAudioProcessor &p)
   addAndMakeVisible(&titleBar);
   addAndMakeVisible(&pluginBody);
   startTimer(100);
-  PluginLogger::PluginLogger::logger.logMessage(
-      "thumbColourId " + String(Slider::ColourIds::thumbColourId));
 };
 MainComponent::~MainComponent(){};
 
