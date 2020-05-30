@@ -1,7 +1,7 @@
 # Usage:
 # make		# compile plugin and restart audio plugin host
 
-.PHONY: all compile clean test jucetest xcode
+.PHONY: all compile clean test jucetest xcode clean_xcode
 
 all: compile
 
@@ -57,3 +57,15 @@ tests/run_juce_tests: Source/test-main.cpp $(shell find $(MIDI_GENERATOR_DIR) -n
 	  -project Builds/MacOSX/Wells.xcodeproj \
 	  -target "testwells" \
 	  | xcpretty
+
+clean_xcode:
+	@xcodebuild \
+	  clean \
+	  -project Builds/MacOSX/Wells.xcodeproj
+
+compile_commands.json: clean_xcode
+	@xcodebuild \
+	  -project Builds/MacOSX/Wells.xcodeproj \
+	  | xcpretty \
+	  -r json-compilation-database \
+	  -o compile_commands.json
