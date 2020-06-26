@@ -8,6 +8,13 @@ The project is not another attempt to use learning to generate music offline.
 The aim is to produce tools that musicians can use to create music on the fly.
 We want composers and performers to be able to "jam" with the AI in real-time.
 
+## The Network
+
+The plugin uses a single, fully-connected, recurrent layer to generate MIDI
+data in real-time. Neurons can be responsible for output, or simply part of the
+internal structure of the network. A short write up of the model can be found
+[here](docs/well-neurons.pdf).
+
 ## Directory Structure
 
 - Builds - this is where JUCE keeps the build options for the project;
@@ -41,10 +48,7 @@ file.
 There are two sets of tests for this project:
 
 1. JUCE tests - written using the JUCE `UnitTestRunner` to test the code
-   written using JUCE [TODO];
-   - see
-     https://forum.juce.com/t/any-better-way-to-write-unit-tests-in-juce/25288/4
-   - and https://docs.juce.com/master/classUnitTestRunner.html
+   written using JUCE;
 2. Catch2 tests - written using the catch2 library to test algorithmic code
    that does not depend on the JUCE library (i.e. the well models).
 
