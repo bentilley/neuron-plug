@@ -1,5 +1,13 @@
 # Wells Audio Plugin
 
+A VST3 plugin that uses ideas from machine learning to generate MIDI in
+real-time. Hear the results
+[here](https://www.youtube.com/playlist?list=PLcowgX29Gl3Kb7UjF4fo1xg62GDg5XtCl).
+
+The project is not another attempt to use learning to generate music offline.
+The aim is to produce tools that musicians can use to create music on the fly.
+We want composers and performers to be able to "jam" with the AI in real-time.
+
 ## Directory Structure
 
 - Builds - this is where JUCE keeps the build options for the project;
