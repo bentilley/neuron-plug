@@ -1,0 +1,49 @@
+' midi-input-sequence-diagram.plantuml
+' Copyright (C) 2020 Ben Tilley <targansaikhan@gmail.com>
+'
+' Distributed under terms of the MIT license.
+
+@startuml
+
+header Midi Input Sequence Diagram
+title Midi Input Sequence Diagram
+
+participant "Plugin"
+participant "Audio Thread" as Audio
+participant "MIDI Generator" as Generator
+participant "MIDI Store" as Store
+participant "MIDI Processor" as MIDIProc
+participant "Brain" as Brain
+
+Plugin -> Audio : processBlock()
+note over Audio : the following diagram\nassumes that the\nplugin is on etc.
+activate Audio
+Audio -> Generator : generate_next_midi_buffer(\n  &MIDIBuffer,\n  EnvInfo,\n  &out\n)
+activate Generator
+loop for m in MIDIBuffer
+  group has other events within lookahead\nOR cross-buffer lookahead ongoing
+    Generator -> Generator : bundle_midi_events()
+    activate Generator
+    note over Generator : gather together MIDI events\nwithin certain sample limit
+    return
+  end
+  Generator -> MIDIProc : generate_input_vector(\n  midi_events\n)
+  activate MIDIProc
+  note over MIDIProc : generate an vector based\non what neurons are\nconnected to which inputs
+  return **vector<InputData>**
+  Generator -> Brain : step(input_vector)
+  activate Brain
+  note over Brain : performs one step of the\nMIDI generation algorithm
+  return **vector<OutputData>**
+  Generator -> MIDIProc : add_midi_events(\n  output_vector,\n  &MIDIBuffer\n)
+  activate MIDIProc
+  note over MIDIProc : add relevant MIDI events\nto buffer based on output\nvector
+  return **&MIDIBuffer**
+  Generator -> Store : handle_note_offs(\n  &MIDIBuffer\n)
+  activate Store
+  note over Store : save any new note on\nevents and record when\nthey should be stopped\nstop any that should be\nstopped
+  return **&MIDIBuffer**
+end
+return **&MIDIBuffer**
+return
+@enduml

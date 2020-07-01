@@ -1,0 +1,32 @@
+' midi-input.plantuml
+' Copyright (C) 2020 Ben Tilley <targansaikhan@gmail.com>
+'
+' Distributed under terms of the MIT license.
+
+@startuml
+
+header Midi Input
+title Midi Input
+
+(*) --> "process next block"
+--> "MIDI buffer received"
+--> "store events"
+if "buffer contains tick to play?" then
+  -->[Yes] "create input vector"
+  --> "pass input vector to Brain"
+  --> "Brain creates MIDI events"
+  --> "add MIDI events to buffer"
+  --> "handle note offs"
+else
+  -->[No] "handle note offs"
+endif
+if "there are note offs" then
+  --> "generate note offs"
+  --> "add note off MIDI events to buffer"
+  --> "return..."
+else
+  --> "return..."
+endif
+
+@enduml
+
