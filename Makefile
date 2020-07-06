@@ -1,7 +1,7 @@
 # Usage:
 # make		# compile plugin and restart audio plugin host
 
-.PHONY: all compile clean test jucetest xcode clean_xcode
+.PHONY: all compile test xcode clean_xcode
 
 all: compile
 
@@ -41,16 +41,3 @@ Builds/MacOSX/build/Debug/test-wells-plugin: $(shell find Source -name "*.cpp")
 	  -project Builds/MacOSX/Wells.xcodeproj \
 	  -target "Test Wells" \
 	  | xcpretty
-
-# TODO Remove old separate JUCE test target
-
-# jucetest: tests/run_juce_tests
-# 	@./tests/run_juce_tests
-
-# tests/run_juce_tests: Source/test-main.cpp $(shell find $(MIDI_GENERATOR_DIR) -name "*.cpp")
-# 	@xcodebuild \
-# 	  -project Builds/MacOSX/Wells.xcodeproj \
-# 	  -target "testwells" \
-# 	  | xcpretty
-
-# ENDTODO Remove old separate JUCE test target

@@ -1,14 +1,10 @@
 Builds/**
 JuceLibraryCode/**
 libs/**
-obj/**
-tests/obj/**
-tests/run_tests
 xcodebuild.log
 playground.filtergraph
 *.swp
 *.swo
 .DS_store
 plugin.log
-tests/run_juce_tests
 docs/midi-input/**.png

@@ -11,39 +11,55 @@ title Midi Input Sequence Diagram
 participant "Plugin"
 participant "Audio Thread" as Audio
 participant "MIDI Generator" as Generator
-participant "MIDI Store" as Store
-participant "MIDI Processor" as MIDIProc
+participant "Beat Clock" as Clock
+participant "MIDI Input Trasformer" as Transformer
+participant "Input Filter" as Filter
 participant "Brain" as Brain
+participant "MIDI Output Writer" as Writer
 
 Plugin -> Audio : processBlock()
-note over Audio : the following diagram\nassumes that the\nplugin is on etc.
+note over Audio : the following diagram\nassumes that the plugin is\non etc.
 activate Audio
-Audio -> Generator : generate_next_midi_buffer(\n  &MIDIBuffer,\n  EnvInfo,\n  &out\n)
+Audio -> Generator : generate_next_midi_buffer(\n  &MIDIBuffer,\n  EnvInfo,\n  &MIDIOut\n)
 activate Generator
-loop for m in MIDIBuffer
-  group has other events within lookahead\nOR cross-buffer lookahead ongoing
-    Generator -> Generator : bundle_midi_events()
-    activate Generator
-    note over Generator : gather together MIDI events\nwithin certain sample limit
-    return
-  end
-  Generator -> MIDIProc : generate_input_vector(\n  midi_events\n)
-  activate MIDIProc
-  note over MIDIProc : generate an vector based\non what neurons are\nconnected to which inputs
-  return **vector<InputData>**
-  Generator -> Brain : step(input_vector)
-  activate Brain
-  note over Brain : performs one step of the\nMIDI generation algorithm
-  return **vector<OutputData>**
-  Generator -> MIDIProc : add_midi_events(\n  output_vector,\n  &MIDIBuffer\n)
-  activate MIDIProc
-  note over MIDIProc : add relevant MIDI events\nto buffer based on output\nvector
-  return **&MIDIBuffer**
-  Generator -> Store : handle_note_offs(\n  &MIDIBuffer\n)
-  activate Store
-  note over Store : save any new note on\nevents and record when\nthey should be stopped\nstop any that should be\nstopped
-  return **&MIDIBuffer**
+
+group if "Input Generation" is on
+  Generator -> Clock : get_buffer_input(\n  &EnvInfo\n)
+  activate Clock
+  note over Clock : calculate generated input\nticks for this buffer
+  return **vector<InputData>**\nGeneratedInput
 end
-return **&MIDIBuffer**
+
+group if "MIDI Throughput" is on
+  Generator -> Transformer : get_buffer_input(\n  &MIDIBuffer\n)
+  activate Transformer
+  note over Transformer : calculate MIDI input\nticks for this buffer
+  return **vector<InputData>**\nMIDIInput
+end
+
+group If multiple inputs
+  Generator -> Generator : merge_input_streams(\n  &GeneratedInput,\n  &MIDIInput\n)
+  activate Generator
+  note over Generator : merge multiple input\nstreams if required
+  return **vector<InputData>**\n&MergedInput
+end
+
+Generator -> Filter : filter_input(\n  &MergedInput\n)
+activate Filter
+note over Filter : handle merging multiple\nticks if necessary i.e.\ninput vectors only one\ntick apart
+return **vector<InputData>**\n&Input
+
+Generator -> Brain : step(&Input)
+activate Brain
+note over Brain : performs one step of the\nMIDI generation algorithm
+return **vector<OutputData>**\n&Output
+
+Generator -> Writer : write_midi_output(\n  &Output\n)
+activate Writer
+note over Writer : remembers what notes are\nplaying and sequences the\nrelevant ON/OFF MIDI\nevents
+return &MIDIOut
+
+return **&MIDIOut**
+
 return
 @enduml
