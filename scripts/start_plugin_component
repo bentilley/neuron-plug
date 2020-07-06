@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+PROJECT_ROOT="$(dirname $( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd ))"
+COMPONENTS_DIR="${PROJECT_ROOT}/Source/MidiGenerator"
+COMPONENT_NAME="$1"
+
+# colours
+green=$(tput setaf 2)
+yellow=$(tput setaf 220)
+blue=$(tput setaf 14)
+red=$(tput setaf 1)
+normal=$(tput sgr0)
+
+main() {
+  printf "${yellow}Creating component${normal}\n"
+  create_component_dir
+  create_component_files
+}
+
+create_component_dir() {
+  printf "creating component directory${green}...${normal}\n"
+  mkdir -p "$COMPONENTS_DIR/$COMPONENT_NAME"
+}
+
+create_component_files() {
+  printf "creating component files${green}...${normal}\n"
+  for suffix in .cpp .hpp .test.cpp; do
+    vim "$COMPONENTS_DIR/$COMPONENT_NAME/$COMPONENT_NAME${suffix}" -c wq
+  done
+}
+
+main
