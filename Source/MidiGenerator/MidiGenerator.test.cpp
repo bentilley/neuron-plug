@@ -137,7 +137,7 @@ SCENARIO("MidiGenerator") {
   }
 }
 
-SCENARIO("MidiGenerator Brain Methods") {
+SCENARIO("MidiGenerator Network Methods") {
   GIVEN("an instance of MidiGenerator, neurons: 3") {
     MidiGenerator generator(3);
 

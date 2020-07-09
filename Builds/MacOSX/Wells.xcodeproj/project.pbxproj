@@ -29,8 +29,6 @@
 		254A96D6AAC8C6A8567B680E /* DiscRecording.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08A58B2C2B4868880C8EB151 /* DiscRecording.framework */; };
 		26103A18244AE47A0065A1B3 /* BeatClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26103A14244AE47A0065A1B3 /* BeatClock.cpp */; };
 		26103A1F244AE48B0065A1B3 /* MidiProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26103A1B244AE48A0065A1B3 /* MidiProcessor.cpp */; };
-		26103A25244AE49B0065A1B3 /* Brain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26103A21244AE49B0065A1B3 /* Brain.cpp */; };
-		26103A26244AE49B0065A1B3 /* Neuron.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26103A23244AE49B0065A1B3 /* Neuron.cpp */; };
 		26103A29244AE4B00065A1B3 /* MidiGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26103A28244AE4B00065A1B3 /* MidiGenerator.cpp */; };
 		2664ACB724ACC69100692215 /* RecentFilesMenuTemplate.nib in Resources */ = {isa = PBXBuildFile; fileRef = 0B1F5E1BAFF21D38D0099480 /* RecentFilesMenuTemplate.nib */; };
 		2664ACBA24ACC88200692215 /* include_juce_audio_basics.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0A473DD6B3BDE5C790BEFC43 /* include_juce_audio_basics.mm */; };
@@ -42,13 +40,25 @@
 		26785021244220110008C804 /* PluginBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26785016244220110008C804 /* PluginBody.cpp */; };
 		26785022244220110008C804 /* InputWeightsBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26785017244220110008C804 /* InputWeightsBar.cpp */; };
 		26785023244220110008C804 /* TitleBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26785018244220110008C804 /* TitleBar.cpp */; };
+		2694CD2B24B8794C0027E0E6 /* io.test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2694CD2924B879480027E0E6 /* io.test.cpp */; };
 		26A6BE7B244A192E00E9EECA /* PluginLogger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26A6BE7A244A192E00E9EECA /* PluginLogger.cpp */; };
 		26C013672441124D00208F3C /* MainComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26C013652441124D00208F3C /* MainComponent.cpp */; };
-		26F17F6324ACB82C001A1821 /* Brain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26103A21244AE49B0065A1B3 /* Brain.cpp */; };
-		26F17F6424ACB82F001A1821 /* Neuron.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26103A23244AE49B0065A1B3 /* Neuron.cpp */; };
+		26E211CB24B86EB900FCD178 /* MidiInputTransformer.test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26E211C824B86EB900FCD178 /* MidiInputTransformer.test.cpp */; };
+		26E211CC24B86EB900FCD178 /* MidiInputTransformer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26E211C924B86EB900FCD178 /* MidiInputTransformer.cpp */; };
+		26E211CD24B86EB900FCD178 /* MidiInputTransformer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26E211C924B86EB900FCD178 /* MidiInputTransformer.cpp */; };
+		26E211D424B86F1A00FCD178 /* InputFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26E211D024B86F1A00FCD178 /* InputFilter.cpp */; };
+		26E211D524B86F1A00FCD178 /* InputFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26E211D024B86F1A00FCD178 /* InputFilter.cpp */; };
+		26E211D624B86F3A00FCD178 /* InputFilter.test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26E211CF24B86F1A00FCD178 /* InputFilter.test.cpp */; };
+		26E211DC24B86F6700FCD178 /* MidiOutputWriter.test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26E211D924B86F6700FCD178 /* MidiOutputWriter.test.cpp */; };
+		26E211DD24B86F6700FCD178 /* MidiOutputWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26E211DA24B86F6700FCD178 /* MidiOutputWriter.cpp */; };
+		26E211DE24B86F6700FCD178 /* MidiOutputWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26E211DA24B86F6700FCD178 /* MidiOutputWriter.cpp */; };
+		26E211E324B8775600FCD178 /* Network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26E211E024B8775600FCD178 /* Network.cpp */; };
+		26E211E424B8775600FCD178 /* Network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26E211E024B8775600FCD178 /* Network.cpp */; };
+		26E211E624B8775600FCD178 /* Network.test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26E211E124B8775600FCD178 /* Network.test.cpp */; };
+		26E8AC3A24B71F77005D0989 /* Neuron.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26E8AC3424B71F77005D0989 /* Neuron.cpp */; };
+		26E8AC3B24B71F77005D0989 /* Neuron.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26E8AC3424B71F77005D0989 /* Neuron.cpp */; };
+		26E8AC4124B71F77005D0989 /* Neuron.test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26E8AC3924B71F77005D0989 /* Neuron.test.cpp */; };
 		26F17F6624ACB923001A1821 /* main.test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26F17F6524ACB923001A1821 /* main.test.cpp */; };
-		26F17F6824ACB93B001A1821 /* Brain.test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26F17F6724ACB93B001A1821 /* Brain.test.cpp */; };
-		26F17F6A24ACB945001A1821 /* Neuron.test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26F17F6924ACB945001A1821 /* Neuron.test.cpp */; };
 		26F17F6B24ACB982001A1821 /* BeatClock.test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26103A13244AE47A0065A1B3 /* BeatClock.test.cpp */; };
 		26F17F6C24ACB9F7001A1821 /* BeatClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26103A14244AE47A0065A1B3 /* BeatClock.cpp */; };
 		26F17F6F24ACBC64001A1821 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E89D74A759026C467E7A8E4B /* Accelerate.framework */; };
@@ -125,10 +135,6 @@
 		26103A1A244AE48A0065A1B3 /* MidiProcessor.test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MidiProcessor.test.cpp; path = ../../../../Source/MidiGenerator/MidiProcessor/MidiProcessor.test.cpp; sourceTree = "<group>"; };
 		26103A1B244AE48A0065A1B3 /* MidiProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MidiProcessor.cpp; path = ../../../../Source/MidiGenerator/MidiProcessor/MidiProcessor.cpp; sourceTree = "<group>"; };
 		26103A1C244AE48B0065A1B3 /* MidiProcessor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MidiProcessor.hpp; path = ../../../../Source/MidiGenerator/MidiProcessor/MidiProcessor.hpp; sourceTree = "<group>"; };
-		26103A21244AE49B0065A1B3 /* Brain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Brain.cpp; path = ../../../../Source/MidiGenerator/WellNeurons/Brain.cpp; sourceTree = "<group>"; };
-		26103A22244AE49B0065A1B3 /* Brain.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Brain.hpp; path = ../../../../Source/MidiGenerator/WellNeurons/Brain.hpp; sourceTree = "<group>"; };
-		26103A23244AE49B0065A1B3 /* Neuron.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Neuron.cpp; path = ../../../../Source/MidiGenerator/WellNeurons/Neuron.cpp; sourceTree = "<group>"; };
-		26103A24244AE49B0065A1B3 /* Neuron.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Neuron.hpp; path = ../../../../Source/MidiGenerator/WellNeurons/Neuron.hpp; sourceTree = "<group>"; };
 		26103A27244AE4AF0065A1B3 /* MidiGenerator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MidiGenerator.hpp; path = ../../../Source/MidiGenerator/MidiGenerator.hpp; sourceTree = "<group>"; };
 		26103A28244AE4B00065A1B3 /* MidiGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MidiGenerator.cpp; path = ../../../Source/MidiGenerator/MidiGenerator.cpp; sourceTree = "<group>"; };
 		2678500F244220110008C804 /* ThresholdsBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ThresholdsBar.cpp; path = ../../../Source/UI/ThresholdsBar.cpp; sourceTree = "<group>"; };
@@ -145,17 +151,32 @@
 		2678501A244220110008C804 /* InputWeightsBar.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = InputWeightsBar.hpp; path = ../../../Source/UI/InputWeightsBar.hpp; sourceTree = "<group>"; };
 		2678501B244220110008C804 /* PluginBody.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = PluginBody.hpp; path = ../../../Source/UI/PluginBody.hpp; sourceTree = "<group>"; };
 		2678501C244220110008C804 /* TitleBar.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TitleBar.hpp; path = ../../../Source/UI/TitleBar.hpp; sourceTree = "<group>"; };
+		2694CD2824B879480027E0E6 /* io.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = io.hpp; path = ../../../../Source/MidiGenerator/Brain/io.hpp; sourceTree = "<group>"; };
+		2694CD2924B879480027E0E6 /* io.test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = io.test.cpp; path = ../../../../Source/MidiGenerator/Brain/io.test.cpp; sourceTree = "<group>"; };
 		26A6BE79244A192E00E9EECA /* PluginLogger.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = PluginLogger.hpp; path = ../../../Source/Utils/PluginLogger.hpp; sourceTree = "<group>"; };
 		26A6BE7A244A192E00E9EECA /* PluginLogger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PluginLogger.cpp; path = ../../../Source/Utils/PluginLogger.cpp; sourceTree = "<group>"; };
 		26C013652441124D00208F3C /* MainComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainComponent.cpp; path = ../../../Source/UI/MainComponent.cpp; sourceTree = "<group>"; };
 		26C013662441124D00208F3C /* MainComponent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MainComponent.hpp; path = ../../../Source/UI/MainComponent.hpp; sourceTree = "<group>"; };
 		26CC58A9243E3C8E003698A4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		26CC58AB243E3F5C003698A4 /* test-main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-main.cpp"; path = "../../Source/test-main.cpp"; sourceTree = "<group>"; };
+		26E211C724B86EB900FCD178 /* MidiInputTransformer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MidiInputTransformer.hpp; path = ../../../../Source/MidiGenerator/MidiInputTransformer/MidiInputTransformer.hpp; sourceTree = "<group>"; };
+		26E211C824B86EB900FCD178 /* MidiInputTransformer.test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MidiInputTransformer.test.cpp; path = ../../../../Source/MidiGenerator/MidiInputTransformer/MidiInputTransformer.test.cpp; sourceTree = "<group>"; };
+		26E211C924B86EB900FCD178 /* MidiInputTransformer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MidiInputTransformer.cpp; path = ../../../../Source/MidiGenerator/MidiInputTransformer/MidiInputTransformer.cpp; sourceTree = "<group>"; };
+		26E211CF24B86F1A00FCD178 /* InputFilter.test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InputFilter.test.cpp; path = ../../../../Source/MidiGenerator/InputFilter/InputFilter.test.cpp; sourceTree = "<group>"; };
+		26E211D024B86F1A00FCD178 /* InputFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InputFilter.cpp; path = ../../../../Source/MidiGenerator/InputFilter/InputFilter.cpp; sourceTree = "<group>"; };
+		26E211D124B86F1A00FCD178 /* InputFilter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = InputFilter.hpp; path = ../../../../Source/MidiGenerator/InputFilter/InputFilter.hpp; sourceTree = "<group>"; };
+		26E211D824B86F6700FCD178 /* MidiOutputWriter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MidiOutputWriter.hpp; path = ../../../../Source/MidiGenerator/MidiOutputWriter/MidiOutputWriter.hpp; sourceTree = "<group>"; };
+		26E211D924B86F6700FCD178 /* MidiOutputWriter.test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MidiOutputWriter.test.cpp; path = ../../../../Source/MidiGenerator/MidiOutputWriter/MidiOutputWriter.test.cpp; sourceTree = "<group>"; };
+		26E211DA24B86F6700FCD178 /* MidiOutputWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MidiOutputWriter.cpp; path = ../../../../Source/MidiGenerator/MidiOutputWriter/MidiOutputWriter.cpp; sourceTree = "<group>"; };
+		26E211E024B8775600FCD178 /* Network.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Network.cpp; path = ../../../../Source/MidiGenerator/WellNeurons/Network.cpp; sourceTree = "<group>"; };
+		26E211E124B8775600FCD178 /* Network.test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Network.test.cpp; path = ../../../../Source/MidiGenerator/WellNeurons/Network.test.cpp; sourceTree = "<group>"; };
+		26E211E224B8775600FCD178 /* Network.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Network.hpp; path = ../../../../Source/MidiGenerator/WellNeurons/Network.hpp; sourceTree = "<group>"; };
 		26E82076244AEA20004C7AFE /* MidiGenerator.test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MidiGenerator.test.cpp; path = ../../../Source/MidiGenerator/MidiGenerator.test.cpp; sourceTree = "<group>"; };
+		26E8AC3424B71F77005D0989 /* Neuron.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Neuron.cpp; path = ../../../../Source/MidiGenerator/WellNeurons/Neuron.cpp; sourceTree = "<group>"; };
+		26E8AC3824B71F77005D0989 /* Neuron.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Neuron.hpp; path = ../../../../Source/MidiGenerator/WellNeurons/Neuron.hpp; sourceTree = "<group>"; };
+		26E8AC3924B71F77005D0989 /* Neuron.test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Neuron.test.cpp; path = ../../../../Source/MidiGenerator/WellNeurons/Neuron.test.cpp; sourceTree = "<group>"; };
 		26F17F5824ACB5FE001A1821 /* test-wells-plugin */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "test-wells-plugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		26F17F6524ACB923001A1821 /* main.test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.test.cpp; path = ../../../Source/main.test.cpp; sourceTree = "<group>"; };
-		26F17F6724ACB93B001A1821 /* Brain.test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Brain.test.cpp; path = ../../../../Source/MidiGenerator/WellNeurons/Brain.test.cpp; sourceTree = "<group>"; };
-		26F17F6924ACB945001A1821 /* Neuron.test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Neuron.test.cpp; path = ../../../../Source/MidiGenerator/WellNeurons/Neuron.test.cpp; sourceTree = "<group>"; };
 		270692BD6603489430083317 /* PluginProcessor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PluginProcessor.cpp; path = ../../Source/PluginProcessor.cpp; sourceTree = SOURCE_ROOT; };
 		2960013B4BB77E94F72A9C78 /* AppConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppConfig.h; path = ../../JuceLibraryCode/AppConfig.h; sourceTree = SOURCE_ROOT; };
 		2F758386E991ACB19BA63AC6 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -258,12 +279,16 @@
 		26103A12244AE4600065A1B3 /* MidiGenerator */ = {
 			isa = PBXGroup;
 			children = (
+				2694CD2724B879350027E0E6 /* Brain */,
 				26103A28244AE4B00065A1B3 /* MidiGenerator.cpp */,
 				26103A27244AE4AF0065A1B3 /* MidiGenerator.hpp */,
 				26E82076244AEA20004C7AFE /* MidiGenerator.test.cpp */,
 				26D3A31D2440ACD800C0CB94 /* BeatClock */,
+				26E211C624B86E8C00FCD178 /* MidiInputTransformer */,
+				26E211CE24B86EF800FCD178 /* InputFilter */,
 				2641AA74243A373F00C0E5A1 /* MidiProcessor */,
-				264F1AD9243A135C000E5968 /* Model */,
+				26E8AC3324B71F48005D0989 /* Model */,
+				26E211D724B86F5100FCD178 /* MidiOutputWriter */,
 			);
 			path = MidiGenerator;
 			sourceTree = "<group>";
@@ -278,17 +303,13 @@
 			path = MidiProcessor;
 			sourceTree = "<group>";
 		};
-		264F1AD9243A135C000E5968 /* Model */ = {
+		2694CD2724B879350027E0E6 /* Brain */ = {
 			isa = PBXGroup;
 			children = (
-				26103A21244AE49B0065A1B3 /* Brain.cpp */,
-				26103A22244AE49B0065A1B3 /* Brain.hpp */,
-				26F17F6724ACB93B001A1821 /* Brain.test.cpp */,
-				26103A23244AE49B0065A1B3 /* Neuron.cpp */,
-				26103A24244AE49B0065A1B3 /* Neuron.hpp */,
-				26F17F6924ACB945001A1821 /* Neuron.test.cpp */,
+				2694CD2824B879480027E0E6 /* io.hpp */,
+				2694CD2924B879480027E0E6 /* io.test.cpp */,
 			);
-			path = Model;
+			path = Brain;
 			sourceTree = "<group>";
 		};
 		26A6BE78244A191100E9EECA /* Utils */ = {
@@ -331,6 +352,49 @@
 				26103A13244AE47A0065A1B3 /* BeatClock.test.cpp */,
 			);
 			path = BeatClock;
+			sourceTree = "<group>";
+		};
+		26E211C624B86E8C00FCD178 /* MidiInputTransformer */ = {
+			isa = PBXGroup;
+			children = (
+				26E211C924B86EB900FCD178 /* MidiInputTransformer.cpp */,
+				26E211C724B86EB900FCD178 /* MidiInputTransformer.hpp */,
+				26E211C824B86EB900FCD178 /* MidiInputTransformer.test.cpp */,
+			);
+			path = MidiInputTransformer;
+			sourceTree = "<group>";
+		};
+		26E211CE24B86EF800FCD178 /* InputFilter */ = {
+			isa = PBXGroup;
+			children = (
+				26E211D024B86F1A00FCD178 /* InputFilter.cpp */,
+				26E211D124B86F1A00FCD178 /* InputFilter.hpp */,
+				26E211CF24B86F1A00FCD178 /* InputFilter.test.cpp */,
+			);
+			path = InputFilter;
+			sourceTree = "<group>";
+		};
+		26E211D724B86F5100FCD178 /* MidiOutputWriter */ = {
+			isa = PBXGroup;
+			children = (
+				26E211DA24B86F6700FCD178 /* MidiOutputWriter.cpp */,
+				26E211D824B86F6700FCD178 /* MidiOutputWriter.hpp */,
+				26E211D924B86F6700FCD178 /* MidiOutputWriter.test.cpp */,
+			);
+			path = MidiOutputWriter;
+			sourceTree = "<group>";
+		};
+		26E8AC3324B71F48005D0989 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				26E211E024B8775600FCD178 /* Network.cpp */,
+				26E211E224B8775600FCD178 /* Network.hpp */,
+				26E211E124B8775600FCD178 /* Network.test.cpp */,
+				26E8AC3424B71F77005D0989 /* Neuron.cpp */,
+				26E8AC3824B71F77005D0989 /* Neuron.hpp */,
+				26E8AC3924B71F77005D0989 /* Neuron.test.cpp */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		26F17F5924ACB5FE001A1821 /* Test Wells */ = {
@@ -614,20 +678,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26E211D424B86F1A00FCD178 /* InputFilter.cpp in Sources */,
 				26A6BE7B244A192E00E9EECA /* PluginLogger.cpp in Sources */,
-				26103A26244AE49B0065A1B3 /* Neuron.cpp in Sources */,
-				26103A25244AE49B0065A1B3 /* Brain.cpp in Sources */,
 				26103A18244AE47A0065A1B3 /* BeatClock.cpp in Sources */,
+				26E8AC3A24B71F77005D0989 /* Neuron.cpp in Sources */,
 				26103A1F244AE48B0065A1B3 /* MidiProcessor.cpp in Sources */,
 				26103A29244AE4B00065A1B3 /* MidiGenerator.cpp in Sources */,
 				26C013672441124D00208F3C /* MainComponent.cpp in Sources */,
 				26785023244220110008C804 /* TitleBar.cpp in Sources */,
 				26785021244220110008C804 /* PluginBody.cpp in Sources */,
 				2678501E244220110008C804 /* NeuronTitleBar.cpp in Sources */,
+				26E211E324B8775600FCD178 /* Network.cpp in Sources */,
 				26785020244220110008C804 /* MidiNotesBar.cpp in Sources */,
 				26785022244220110008C804 /* InputWeightsBar.cpp in Sources */,
 				2678501D244220110008C804 /* ThresholdsBar.cpp in Sources */,
 				2678501F244220110008C804 /* ConnectionWeightsMatrix.cpp in Sources */,
+				26E211CC24B86EB900FCD178 /* MidiInputTransformer.cpp in Sources */,
+				26E211DD24B86F6700FCD178 /* MidiOutputWriter.cpp in Sources */,
 				54A1B8DA43D0C9C603AD147F /* include_juce_audio_plugin_client_VST3.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -636,20 +703,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26E211D524B86F1A00FCD178 /* InputFilter.cpp in Sources */,
 				26F4CE2624ACDCFD006AAE46 /* MidiGenerator.test.cpp in Sources */,
 				26F4CE2524ACDCF0006AAE46 /* MidiProcessor.test.cpp in Sources */,
 				26F17F6624ACB923001A1821 /* main.test.cpp in Sources */,
-				26F17F6324ACB82C001A1821 /* Brain.cpp in Sources */,
 				26F4CE2824ACDD37006AAE46 /* MidiProcessor.cpp in Sources */,
 				26F4CE2724ACDD2F006AAE46 /* MidiGenerator.cpp in Sources */,
-				26F17F6824ACB93B001A1821 /* Brain.test.cpp in Sources */,
+				26E8AC3B24B71F77005D0989 /* Neuron.cpp in Sources */,
 				2664ACBA24ACC88200692215 /* include_juce_audio_basics.mm in Sources */,
+				26E211E424B8775600FCD178 /* Network.cpp in Sources */,
+				26E8AC4124B71F77005D0989 /* Neuron.test.cpp in Sources */,
 				26F4CE2924ACDD68006AAE46 /* PluginLogger.cpp in Sources */,
-				26F17F6424ACB82F001A1821 /* Neuron.cpp in Sources */,
+				26E211CB24B86EB900FCD178 /* MidiInputTransformer.test.cpp in Sources */,
 				2664ACBC24ACC88D00692215 /* include_juce_core.mm in Sources */,
-				26F17F6A24ACB945001A1821 /* Neuron.test.cpp in Sources */,
+				26E211E624B8775600FCD178 /* Network.test.cpp in Sources */,
 				26F17F6C24ACB9F7001A1821 /* BeatClock.cpp in Sources */,
+				2694CD2B24B8794C0027E0E6 /* io.test.cpp in Sources */,
+				26E211D624B86F3A00FCD178 /* InputFilter.test.cpp in Sources */,
 				26F17F6B24ACB982001A1821 /* BeatClock.test.cpp in Sources */,
+				26E211DC24B86F6700FCD178 /* MidiOutputWriter.test.cpp in Sources */,
+				26E211DE24B86F6700FCD178 /* MidiOutputWriter.cpp in Sources */,
+				26E211CD24B86EB900FCD178 /* MidiInputTransformer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,7 +11,7 @@
 #include "../Utils/PluginLogger.hpp"
 #include "BeatClock/BeatClock.hpp"
 #include "MidiProcessor/MidiProcessor.hpp"
-#include "WellNeurons/Brain.hpp"
+#include "WellNeurons/Network.hpp"
 #include <memory>
 
 class MidiGenerator {
@@ -58,7 +58,7 @@ public:
 private:
   bool is_on, receives_midi;
 
-  Brain brain;
+  Network network;
   MidiProcessor midiProcessor;
   BeatClock beatClock;
 };

@@ -1,49 +1,49 @@
 /*
- * Brain.cpp
+ * Network.cpp
  * Copyright (C) 2020 Ben Tilley <targansaikhan@gmail.com>
  *
  * Distributed under terms of the MIT license.
  */
 
-#include "Brain.hpp"
+#include "Network.hpp"
 #include <algorithm>
 #include <iostream>
 
-Brain::Brain(int starting_num_neurons) {
+Network::Network(int starting_num_neurons) {
   for (int i{0}; i < starting_num_neurons; ++i) {
     add_neuron();
   }
 };
-Brain::~Brain(){};
+Network::~Network(){};
 
 /*
  * Getters
  */
 
-std::vector<int> Brain::get_output() {
+std::vector<int> Network::get_output() {
   std::vector<int> outputs(num_neurons(), 0);
   transform(neurons.begin(), neurons.end(), outputs.begin(),
             [](Neuron n) { return n.get_output(); });
   return outputs;
 };
 
-std::vector<Neuron> Brain::get_neurons() { return neurons; };
+std::vector<Neuron> Network::get_neurons() { return neurons; };
 
-std::vector<std::vector<int>> Brain::get_connection_weights() {
+std::vector<std::vector<int>> Network::get_connection_weights() {
   return connection_weights;
 };
 
-std::vector<int> Brain::get_input_weights() { return input_weights; }
+std::vector<int> Network::get_input_weights() { return input_weights; }
 
-int Brain::get_input_weight_for_neuron(int neuron_num) {
+int Network::get_input_weight_for_neuron(int neuron_num) {
   return input_weights.at(neuron_num);
 }
 
-int Brain::get_connection_weight_for_neurons(int from, int to) {
+int Network::get_connection_weight_for_neurons(int from, int to) {
   return connection_weights.at(from).at(to);
 }
 
-int Brain::get_threshold_for_neuron(int neuron_num) {
+int Network::get_threshold_for_neuron(int neuron_num) {
   return neurons.at(neuron_num).get_threshold();
 }
 
@@ -51,14 +51,15 @@ int Brain::get_threshold_for_neuron(int neuron_num) {
  * Setters
  */
 
-void Brain::set_input_weights(std::vector<int> new_weights) {
+void Network::set_input_weights(std::vector<int> new_weights) {
   if (input_weights.size() != new_weights.size()) {
     throw std::invalid_argument("input weights incorect shape");
   }
   input_weights = new_weights;
 }
 
-void Brain::set_connection_weights(std::vector<std::vector<int>> new_weights) {
+void Network::set_connection_weights(
+    std::vector<std::vector<int>> new_weights) {
   if (connection_weights.size() != new_weights.size() ||
       connection_weights.at(0).size() != new_weights.at(0).size()) {
     throw std::invalid_argument("connection weights incorect shape");
@@ -66,16 +67,16 @@ void Brain::set_connection_weights(std::vector<std::vector<int>> new_weights) {
   connection_weights = new_weights;
 }
 
-void Brain::set_connection_weight_for_neurons(int from, int to,
-                                              int new_weight) {
+void Network::set_connection_weight_for_neurons(int from, int to,
+                                                int new_weight) {
   connection_weights.at(from).at(to) = new_weight;
 };
 
-void Brain::set_input_weight_for_neuron(int neuron_num, int new_weight) {
+void Network::set_input_weight_for_neuron(int neuron_num, int new_weight) {
   input_weights.at(neuron_num) = new_weight;
 };
 
-void Brain::set_threshold_for_neuron(int neuron_num, int new_threshold) {
+void Network::set_threshold_for_neuron(int neuron_num, int new_threshold) {
   neurons.at(neuron_num).set_threshold(new_threshold);
 };
 
@@ -83,9 +84,9 @@ void Brain::set_threshold_for_neuron(int neuron_num, int new_threshold) {
  * Methods
  */
 
-int Brain::num_neurons() { return static_cast<int>(neurons.size()); };
+int Network::num_neurons() { return static_cast<int>(neurons.size()); };
 
-void Brain::add_neuron() {
+void Network::add_neuron() {
   neurons.push_back(Neuron());
   for (int i = 0; i < connection_weights.size(); ++i) {
     connection_weights.at(i).push_back(0);
@@ -94,7 +95,7 @@ void Brain::add_neuron() {
   input_weights.push_back(0);
 };
 
-void Brain::remove_neuron() {
+void Network::remove_neuron() {
   neurons.pop_back();
   input_weights.pop_back();
   connection_weights.pop_back();
@@ -103,7 +104,7 @@ void Brain::remove_neuron() {
   }
 };
 
-void Brain::remove_neuron_at(int neuron_index) {
+void Network::remove_neuron_at(int neuron_index) {
   neurons.erase(neurons.begin() + neuron_index);
   input_weights.erase(input_weights.begin() + neuron_index);
   connection_weights.erase(connection_weights.begin() + neuron_index);
@@ -113,7 +114,7 @@ void Brain::remove_neuron_at(int neuron_index) {
   }
 };
 
-std::vector<int> Brain::get_weighted_input(std::vector<int> input) {
+std::vector<int> Network::get_weighted_input(std::vector<int> input) {
   assert(input.size() == num_neurons());
   std::vector<int> weighted_input(num_neurons(), 0);
   for (int i = 0; i < input.size(); ++i) {
@@ -122,7 +123,7 @@ std::vector<int> Brain::get_weighted_input(std::vector<int> input) {
   return weighted_input;
 };
 
-std::vector<int> Brain::get_connection_energy(std::vector<int> output) {
+std::vector<int> Network::get_connection_energy(std::vector<int> output) {
   assert(output.size() == num_neurons());
   std::vector<int> connection_energy(num_neurons(), 0);
   for (int i = 0; i < num_neurons(); ++i) {
@@ -135,8 +136,8 @@ std::vector<int> Brain::get_connection_energy(std::vector<int> output) {
   return connection_energy;
 };
 
-void Brain::input_to_neurons(std::vector<int> input,
-                             std::vector<int> prev_output) {
+void Network::input_to_neurons(std::vector<int> input,
+                               std::vector<int> prev_output) {
   std::vector<int> weighted_input = get_weighted_input(input);
   std::vector<int> connection_energy = get_connection_energy(prev_output);
   for (int i = 0; i < neurons.size(); ++i) {
@@ -145,11 +146,11 @@ void Brain::input_to_neurons(std::vector<int> input,
   }
 }
 
-void Brain::neurons_update_state() {
+void Network::neurons_update_state() {
   for_each(neurons.begin(), neurons.end(), [](Neuron &n) { n.update_state(); });
 };
 
-std::vector<int> Brain::process_next(std::vector<int> input) {
+std::vector<int> Network::process_next(std::vector<int> input) {
   input_to_neurons(input, get_output());
   neurons_update_state();
   return get_output();

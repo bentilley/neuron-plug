@@ -1,5 +1,5 @@
 /*
- * Brain.hpp
+ * Network.hpp
  * Copyright (C) 2020 MrSquee <MrSquee@Mr-Squees-MBP>
  *
  * Distributed under terms of the MIT license.
@@ -13,10 +13,10 @@
 #include <string>
 #include <vector>
 
-class Brain {
+class Network {
 public:
-  Brain(int starting_num_neurons);
-  ~Brain();
+  Network(int starting_num_neurons);
+  ~Network();
 
   std::vector<int> get_output();
   std::vector<Neuron> get_neurons();
