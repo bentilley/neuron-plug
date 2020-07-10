@@ -6,6 +6,9 @@
  */
 
 #include "MidiInputTransformer.hpp"
+#include <map>
+#include <stdexcept>
+#include <utility>
 
 std::vector<ModelInput>
 MidiInputTransformer::parseMidiInput(MidiBuffer &buffer) {
@@ -15,19 +18,18 @@ MidiInputTransformer::parseMidiInput(MidiBuffer &buffer) {
   MidiMessage message;
   for (MidiBuffer::Iterator i(buffer); i.getNextEvent(message, sampleNumber);) {
     if (message.isNoteOn()) {
-      if (inputBySample.find(sampleNumber) != inputBySample.end()) {
+      if (inputBySample.count(sampleNumber) == 1) {
         inputBySample.at(sampleNumber).data.at(message.getNoteNumber()) +=
             message.getFloatVelocity();
       } else {
-        inputBySample.at(sampleNumber) =
-            midiMessageToModelInput(message, sampleNumber);
+        inputBySample.emplace(std::make_pair(
+            sampleNumber, midiMessageToModelInput(message, sampleNumber)));
       }
     }
   }
-  std::vector<ModelInput> transformedInput{};
+  std::vector<ModelInput> transformedInput;
   for (InputMap::iterator it{inputBySample.begin()}; it != inputBySample.end();
        ++it) {
-    printf("adding somethign to output\n");
     transformedInput.push_back(it->second);
   }
   return transformedInput;
@@ -36,6 +38,10 @@ MidiInputTransformer::parseMidiInput(MidiBuffer &buffer) {
 ModelInput
 MidiInputTransformer::midiMessageToModelInput(const MidiMessage &message,
                                               int sampleNumber) {
+  if (!message.isNoteOn()) {
+    throw std::invalid_argument("MIDI message is not noteOn");
+  }
   ModelInputVector data{};
+  data.at(message.getNoteNumber()) = message.getFloatVelocity();
   return ModelInput{data, sampleNumber, ModelInputType::MidiInput};
 }

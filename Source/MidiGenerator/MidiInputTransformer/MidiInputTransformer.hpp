@@ -10,7 +10,6 @@
 #include "../../../JuceLibraryCode/JuceHeader.h"
 #include "../Brain/io.hpp"
 #include <iostream>
-#include <map>
 #include <vector>
 
 class MidiInputTransformer {
