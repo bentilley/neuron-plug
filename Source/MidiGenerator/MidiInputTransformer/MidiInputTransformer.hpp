@@ -7,12 +7,15 @@
 
 #pragma once
 
+#include "../../../JuceLibraryCode/JuceHeader.h"
+#include "../Brain/io.hpp"
+#include <iostream>
+#include <map>
+#include <vector>
+
 class MidiInputTransformer {
 public:
-  MidiInputTransformer(int value);
-
-  int getValue() { return value; }
-
-private:
-  int value{};
+  std::vector<ModelInput> parseMidiInput(MidiBuffer &buffer);
+  ModelInput midiMessageToModelInput(const MidiMessage &message,
+                                     int sampleNumber);
 };
