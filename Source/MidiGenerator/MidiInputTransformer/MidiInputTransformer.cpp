@@ -48,5 +48,5 @@ MidiInputTransformer::midiMessageToModelInput(const MidiMessage &message,
   }
   ModelInputVector data{};
   data.at(message.getNoteNumber()) = message.getFloatVelocity();
-  return ModelInput{data, sampleNumber, ModelInputType::MidiInput};
+  return ModelInput{data, (int64_t)sampleNumber, ModelInputType::MidiInput};
 }

@@ -21,10 +21,10 @@ enum ModelInputType : std::uint_least8_t {
 
 struct ModelInput {
   ModelInput() = delete;
-  ModelInput(ModelInputVector data, long sampleNum, ModelInputType type)
+  ModelInput(ModelInputVector data, int64_t sampleNum, ModelInputType type)
       : data{data}, sampleNumber{sampleNum}, inputType{type} {}
 
   ModelInputVector data;
-  long sampleNumber;
+  int64_t sampleNumber;
   ModelInputType inputType;
 };
