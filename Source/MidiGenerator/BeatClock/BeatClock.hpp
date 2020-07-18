@@ -8,32 +8,38 @@
 #pragma once
 
 #include "../../../JuceLibraryCode/JuceHeader.h"
+#include "../Brain/io.hpp"
 
-typedef AudioPlayHead::CurrentPositionInfo posinfo;
+typedef AudioPlayHead::CurrentPositionInfo PositionInfo;
+
+struct SystemInfo {
+  SystemInfo() = delete;
+  SystemInfo(double sampleRate, int numBufferSamples)
+      : sampleRate{sampleRate}, numBufferSamples{numBufferSamples} {}
+
+  double sampleRate;
+  int numBufferSamples;
+};
 
 class BeatClock {
 public:
   BeatClock();
-  ~BeatClock();
+  BeatClock(int subdivision, double outputScaleFactor);
 
-  int get_subdivision();
-  bool is_configured();
-  float get_samples_per_subdivision();
-  float get_sample_num_remainder();
+  int getSubdivision();
+  void setSubdivision(int new_subdivision);
 
-  void set_subdivision(int new_subdivision);
+  double getOutputScaleFactor();
+  void setOutputScaleFactor(double newScaleFactor);
 
-  void configure(double sample_rate, const posinfo &pos);
-  bool should_play(int buffer_sample_num);
-  void reset();
+  std::vector<ModelInput> getModelInputForBuffer(PositionInfo &positionInfo,
+                                                 SystemInfo &systemInfo);
 
 private:
   int subdivision;
-  bool _is_configured;
-  float samples_per_subdivision;
-  float sample_num_remainder;
+  double outputScaleFactor;
 
-  float get_samples_per_subdivision(float bpm, double sample_rate);
-  float get_sample_num_remainder(float samples_per_subdivision,
-                                 double current_sample_num);
+  float getSamplesPerSubdivision(float bpm, double sampleRate);
+  int64_t getNumberOfNextHit(float bpm, int64_t timeInSamples,
+                             double sampleRate);
 };

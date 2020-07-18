@@ -15,7 +15,7 @@ constexpr int NUM_MIDI_NOTES = 128;
 using ModelInputVector = std::array<float, NUM_MIDI_NOTES>;
 
 enum ModelInputType : std::uint_least8_t {
-  BeatClock,
+  BeatClockInput,
   MidiInput,
 };
 

@@ -11,14 +11,14 @@
 SCENARIO("Brain I/O") {
   GIVEN("ModelInput for a Beat Clock") {
     ModelInputVector data{};
-    ModelInput input{data, 17362, ModelInputType::BeatClock};
+    ModelInput input{data, 17362, ModelInputType::BeatClockInput};
 
     REQUIRE(input.data.size() == 128);
     for (auto element : input.data) {
       REQUIRE(element == 0);
     }
     REQUIRE(input.sampleNumber == 17362);
-    REQUIRE(input.inputType == ModelInputType::BeatClock);
+    REQUIRE(input.inputType == ModelInputType::BeatClockInput);
   }
 
   GIVEN("ModelInput for a MIDI Input Transformer") {

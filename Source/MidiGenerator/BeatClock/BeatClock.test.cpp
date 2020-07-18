@@ -5,166 +5,257 @@
  * Distributed under terms of the MIT license.
  */
 
-#include "BeatClock.hpp"
 #include <catch2/catch.hpp>
 
-SCENARIO("BeatClock") {
+#define private public
+#include "BeatClock.hpp"
+
+SCENARIO("BeatClock - getters and setters") {
   GIVEN("an instance of a BeatClock") {
     BeatClock clock;
 
-    REQUIRE(!clock.is_configured());
-    REQUIRE(clock.get_subdivision() == 1);
+    REQUIRE(clock.getSubdivision() == 1);
+    REQUIRE(clock.getOutputScaleFactor() == Approx(1.0f));
 
-    WHEN("we configure the BeatClock") {
-      double sample_rate = 44100;
+    WHEN("we set the subdivision") {
+      clock.setSubdivision(12);
+      REQUIRE(clock.getSubdivision() == 12);
+
+      clock.setSubdivision(79);
+      REQUIRE(clock.getSubdivision() == 79);
+
+      clock.setSubdivision(2);
+      REQUIRE(clock.getSubdivision() == 2);
+    }
+
+    WHEN("we set the output scale factor") {
+      clock.setOutputScaleFactor(0.286);
+      REQUIRE(clock.getOutputScaleFactor() == Approx(0.286));
+
+      clock.setOutputScaleFactor(2.551);
+      REQUIRE(clock.getOutputScaleFactor() == Approx(2.551));
+
+      clock.setOutputScaleFactor(1.00035);
+      REQUIRE(clock.getOutputScaleFactor() == Approx(1.00035));
+    }
+  }
+}
+
+SCENARIO("BeatClock - no play-tick in the current buffer") {
+  GIVEN("an instance of a BeatClock") {
+    BeatClock clock;
+
+    GIVEN("playhead position info and system info") {
       AudioPlayHead::CurrentPositionInfo pos;
-      pos.bpm = 120;
-      pos.timeInSamples = 905984;
-      clock.configure(sample_rate, pos);
+      double sampleRate = 44100;
+      int numBufferSamples = 256;
+      SystemInfo sys{sampleRate, numBufferSamples};
 
-      REQUIRE(clock.is_configured());
+      WHEN("BPM: 120, timeInSamples: 21760") {
+        pos.bpm = 120;
+        pos.timeInSamples = 21760;
 
-      THEN("reset the clock") {
-        clock.reset();
+        REQUIRE(clock.getModelInputForBuffer(pos, sys).size() == 0);
+      }
 
-        REQUIRE(!clock.is_configured());
+      WHEN("BPM: 120, timeInSamples: 10752, subdivision: 2") {
+        pos.bpm = 120;
+        pos.timeInSamples = 10752;
+        clock.setSubdivision(2);
+
+        REQUIRE(clock.getModelInputForBuffer(pos, sys).size() == 0);
+      }
+
+      WHEN("BPM: 114, timeInSamples: 4096, subdivision: 4, buffSize: 1024") {
+        pos.bpm = 114;
+        pos.timeInSamples = 4096;
+        sys.numBufferSamples = 512;
+        clock.setSubdivision(4);
+
+        REQUIRE(clock.getModelInputForBuffer(pos, sys).size() == 0);
       }
     }
   }
 }
 
-SCENARIO("BeatClock Configuration") {
-  GIVEN("an instance of BeatClock") {
+SCENARIO("BeatClock - has play-tick in the current buffer") {
+  GIVEN("an instance of a BeatClock") {
     BeatClock clock;
-    double sample_rate = 44100;
-    AudioPlayHead::CurrentPositionInfo pos;
 
-    WHEN("BPM: 120, timeInSamples: 905984") {
-      pos.bpm = 120;
-      pos.timeInSamples = 905984;
-      clock.configure(sample_rate, pos);
+    GIVEN("playhead position info and system info") {
+      AudioPlayHead::CurrentPositionInfo pos;
+      double sampleRate = 44100;
+      int numBufferSamples = 256;
+      SystemInfo sys{sampleRate, numBufferSamples};
 
-      REQUIRE(clock.get_sample_num_remainder() == Approx(1934.0));
-      REQUIRE(clock.get_samples_per_subdivision() == Approx(22050.0));
-    }
+      WHEN("BPM: 100, timeInSamples: 13056, subdivision: 2") {
+        pos.bpm = 100;
+        pos.timeInSamples = 13056;
+        clock.setSubdivision(2);
 
-    WHEN("BPM: 100, timeInSamples: 4905984") {
-      pos.bpm = 100;
-      pos.timeInSamples = 4905984;
-      clock.configure(sample_rate, pos);
-
-      REQUIRE(clock.get_sample_num_remainder() == Approx(10884.0));
-      REQUIRE(clock.get_samples_per_subdivision() == Approx(26460.0));
-    }
-
-    WHEN("BPM: 149, timeInSamples: 1706784") {
-      pos.bpm = 149;
-      pos.timeInSamples = 1706784;
-      clock.configure(sample_rate, pos);
-
-      REQUIRE(clock.get_sample_num_remainder() == Approx(1978.69));
-      REQUIRE(clock.get_samples_per_subdivision() == Approx(17758.39));
-    }
-
-    GIVEN("subdivision is set to 2") {
-      clock.set_subdivision(2);
-
-      WHEN("BPM: 69, timeInSamples: 642684") {
-        pos.bpm = 69;
-        pos.timeInSamples = 642684;
-        clock.configure(sample_rate, pos);
-
-        REQUIRE(clock.get_sample_num_remainder() == Approx(9944.90));
-        REQUIRE(clock.get_samples_per_subdivision() == Approx(19173.91));
+        auto result = clock.getModelInputForBuffer(pos, sys);
+        REQUIRE(result.size() == 1);
       }
-    }
 
-    GIVEN("subdivision is set to 5") {
-      clock.set_subdivision(5);
+      WHEN("BPM: 120, timeInSamples: 2560, subdivision: 8, buffSize: 512") {
+        pos.bpm = 120;
+        pos.timeInSamples = 2560;
+        sys.numBufferSamples = 512;
+        clock.setSubdivision(8);
 
-      WHEN("BPM: 111, timeInSamples: 34701294") {
-        pos.bpm = 111;
-        pos.timeInSamples = 34701294;
-        clock.configure(sample_rate, pos);
+        auto result = clock.getModelInputForBuffer(pos, sys);
+        REQUIRE(result.size() == 1);
+      }
 
-        REQUIRE(clock.get_sample_num_remainder() == Approx(2938.59));
-        REQUIRE(clock.get_samples_per_subdivision() == Approx(4767.57));
+      WHEN("BPM: 60, timeInSamples: 44032, subdivision: 1") {
+        pos.bpm = 60;
+        pos.timeInSamples = 44032;
+        clock.setSubdivision(1);
+
+        auto result = clock.getModelInputForBuffer(pos, sys);
+        REQUIRE(result.size() == 1);
       }
     }
   }
 }
 
-SCENARIO("BeatClock Should Play") {
-  GIVEN("an instance of BeatClock") {
+SCENARIO("BeatClock - with multiple play-ticks in the current buffer") {
+  GIVEN("an instance of a BeatClock") {
     BeatClock clock;
-    double sample_rate = 44100;
-    AudioPlayHead::CurrentPositionInfo pos;
 
-    WHEN("BPM: 120, timeInSamples: 905984") {
-      pos.bpm = 120;
-      pos.timeInSamples = 905984;
-      clock.configure(sample_rate, pos);
+    GIVEN("playhead position info and system info") {
+      AudioPlayHead::CurrentPositionInfo pos;
+      double sampleRate = 44100;
+      int numBufferSamples = 256;
+      SystemInfo sys{sampleRate, numBufferSamples};
 
-      REQUIRE(!clock.should_play(20114));
-      REQUIRE(!clock.should_play(20115));
-      REQUIRE(clock.should_play(20116));
-      REQUIRE(!clock.should_play(20117));
-      REQUIRE(!clock.should_play(20118));
+      WHEN("BPM: 120, timeInSamples: 6144, subdivision: 25, buffSize: 1024") {
+        pos.bpm = 120;
+        pos.timeInSamples = 6144;
+        sys.numBufferSamples = 1024;
+        clock.setSubdivision(25);
+
+        REQUIRE(clock.getModelInputForBuffer(pos, sys).size() == 2);
+      }
+
+      WHEN("BPM: 99, timeInSamples: 1024, subdivision: 50, buffSize: 1024") {
+        pos.bpm = 99;
+        pos.timeInSamples = 1024;
+        sys.numBufferSamples = 1024;
+        clock.setSubdivision(50);
+
+        REQUIRE(clock.getModelInputForBuffer(pos, sys).size() == 2);
+      }
+
+      WHEN("BPM: 166, timeInSamples: 3072, subdivision: 20, buffSize: 1024") {
+        pos.bpm = 166;
+        pos.timeInSamples = 3072;
+        sys.numBufferSamples = 1024;
+        clock.setSubdivision(20);
+
+        REQUIRE(clock.getModelInputForBuffer(pos, sys).size() == 2);
+      }
     }
+  }
+}
 
-    WHEN("BPM: 100, timeInSamples: 4905984") {
-      pos.bpm = 100;
-      pos.timeInSamples = 4905984;
-      clock.configure(sample_rate, pos);
+SCENARIO("BeatClock - changing the output scale factor") {
+  GIVEN("an instance of a BeatClock") {
+    BeatClock clock;
 
-      REQUIRE(!clock.should_play(15574));
-      REQUIRE(!clock.should_play(15575));
-      REQUIRE(clock.should_play(15576));
-      REQUIRE(!clock.should_play(15577));
-      REQUIRE(!clock.should_play(15578));
+    REQUIRE(clock.getSubdivision() == 1);
+    REQUIRE(clock.getOutputScaleFactor() == Approx(1.0f));
+
+    GIVEN("playhead position info and system info") {
+      AudioPlayHead::CurrentPositionInfo pos;
+      double sampleRate = 44100;
+      int numBufferSamples = 256;
+      SystemInfo sys{sampleRate, numBufferSamples};
+
+      WHEN("BPM: 100, timeInSamples: 13056, subdivision: 2") {
+        pos.bpm = 100;
+        pos.timeInSamples = 13056;
+        clock.setSubdivision(2);
+
+        THEN("the output scale factor is changed to 0.5") {
+          clock.setOutputScaleFactor(0.5);
+
+          auto result = clock.getModelInputForBuffer(pos, sys);
+          REQUIRE(result.size() == 1);
+          for (auto value : result.at(0).data) {
+            REQUIRE(value == Approx(0.5f));
+          }
+        }
+
+        THEN("the output scale factor is changed to 1.453") {
+          clock.setOutputScaleFactor(1.453);
+
+          auto result = clock.getModelInputForBuffer(pos, sys);
+          REQUIRE(result.size() == 1);
+          for (auto value : result.at(0).data) {
+            REQUIRE(value == Approx(1.453f));
+          }
+        }
+      }
     }
+  }
+}
 
-    WHEN("BPM: 149, timeInSamples: 1706784") {
-      pos.bpm = 149;
-      pos.timeInSamples = 1706784;
-      clock.configure(sample_rate, pos);
+SCENARIO("BeatClock - private methods") {
+  GIVEN("an instance of a BeatClock") {
+    BeatClock clock;
 
-      REQUIRE(!clock.should_play(15778));
-      REQUIRE(!clock.should_play(15779));
-      REQUIRE(clock.should_play(15780));
-      REQUIRE(!clock.should_play(15781));
-      REQUIRE(!clock.should_play(15782));
-    }
+    GIVEN("BPM and sample rate") {
+      float bpm;
+      double sampleRate = 44100.0;
 
-    GIVEN("subdivision is set to 2") {
-      clock.set_subdivision(2);
+      WHEN("BPM: 120, subdivision: 1") {
+        bpm = 120.0f;
+        REQUIRE(clock.getSamplesPerSubdivision(bpm, sampleRate) ==
+                Approx(22050.0f));
+      }
 
-      WHEN("BPM: 69, timeInSamples: 642684") {
-        pos.bpm = 69;
-        pos.timeInSamples = 642684;
-        clock.configure(sample_rate, pos);
+      WHEN("BPM: 114, subdivision: 4") {
+        bpm = 114.0f;
+        clock.setSubdivision(4);
+        REQUIRE(clock.getSamplesPerSubdivision(bpm, sampleRate) ==
+                Approx(5802.631579f));
+      }
 
-        REQUIRE(!clock.should_play(9228));
-        REQUIRE(!clock.should_play(9229));
-        REQUIRE(clock.should_play(9230));
-        REQUIRE(!clock.should_play(9231));
-        REQUIRE(!clock.should_play(9232));
+      WHEN("BPM: 99, subdivision: 50") {
+        bpm = 99.0f;
+        clock.setSubdivision(50);
+        REQUIRE(clock.getSamplesPerSubdivision(bpm, sampleRate) ==
+                Approx(534.545454f));
       }
     }
 
-    GIVEN("subdivision is set to 5") {
-      clock.set_subdivision(5);
+    GIVEN("BPM, sample rate, and the time in samples") {
+      float bpm;
+      int64_t timeInSamples;
+      double sampleRate = 44100.0;
 
-      WHEN("BPM: 111, timeInSamples: 34701294") {
-        pos.bpm = 111;
-        pos.timeInSamples = 34701294;
-        clock.configure(sample_rate, pos);
+      WHEN("BPM: 120, subdivision: 1, timeInSamples: 2459723749") {
+        bpm = 120.0f;
+        timeInSamples = 2459723749;
+        REQUIRE(clock.getNumberOfNextHit(bpm, timeInSamples, sampleRate) ==
+                111553);
+      }
 
-        REQUIRE(!clock.should_play(1827));
-        REQUIRE(!clock.should_play(1828));
-        REQUIRE(clock.should_play(1829));
-        REQUIRE(!clock.should_play(1830));
-        REQUIRE(!clock.should_play(1831));
+      WHEN("BPM: 114, subdivision: 4, timeInSamples: 937502") {
+        bpm = 114.0f;
+        timeInSamples = 937502;
+        clock.setSubdivision(4);
+        REQUIRE(clock.getNumberOfNextHit(bpm, timeInSamples, sampleRate) ==
+                162);
+      }
+
+      WHEN("BPM: 99, subdivision: 50, timeInSamples: 448375") {
+        bpm = 99.0f;
+        timeInSamples = 448375;
+        clock.setSubdivision(50);
+        REQUIRE(clock.getNumberOfNextHit(bpm, timeInSamples, sampleRate) ==
+                839);
       }
     }
   }
