@@ -6,64 +6,63 @@
  */
 
 #include "BeatClock.hpp"
+#include <cmath>
 
-BeatClock::BeatClock() {
-  subdivision = 1;
-  _is_configured = false;
-};
-BeatClock::~BeatClock(){};
+BeatClock::BeatClock() : subdivision{1}, outputScaleFactor{1.0} {};
+
+BeatClock::BeatClock(int subdivision, double outputScaleFactor)
+    : subdivision{subdivision}, outputScaleFactor{outputScaleFactor} {}
 
 /*
  * Getters
  */
 
-int BeatClock::get_subdivision() { return subdivision; }
-bool BeatClock::is_configured() { return _is_configured; }
-float BeatClock::get_samples_per_subdivision() {
-  return samples_per_subdivision;
-}
-float BeatClock::get_sample_num_remainder() { return sample_num_remainder; }
+int BeatClock::getSubdivision() { return subdivision; }
+
+double BeatClock::getOutputScaleFactor() { return outputScaleFactor; }
 
 /*
  * Setters
  */
 
-void BeatClock::set_subdivision(int new_subdiv) { subdivision = new_subdiv; }
+void BeatClock::setSubdivision(int new_subdiv) { subdivision = new_subdiv; }
+
+void BeatClock::setOutputScaleFactor(double newScaleFactor) {
+  outputScaleFactor = newScaleFactor;
+}
 
 /*
  * Public Methods
  */
 
-void BeatClock::configure(double sample_rate, const posinfo &pos) {
-  float bpm = (float)pos.bpm;
-  double current_sample_num = (double)pos.timeInSamples;
-  samples_per_subdivision = get_samples_per_subdivision(bpm, sample_rate);
-  sample_num_remainder =
-      get_sample_num_remainder(samples_per_subdivision, current_sample_num);
-  _is_configured = true;
-}
+std::vector<ModelInput> BeatClock::getModelInputForBuffer(PositionInfo &pos,
+                                                          SystemInfo &sys) {
+  std::vector<ModelInput> result;
+  float samplesPerSubdivision =
+      getSamplesPerSubdivision(pos.bpm, sys.sampleRate);
+  int64_t numberOfNextHit =
+      getNumberOfNextHit(pos.bpm, pos.timeInSamples, sys.sampleRate);
+  int64_t lastSampleOfBuffer = pos.timeInSamples + sys.numBufferSamples;
 
-bool BeatClock::should_play(int buffer_sample_num) {
-  assert(_is_configured);
-  float current_sample_remainder = sample_num_remainder + buffer_sample_num;
-  if (fmod(current_sample_remainder, samples_per_subdivision) < 1) {
-    return true;
-  } else {
-    return false;
+  while (numberOfNextHit * samplesPerSubdivision <= lastSampleOfBuffer) {
+    int64_t sampleNumber = std::round(numberOfNextHit * samplesPerSubdivision);
+    result.emplace_back(outputScaleFactor, sampleNumber,
+                        ModelInputType::BeatClockInput);
+    ++numberOfNextHit;
   }
-}
 
-void BeatClock::reset() { _is_configured = false; }
+  return result;
+}
 
 /*
  * Private Methods
  */
 
-float BeatClock::get_samples_per_subdivision(float bpm, double sample_rate) {
-  return ((60.0 / bpm) / (float)subdivision) * sample_rate;
+float BeatClock::getSamplesPerSubdivision(float bpm, double sampleRate) {
+  return ((60.0 / bpm) / (float)subdivision) * sampleRate;
 }
 
-float BeatClock::get_sample_num_remainder(float samples_per_subdivision,
-                                          double current_sample_num) {
-  return fmod(current_sample_num, samples_per_subdivision);
+int64_t BeatClock::getNumberOfNextHit(float bpm, int64_t timeInSamples,
+                                      double sampleRate) {
+  return std::ceil(timeInSamples / getSamplesPerSubdivision(bpm, sampleRate));
 }

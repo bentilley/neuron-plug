@@ -23,6 +23,10 @@ struct ModelInput {
   ModelInput() = delete;
   ModelInput(ModelInputVector data, int64_t sampleNum, ModelInputType type)
       : data{data}, sampleNumber{sampleNum}, inputType{type} {}
+  ModelInput(float dataInitValue, int64_t sampleNum, ModelInputType type)
+      : sampleNumber{sampleNum}, inputType{type} {
+    data.fill(dataInitValue);
+  }
 
   ModelInputVector data;
   int64_t sampleNumber;
