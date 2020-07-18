@@ -5,8 +5,10 @@
  * Distributed under terms of the MIT license.
  */
 
-#include "MidiInputTransformer.hpp"
 #include <catch2/catch.hpp>
+
+#define private public
+#include "MidiInputTransformer.hpp"
 
 SCENARIO("MidiInputTransformer") {
   GIVEN("an instance of MidiInputTransformer and a MidiBuffer") {
@@ -14,7 +16,7 @@ SCENARIO("MidiInputTransformer") {
     MidiBuffer buffer;
 
     WHEN("there are no MIDI events in the MidiBuffer") {
-      auto output{transformer.parseMidiInput(buffer)};
+      auto output{transformer.getModelInputForBuffer(buffer)};
       REQUIRE(output.size() == 0);
     }
 
@@ -22,7 +24,7 @@ SCENARIO("MidiInputTransformer") {
       // addEvent( noteOn(channel, noteNumber, velocity), sampleNumber )
       buffer.addEvent(MidiMessage::noteOn(1, 65, (uint8)100), 52344);
 
-      auto output{transformer.parseMidiInput(buffer)};
+      auto output{transformer.getModelInputForBuffer(buffer)};
 
       REQUIRE(output.size() == 1);
 
@@ -36,7 +38,7 @@ SCENARIO("MidiInputTransformer") {
       // addEvent( noteOn(channel, noteNumber, velocity), sampleNumber )
       buffer.addEvent(MidiMessage::noteOff(1, 65, (uint8)100), 52344);
 
-      auto output{transformer.parseMidiInput(buffer)};
+      auto output{transformer.getModelInputForBuffer(buffer)};
 
       REQUIRE(output.size() == 0); // ignore note OFF events
     }
@@ -46,7 +48,7 @@ SCENARIO("MidiInputTransformer") {
       buffer.addEvent(MidiMessage::noteOn(1, 65, (uint8)100), 52344);
       buffer.addEvent(MidiMessage::noteOn(1, 111, (uint8)67), 52418);
 
-      auto output{transformer.parseMidiInput(buffer)};
+      auto output{transformer.getModelInputForBuffer(buffer)};
 
       REQUIRE(output.size() == 2);
 
@@ -68,7 +70,7 @@ SCENARIO("MidiInputTransformer") {
       buffer.addEvent(MidiMessage::noteOn(1, 111, (uint8)67), 52344);
       buffer.addEvent(MidiMessage::noteOn(1, 78, (uint8)18), 52344);
 
-      auto output{transformer.parseMidiInput(buffer)};
+      auto output{transformer.getModelInputForBuffer(buffer)};
 
       REQUIRE(output.size() == 1);
 
@@ -87,7 +89,7 @@ SCENARIO("MidiInputTransformer") {
       buffer.addEvent(MidiMessage::noteOn(1, 65, (uint8)67), 7811643);
       buffer.addEvent(MidiMessage::noteOn(1, 65, (uint8)18), 7811643);
 
-      auto output{transformer.parseMidiInput(buffer)};
+      auto output{transformer.getModelInputForBuffer(buffer)};
 
       REQUIRE(output.size() == 1);
 
@@ -104,7 +106,7 @@ SCENARIO("MidiInputTransformer") {
       buffer.addEvent(MidiMessage::noteOn(1, 111, (uint8)67), 52418);
       buffer.addEvent(MidiMessage::noteOff(1, 68, (uint8)100), 52349);
 
-      auto output{transformer.parseMidiInput(buffer)};
+      auto output{transformer.getModelInputForBuffer(buffer)};
 
       REQUIRE(output.size() == 2);
 
@@ -130,7 +132,7 @@ SCENARIO("MidiInputTransformer") {
       buffer.addEvent(MidiMessage::noteOn(1, 12, (uint8)99), 11566);
       buffer.addEvent(MidiMessage::noteOff(1, 68, (uint8)111), 11589);
 
-      auto output{transformer.parseMidiInput(buffer)};
+      auto output{transformer.getModelInputForBuffer(buffer)};
 
       REQUIRE(output.size() == 2);
 

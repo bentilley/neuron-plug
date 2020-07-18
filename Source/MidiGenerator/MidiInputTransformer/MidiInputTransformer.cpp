@@ -11,6 +11,11 @@
 #include <utility>
 
 std::vector<ModelInput>
+MidiInputTransformer::getModelInputForBuffer(MidiBuffer &buffer) {
+  return parseMidiInput(buffer);
+}
+
+std::vector<ModelInput>
 MidiInputTransformer::parseMidiInput(MidiBuffer &buffer) {
   using InputMap = std::map<int, ModelInput>;
   InputMap inputBySample;

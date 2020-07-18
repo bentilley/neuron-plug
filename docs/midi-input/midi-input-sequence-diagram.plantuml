@@ -20,18 +20,18 @@ participant "MIDI Output Writer" as Writer
 Plugin -> Audio : processBlock()
 note over Audio : the following diagram\nassumes that the plugin is\non etc.
 activate Audio
-Audio -> Generator : generate_next_midi_buffer(\n  &MIDIBuffer,\n  EnvInfo,\n  &MIDIOut\n)
+Audio -> Generator : generate_next_midi_buffer(\n  &MIDIBuffer,\n  AudioPosInfo,\n  &MIDIOut,\n  sampleRate\n)
 activate Generator
 
 group if "Input Generation" is on
-  Generator -> Clock : get_buffer_input(\n  &EnvInfo\n)
+  Generator -> Clock : getModelInputForBuffer(\n  &PositionInfo,\n  &SystemInfo\n)
   activate Clock
   note over Clock : calculate generated input\nticks for this buffer
   return **vector<InputData>**\nGeneratedInput
 end
 
 group if "MIDI Throughput" is on
-  Generator -> Transformer : get_buffer_input(\n  &MIDIBuffer\n)
+  Generator -> Transformer : getModelInputForBuffer(\n  &MIDIBuffer\n)
   activate Transformer
   note over Transformer : calculate MIDI input\nticks for this buffer
   return **vector<InputData>**\nMIDIInput
