@@ -1,7 +1,7 @@
 # Usage:
 # make		# compile plugin and restart audio plugin host
 
-.PHONY: all compile test xcode clean_xcode
+.PHONY: all compile test xcode clean_xcode docs
 
 all: compile
 
@@ -41,3 +41,16 @@ Builds/MacOSX/build/Debug/test-wells-plugin: $(shell find Source -name "*.cpp")
 	  -project Builds/MacOSX/Wells.xcodeproj \
 	  -target "Test Wells" \
 	  | xcpretty
+
+
+# Documentation
+
+docs: docs/generated
+	@python -m http.server 8000 --directory docs/generated/html
+
+docs/generated: $(shell find Source -name "*.?pp")
+	@rm -r docs/generated
+	@doxygen .doxygenrc
+
+docs/%.png: docs/%.plantuml
+	@plantuml $<

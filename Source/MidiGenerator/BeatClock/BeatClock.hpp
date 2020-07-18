@@ -21,6 +21,14 @@ struct SystemInfo {
   int numBufferSamples;
 };
 
+/** Generate input for the plugin Brain based on the current sample number.
+ *
+ * The Beatclock is used for the plugin to know when to automatically perform
+ * iterations of the Brain's algorithm. The subdivision parameter can be used to
+ * set how many times per `beat` the clock fires input into the Brain. (e.g. a
+ * subdivision of `4` will mean that the Brain receives input from the clock 4
+ * times per beat - i.e. semi-quavers).
+ */
 class BeatClock {
 public:
   BeatClock();
