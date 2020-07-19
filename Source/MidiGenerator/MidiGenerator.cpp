@@ -21,8 +21,8 @@ bool MidiGenerator::get_is_on() { return is_on; };
 void MidiGenerator::toggleReceivesMidi() { receives_midi = receives_midi; };
 bool MidiGenerator::get_receives_midi() { return receives_midi; };
 
-int MidiGenerator::get_subdivision() { return beatClock.get_subdivision(); }
-void MidiGenerator::set_subdivision(int s) { beatClock.set_subdivision(s); }
+int MidiGenerator::get_subdivision() { return beatClock.getSubdivision(); }
+void MidiGenerator::set_subdivision(int s) { beatClock.setSubdivision(s); }
 
 float MidiGenerator::get_volume() { return midiProcessor.get_global_volume(); };
 void MidiGenerator::set_volume(float v) { midiProcessor.set_global_volume(v); };
@@ -106,19 +106,19 @@ void MidiGenerator::generate_next_midi_buffer(
     MidiBuffer &midiBuffer, const AudioPlayHead::CurrentPositionInfo &pos,
     double sample_rate, int num_samples) {
 
-  beatClock.configure(sample_rate, pos);
+  //beatClock.configure(sample_rate, pos);
 
-  for (int time = 0; time < num_samples; ++time) {
-    if (beatClock.should_play(time)) {
-      network.process_next(std::vector<int>(num_neurons(), 1));
-      std::vector<int> output = network.get_output();
-      // TODO remove model output logging
-      PluginLogger::logger.log_vec("model output", output);
-      // TODO get neuron output for James to analyse
+  //for (int time = 0; time < num_samples; ++time) {
+  //  if (beatClock.should_play(time)) {
+  //    network.process_next(std::vector<int>(num_neurons(), 1));
+  //    std::vector<int> output = network.get_output();
+  //    // TODO remove model output logging
+  //    PluginLogger::logger.log_vec("model output", output);
+  //    // TODO get neuron output for James to analyse
 
-      midiProcessor.render_buffer(midiBuffer, output, time);
-    }
-  }
+  //    midiProcessor.render_buffer(midiBuffer, output, time);
+  //  }
+  //}
 
-  beatClock.reset();
+  //beatClock.reset();
 };

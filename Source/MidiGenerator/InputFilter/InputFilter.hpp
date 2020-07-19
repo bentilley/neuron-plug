@@ -7,12 +7,25 @@
 
 #pragma once
 
+#include "../Brain/io.hpp"
+#include <vector>
+
+enum MergeStrategy : std::uint_least8_t {
+  SimpleMerge,
+  ForwardNeighbourMerge,
+};
+
 class InputFilter {
 public:
-  InputFilter(int value);
+  InputFilter();
+  InputFilter(MergeStrategy strategy);
 
-  int getValue() { return value; }
+  std::vector<ModelInput>
+  mergeInputStreams(std::vector<std::vector<ModelInput>> &streams);
+
+  MergeStrategy getMergeStrategy();
+  void setMergeStrategy(MergeStrategy newStrategy);
 
 private:
-  int value{};
+  MergeStrategy mergeStrategy;
 };

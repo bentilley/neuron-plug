@@ -17,6 +17,7 @@ using ModelInputVector = std::array<float, NUM_MIDI_NOTES>;
 enum ModelInputType : std::uint_least8_t {
   BeatClockInput,
   MidiInput,
+  MergedInput,
 };
 
 struct ModelInput {
@@ -26,6 +27,19 @@ struct ModelInput {
   ModelInput(float dataInitValue, int64_t sampleNum, ModelInputType type)
       : sampleNumber{sampleNum}, inputType{type} {
     data.fill(dataInitValue);
+  }
+
+  friend bool operator==(const ModelInput &m1, const ModelInput &m2) {
+    return m1.data == m2.data && m1.sampleNumber == m2.sampleNumber &&
+           m1.inputType == m2.inputType;
+  }
+
+  friend ModelInput operator+(const ModelInput &m1, const ModelInput &m2) {
+    ModelInputVector mergedData;
+    for (int i{0}; i < mergedData.size(); ++i) {
+      mergedData.at(i) = m1.data.at(i) + m1.data.at(i);
+    }
+    return ModelInput(mergedData, m1.sampleNumber, ModelInputType::MergedInput);
   }
 
   ModelInputVector data;
