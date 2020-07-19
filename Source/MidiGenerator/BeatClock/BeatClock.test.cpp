@@ -15,7 +15,7 @@ SCENARIO("BeatClock - getters and setters") {
     BeatClock clock;
 
     REQUIRE(clock.getSubdivision() == 1);
-    REQUIRE(clock.getOutputScaleFactor() == Approx(1.0f));
+    REQUIRE(clock.getModelInputScaleFactor() == Approx(1.0f));
 
     WHEN("we set the subdivision") {
       clock.setSubdivision(12);
@@ -29,14 +29,14 @@ SCENARIO("BeatClock - getters and setters") {
     }
 
     WHEN("we set the output scale factor") {
-      clock.setOutputScaleFactor(0.286);
-      REQUIRE(clock.getOutputScaleFactor() == Approx(0.286));
+      clock.setModelInputScaleFactor(0.286);
+      REQUIRE(clock.getModelInputScaleFactor() == Approx(0.286));
 
-      clock.setOutputScaleFactor(2.551);
-      REQUIRE(clock.getOutputScaleFactor() == Approx(2.551));
+      clock.setModelInputScaleFactor(2.551);
+      REQUIRE(clock.getModelInputScaleFactor() == Approx(2.551));
 
-      clock.setOutputScaleFactor(1.00035);
-      REQUIRE(clock.getOutputScaleFactor() == Approx(1.00035));
+      clock.setModelInputScaleFactor(1.00035);
+      REQUIRE(clock.getModelInputScaleFactor() == Approx(1.00035));
     }
   }
 }
@@ -164,7 +164,7 @@ SCENARIO("BeatClock - changing the output scale factor") {
     BeatClock clock;
 
     REQUIRE(clock.getSubdivision() == 1);
-    REQUIRE(clock.getOutputScaleFactor() == Approx(1.0f));
+    REQUIRE(clock.getModelInputScaleFactor() == Approx(1.0f));
 
     GIVEN("playhead position info and system info") {
       AudioPlayHead::CurrentPositionInfo pos;
@@ -178,7 +178,7 @@ SCENARIO("BeatClock - changing the output scale factor") {
         clock.setSubdivision(2);
 
         THEN("the output scale factor is changed to 0.5") {
-          clock.setOutputScaleFactor(0.5);
+          clock.setModelInputScaleFactor(0.5);
 
           auto result = clock.getModelInputForBuffer(pos, sys);
           REQUIRE(result.size() == 1);
@@ -188,7 +188,7 @@ SCENARIO("BeatClock - changing the output scale factor") {
         }
 
         THEN("the output scale factor is changed to 1.453") {
-          clock.setOutputScaleFactor(1.453);
+          clock.setModelInputScaleFactor(1.453);
 
           auto result = clock.getModelInputForBuffer(pos, sys);
           REQUIRE(result.size() == 1);

@@ -8,10 +8,10 @@
 #include "BeatClock.hpp"
 #include <cmath>
 
-BeatClock::BeatClock() : subdivision{1}, outputScaleFactor{1.0} {};
+BeatClock::BeatClock() : subdivision{1}, modelInputScaleFactor{1.0} {};
 
-BeatClock::BeatClock(int subdivision, double outputScaleFactor)
-    : subdivision{subdivision}, outputScaleFactor{outputScaleFactor} {}
+BeatClock::BeatClock(int subdivision, double modelInputScaleFactor)
+    : subdivision{subdivision}, modelInputScaleFactor{modelInputScaleFactor} {}
 
 /*
  * Getters
@@ -19,7 +19,7 @@ BeatClock::BeatClock(int subdivision, double outputScaleFactor)
 
 int BeatClock::getSubdivision() { return subdivision; }
 
-double BeatClock::getOutputScaleFactor() { return outputScaleFactor; }
+double BeatClock::getModelInputScaleFactor() { return modelInputScaleFactor; }
 
 /*
  * Setters
@@ -27,8 +27,8 @@ double BeatClock::getOutputScaleFactor() { return outputScaleFactor; }
 
 void BeatClock::setSubdivision(int new_subdiv) { subdivision = new_subdiv; }
 
-void BeatClock::setOutputScaleFactor(double newScaleFactor) {
-  outputScaleFactor = newScaleFactor;
+void BeatClock::setModelInputScaleFactor(double newScaleFactor) {
+  modelInputScaleFactor = newScaleFactor;
 }
 
 /*
@@ -46,7 +46,7 @@ std::vector<ModelInput> BeatClock::getModelInputForBuffer(PositionInfo &pos,
 
   while (numberOfNextHit * samplesPerSubdivision <= lastSampleOfBuffer) {
     int64_t sampleNumber = std::round(numberOfNextHit * samplesPerSubdivision);
-    result.emplace_back(outputScaleFactor, sampleNumber,
+    result.emplace_back(modelInputScaleFactor, sampleNumber,
                         ModelInputType::BeatClockInput);
     ++numberOfNextHit;
   }

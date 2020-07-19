@@ -48,7 +48,7 @@ Builds/MacOSX/build/Debug/test-wells-plugin: $(shell find Source -name "*.cpp")
 docs: docs/generated
 	@python -m http.server 8000 --directory docs/generated/html
 
-docs/generated: $(shell find Source -name "*.?pp")
+docs/generated: .doxygenrc $(shell find Source -name "*.?pp")
 	@rm -r docs/generated
 	@doxygen .doxygenrc
 

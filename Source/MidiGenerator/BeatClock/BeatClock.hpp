@@ -32,22 +32,55 @@ struct SystemInfo {
 class BeatClock {
 public:
   BeatClock();
-  BeatClock(int subdivision, double outputScaleFactor);
+  BeatClock(int subdivision, double modelInputScaleFactor);
 
+  /** Get the #subdivision from this BeatClock. */
   int getSubdivision();
+  /** Set the #subdivision from this BeatClock. */
   void setSubdivision(int new_subdivision);
 
-  double getOutputScaleFactor();
-  void setOutputScaleFactor(double newScaleFactor);
+  /** Get the #modelInputScaleFactor from this BeatClock. */
+  double getModelInputScaleFactor();
+  /** Set the #modelInputScaleFactor from this BeatClock. */
+  void setModelInputScaleFactor(double newScaleFactor);
 
+  /** Get the Brain input vectors for this buffer.
+   *
+   * This is the main method of the BeatClock. It is called each buffer to get
+   * the input vectors for the Brain.
+   *
+   * @param positionInfo The JUCE CurrentPositionInfo for the buffer.
+   * @param systemInfo Information about the current DAW settings.
+   * @returns The input vectors for the plugin model.
+   */
   std::vector<ModelInput> getModelInputForBuffer(PositionInfo &positionInfo,
                                                  SystemInfo &systemInfo);
 
 private:
-  int subdivision;
-  double outputScaleFactor;
+  int subdivision; /**< The number of times the Clock fires each beat. */
+  double
+      modelInputScaleFactor; /**< The value of the input vectors generated. */
 
+  /** Calculate the number of samples per subdivision.
+   *
+   * @param bpm The current beats per minute of the audio host.
+   * @param sampleRate The current sample rate of the audio host.
+   * @returns The number of samples per subdivision.
+   */
   float getSamplesPerSubdivision(float bpm, double sampleRate);
+
+  /** Calculate the number of the next time the BeatClock will fire.
+   *
+   * Given the current sample number, this calculates how many times the
+   * BeatClock will / would have fired up until that point plus one, i.e. if the
+   * clock would have fired `N` times upto sample number `x`, this method would
+   * return `N+1`.
+   *
+   * @param bpm The current beats per minute of the audio host.
+   * @param timeInSamples The sample number of the first sample of the buffer.
+   * @param sampleRate The current sample rate of the audio host.
+   * @returns The number of the next hit.
+   */
   int64_t getNumberOfNextHit(float bpm, int64_t timeInSamples,
                              double sampleRate);
 };
