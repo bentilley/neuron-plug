@@ -45,8 +45,11 @@ Builds/MacOSX/build/Debug/test-wells-plugin: $(shell find Source -name "*.cpp")
 
 # Documentation
 
+DOCS_SERVER_PORT = 8010
+
 docs: docs/generated
-	@python -m http.server 8000 --directory docs/generated/html
+	@python -m http.server $(DOCS_SERVER_PORT) --directory docs/generated/html \
+	  & open http://localhost:$(DOCS_SERVER_PORT)
 
 docs/generated: .doxygenrc $(shell find Source -name "*.?pp")
 	@rm -r docs/generated
