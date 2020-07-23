@@ -37,7 +37,7 @@ struct ModelInput {
   friend ModelInput operator+(const ModelInput &m1, const ModelInput &m2) {
     ModelInputVector mergedData;
     for (int i{0}; i < mergedData.size(); ++i) {
-      mergedData.at(i) = m1.data.at(i) + m1.data.at(i);
+      mergedData.at(i) = m1.data.at(i) + m2.data.at(i);
     }
     return ModelInput(mergedData, m1.sampleNumber, ModelInputType::MergedInput);
   }

@@ -12,9 +12,9 @@
 #define private public
 #include "InputFilter.hpp"
 
-SCENARIO("InputFilter - simple merging") {
-  GIVEN("An instance of InputFilter") {
-    InputFilter filter{MergeStrategy::SimpleMerge};
+SCENARIO("InputFilter - SimpleMerge Strategy") {
+  GIVEN("An instance of InputFilter with the SimpleMerge strategy") {
+    InputFilter filter{InputFilter::MergeStrategy::SimpleMerge};
 
     GIVEN("an empty array of input vectors") {
       std::vector<std::vector<ModelInput>> inputs;
