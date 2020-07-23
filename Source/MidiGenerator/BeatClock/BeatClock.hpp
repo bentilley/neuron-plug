@@ -53,8 +53,8 @@ public:
    * @param systemInfo Information about the current DAW settings.
    * @returns The input vectors for the plugin model.
    */
-  std::vector<ModelInput> getModelInputForBuffer(PositionInfo &positionInfo,
-                                                 SystemInfo &systemInfo);
+  std::vector<ModelVector> getModelInputForBuffer(PositionInfo &positionInfo,
+                                                  SystemInfo &systemInfo);
 
 private:
   int subdivision; /**< The number of times the Clock fires each beat. */
@@ -81,6 +81,6 @@ private:
    * @param sampleRate The current sample rate of the audio host.
    * @returns The number of the next hit.
    */
-  int64_t getNumberOfNextHit(float bpm, int64_t timeInSamples,
-                             double sampleRate);
+  int64_t
+  getNumberOfNextHit(float bpm, int64_t timeInSamples, double sampleRate);
 };

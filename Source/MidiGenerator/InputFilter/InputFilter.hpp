@@ -44,10 +44,10 @@ public:
      * determine how to merge in each input vector to the merged output.
      *
      * @param mergedVectors A vector of all of the currently mergedVectors.
-     * @param nextVector The next ModelInput vector to be merged.
+     * @param nextVector The next ModelVector vector to be merged.
      */
-    virtual void mergeInputVector(std::vector<ModelInput> &mergedVectors,
-                                  ModelInput &nextVector) = 0;
+    virtual void mergeInputVector(std::vector<ModelVector> &mergedVectors,
+                                  ModelVector &nextVector) = 0;
   };
 
   /** Default constructor creates an InputFilter that uses the
@@ -69,8 +69,8 @@ public:
    *
    * @param streams The input streams to be merged.
    */
-  std::vector<ModelInput>
-  mergeInputStreams(std::vector<std::vector<ModelInput>> &streams) const;
+  std::vector<ModelVector>
+  mergeInputStreams(std::vector<std::vector<ModelVector>> &streams) const;
 
   /** Get the enum of the currently configured MergeStrategy. */
   const MergeStrategy getMergeStrategy() const;
@@ -97,6 +97,6 @@ private:
  */
 class SimpleMergeStrategy : public InputFilter::MergeStrategyImplementation {
 public:
-  void mergeInputVector(std::vector<ModelInput> &mergedVectors,
-                        ModelInput &nextVector) override;
+  void mergeInputVector(std::vector<ModelVector> &mergedVectors,
+                        ModelVector &nextVector) override;
 };

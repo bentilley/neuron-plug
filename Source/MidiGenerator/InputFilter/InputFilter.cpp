@@ -48,9 +48,9 @@ void InputFilter::setMergeStrategy(MergeStrategy newStrategy) {
  * Public Methods *
  ******************/
 
-std::vector<ModelInput> InputFilter::mergeInputStreams(
-    std::vector<std::vector<ModelInput>> &streams) const {
-  std::vector<ModelInput> results;
+std::vector<ModelVector> InputFilter::mergeInputStreams(
+    std::vector<std::vector<ModelVector>> &streams) const {
+  std::vector<ModelVector> results;
   for (auto inputStream : streams) {
     for (auto inputVector : inputStream) {
       strategy->mergeInputVector(results, inputVector);
@@ -64,10 +64,10 @@ std::vector<ModelInput> InputFilter::mergeInputStreams(
  *************************/
 
 void SimpleMergeStrategy::mergeInputVector(
-    std::vector<ModelInput> &mergedVectors,
-    ModelInput &nextVector) {
+    std::vector<ModelVector> &mergedVectors,
+    ModelVector &nextVector) {
 
-  std::vector<ModelInput>::iterator vectorWithSameSampleNumber{
+  std::vector<ModelVector>::iterator vectorWithSameSampleNumber{
       mergedVectors.end()};
   for (auto v{mergedVectors.begin()}; v != mergedVectors.end(); ++v) {
     if (v->sampleNumber == nextVector.sampleNumber) {
@@ -79,7 +79,7 @@ void SimpleMergeStrategy::mergeInputVector(
   if (vectorWithSameSampleNumber != mergedVectors.end()) {
     *vectorWithSameSampleNumber = *vectorWithSameSampleNumber + nextVector;
   } else {
-    nextVector.inputType = ModelInputType::MergedInput;
+    nextVector.inputType = ModelVector::InputType::MergedInput;
     mergedVectors.push_back(nextVector);
   }
 }

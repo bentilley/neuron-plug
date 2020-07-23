@@ -9,7 +9,6 @@
 #include <catch2/catch.hpp>
 #include <vector>
 
-#define private public
 #include "InputFilter.hpp"
 
 SCENARIO("InputFilter - SimpleMerge Strategy") {
@@ -17,73 +16,73 @@ SCENARIO("InputFilter - SimpleMerge Strategy") {
     InputFilter filter{InputFilter::MergeStrategy::SimpleMerge};
 
     GIVEN("an empty array of input vectors") {
-      std::vector<std::vector<ModelInput>> inputs;
+      std::vector<std::vector<ModelVector>> inputs;
 
       THEN("we merge the input") {
-        std::vector<ModelInput> result{filter.mergeInputStreams(inputs)};
+        std::vector<ModelVector> result{filter.mergeInputStreams(inputs)};
 
         REQUIRE(result.size() == 0);
       }
     }
 
     GIVEN("one input stream with one input vector") {
-      ModelInput input1{0.5f, 100, ModelInputType::BeatClockInput};
-      std::vector<std::vector<ModelInput>> inputs{
-          std::vector<ModelInput>{input1}};
+      ModelVector input1{0.5f, 100, ModelVector::InputType::BeatClockInput};
+      std::vector<std::vector<ModelVector>> inputs{
+          std::vector<ModelVector>{input1}};
 
       THEN("we merge the input") {
-        std::vector<ModelInput> result{filter.mergeInputStreams(inputs)};
+        std::vector<ModelVector> result{filter.mergeInputStreams(inputs)};
 
         REQUIRE(result.size() == 1);
-        input1.inputType = ModelInputType::MergedInput;
+        input1.inputType = ModelVector::InputType::MergedInput;
         REQUIRE(result.at(0) == input1);
       }
     }
 
     GIVEN("one input stream with multiple input vectors") {
-      ModelInput input1{0.5f, 100, ModelInputType::BeatClockInput};
-      ModelInput input2{0.4f, 200, ModelInputType::BeatClockInput};
-      std::vector<std::vector<ModelInput>> inputs{
-          std::vector<ModelInput>{input1, input2}};
+      ModelVector input1{0.5f, 100, ModelVector::InputType::BeatClockInput};
+      ModelVector input2{0.4f, 200, ModelVector::InputType::BeatClockInput};
+      std::vector<std::vector<ModelVector>> inputs{
+          std::vector<ModelVector>{input1, input2}};
 
       THEN("we merge the input") {
-        std::vector<ModelInput> result{filter.mergeInputStreams(inputs)};
+        std::vector<ModelVector> result{filter.mergeInputStreams(inputs)};
 
         REQUIRE(result.size() == 2);
-        input1.inputType = ModelInputType::MergedInput;
+        input1.inputType = ModelVector::InputType::MergedInput;
         REQUIRE(result.at(0) == input1);
-        input2.inputType = ModelInputType::MergedInput;
+        input2.inputType = ModelVector::InputType::MergedInput;
         REQUIRE(result.at(1) == input2);
       }
     }
 
     GIVEN("two input stream no vector collision") {
-      ModelInput input1{0.5f, 100, ModelInputType::BeatClockInput};
-      ModelInput input2{0.4f, 200, ModelInputType::MidiInput};
-      std::vector<std::vector<ModelInput>> inputs{
-          std::vector<ModelInput>{input1},
-          std::vector<ModelInput>{input2}};
+      ModelVector input1{0.5f, 100, ModelVector::InputType::BeatClockInput};
+      ModelVector input2{0.4f, 200, ModelVector::InputType::MidiInput};
+      std::vector<std::vector<ModelVector>> inputs{
+          std::vector<ModelVector>{input1},
+          std::vector<ModelVector>{input2}};
 
       THEN("we merge the input") {
-        std::vector<ModelInput> result{filter.mergeInputStreams(inputs)};
+        std::vector<ModelVector> result{filter.mergeInputStreams(inputs)};
 
         REQUIRE(result.size() == 2);
-        input1.inputType = ModelInputType::MergedInput;
+        input1.inputType = ModelVector::InputType::MergedInput;
         REQUIRE(result.at(0) == input1);
-        input2.inputType = ModelInputType::MergedInput;
+        input2.inputType = ModelVector::InputType::MergedInput;
         REQUIRE(result.at(1) == input2);
       }
     }
 
     GIVEN("two input stream with vector collision") {
-      ModelInput input1{0.5f, 100, ModelInputType::BeatClockInput};
-      ModelInput input2{0.4f, 100, ModelInputType::MidiInput};
-      std::vector<std::vector<ModelInput>> inputs{
-          std::vector<ModelInput>{input1},
-          std::vector<ModelInput>{input2}};
+      ModelVector input1{0.5f, 100, ModelVector::InputType::BeatClockInput};
+      ModelVector input2{0.4f, 100, ModelVector::InputType::MidiInput};
+      std::vector<std::vector<ModelVector>> inputs{
+          std::vector<ModelVector>{input1},
+          std::vector<ModelVector>{input2}};
 
       THEN("we merge the input") {
-        std::vector<ModelInput> result{filter.mergeInputStreams(inputs)};
+        std::vector<ModelVector> result{filter.mergeInputStreams(inputs)};
 
         REQUIRE(result.size() == 1);
         REQUIRE(result.at(0) == input1 + input2);

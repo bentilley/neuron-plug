@@ -35,9 +35,9 @@ void BeatClock::setModelInputScaleFactor(double newScaleFactor) {
  * Public Methods
  */
 
-std::vector<ModelInput> BeatClock::getModelInputForBuffer(PositionInfo &pos,
-                                                          SystemInfo &sys) {
-  std::vector<ModelInput> result;
+std::vector<ModelVector> BeatClock::getModelInputForBuffer(PositionInfo &pos,
+                                                           SystemInfo &sys) {
+  std::vector<ModelVector> result;
   float samplesPerSubdivision =
       getSamplesPerSubdivision(pos.bpm, sys.sampleRate);
   int64_t numberOfNextHit =
@@ -46,8 +46,9 @@ std::vector<ModelInput> BeatClock::getModelInputForBuffer(PositionInfo &pos,
 
   while (numberOfNextHit * samplesPerSubdivision <= lastSampleOfBuffer) {
     int64_t sampleNumber = std::round(numberOfNextHit * samplesPerSubdivision);
-    result.emplace_back(modelInputScaleFactor, sampleNumber,
-                        ModelInputType::BeatClockInput);
+    result.emplace_back(modelInputScaleFactor,
+                        sampleNumber,
+                        ModelVector::InputType::BeatClockInput);
     ++numberOfNextHit;
   }
 
@@ -62,7 +63,8 @@ float BeatClock::getSamplesPerSubdivision(float bpm, double sampleRate) {
   return ((60.0 / bpm) / (float)subdivision) * sampleRate;
 }
 
-int64_t BeatClock::getNumberOfNextHit(float bpm, int64_t timeInSamples,
+int64_t BeatClock::getNumberOfNextHit(float bpm,
+                                      int64_t timeInSamples,
                                       double sampleRate) {
   return std::ceil(timeInSamples / getSamplesPerSubdivision(bpm, sampleRate));
 }

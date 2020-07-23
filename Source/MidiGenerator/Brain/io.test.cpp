@@ -9,37 +9,39 @@
 #include <catch2/catch.hpp>
 
 SCENARIO("Brain I/O") {
-  GIVEN("ModelInput for a Beat Clock") {
-    ModelInputVector data{};
-    ModelInput input{data, 17362, ModelInputType::BeatClockInput};
+  GIVEN("ModelVector for a Beat Clock") {
+    ModelVectorData data{};
+    ModelVector input{data, 17362, ModelVector::InputType::BeatClockInput};
 
     REQUIRE(input.data.size() == 128);
     for (auto element : input.data) {
       REQUIRE(element == 0);
     }
     REQUIRE(input.sampleNumber == 17362);
-    REQUIRE(input.inputType == ModelInputType::BeatClockInput);
+    REQUIRE(input.inputType == ModelVector::InputType::BeatClockInput);
   }
 
-  GIVEN("ModelInput for a MIDI Input Transformer") {
-    ModelInputVector data{};
+  GIVEN("ModelVector for a MIDI Input Transformer") {
+    ModelVectorData data{};
     data.at(13) = 0.54f;
     data.at(89) = 0.972f;
-    ModelInput input{data, 9827643, ModelInputType::MidiInput};
+    ModelVector input{data, 9827643, ModelVector::InputType::MidiInput};
 
     REQUIRE(input.data.size() == 128);
     REQUIRE(input.data.at(13) == Approx(0.54f));
     REQUIRE(input.data.at(89) == Approx(0.972f));
     REQUIRE(input.sampleNumber == 9827643);
-    REQUIRE(input.inputType == ModelInputType::MidiInput);
+    REQUIRE(input.inputType == ModelVector::InputType::MidiInput);
   }
 
-  GIVEN("ModelInput for a MIDI Input Transformer and a Beat Clock") {
-    ModelInputVector data{};
+  GIVEN("ModelVector for a MIDI Input Transformer and a Beat Clock") {
+    ModelVectorData data{};
     data.at(13) = 0.54f;
     data.at(89) = 0.972f;
-    ModelInput input_midi{data, 9827643, ModelInputType::MidiInput};
-    ModelInput input_clock{0.5f, 9827643, ModelInputType::BeatClockInput};
+    ModelVector input_midi{data, 9827643, ModelVector::InputType::MidiInput};
+    ModelVector input_clock{0.5f,
+                            9827643,
+                            ModelVector::InputType::BeatClockInput};
 
     auto result = input_midi + input_clock;
 
@@ -52,6 +54,6 @@ SCENARIO("Brain I/O") {
       }
     }
     REQUIRE(result.sampleNumber == 9827643);
-    REQUIRE(result.inputType == ModelInputType::MergedInput);
+    REQUIRE(result.inputType == ModelVector::InputType::MergedInput);
   }
 }

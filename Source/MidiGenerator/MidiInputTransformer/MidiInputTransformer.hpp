@@ -14,10 +14,10 @@
 
 class MidiInputTransformer {
 public:
-  std::vector<ModelInput> getModelInputForBuffer(MidiBuffer &buffer);
+  std::vector<ModelVector> getModelInputForBuffer(MidiBuffer &buffer);
 
 private:
-  std::vector<ModelInput> parseMidiInput(MidiBuffer &buffer);
-  ModelInput midiMessageToModelInput(const MidiMessage &message,
-                                     int sampleNumber);
+  std::vector<ModelVector> parseMidiInput(MidiBuffer &buffer);
+  ModelVector midiMessageToModelInput(const MidiMessage &message,
+                                      int sampleNumber);
 };

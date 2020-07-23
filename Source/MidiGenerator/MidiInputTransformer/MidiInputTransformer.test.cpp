@@ -28,10 +28,10 @@ SCENARIO("MidiInputTransformer") {
 
       REQUIRE(output.size() == 1);
 
-      ModelInput res{output.at(0)};
+      ModelVector res{output.at(0)};
       REQUIRE(res.data.at(65) == Approx(100.0f / 127.0f));
       REQUIRE(res.sampleNumber == 52344);
-      REQUIRE(res.inputType == ModelInputType::MidiInput);
+      REQUIRE(res.inputType == ModelVector::InputType::MidiInput);
     }
 
     WHEN("there is a note OFF event in the MidiBuffer") {
@@ -52,15 +52,15 @@ SCENARIO("MidiInputTransformer") {
 
       REQUIRE(output.size() == 2);
 
-      ModelInput input1{output.at(0)};
+      ModelVector input1{output.at(0)};
       REQUIRE(input1.data.at(65) == Approx(100.0f / 127.0f));
       REQUIRE(input1.sampleNumber == 52344);
-      REQUIRE(input1.inputType == ModelInputType::MidiInput);
+      REQUIRE(input1.inputType == ModelVector::InputType::MidiInput);
 
-      ModelInput input2{output.at(1)};
+      ModelVector input2{output.at(1)};
       REQUIRE(input2.data.at(111) == Approx(67.0f / 127.0f));
       REQUIRE(input2.sampleNumber == 52418);
-      REQUIRE(input2.inputType == ModelInputType::MidiInput);
+      REQUIRE(input2.inputType == ModelVector::InputType::MidiInput);
     }
 
     WHEN("there are multiple note ON events in the MidiBuffer with the same "
@@ -74,12 +74,12 @@ SCENARIO("MidiInputTransformer") {
 
       REQUIRE(output.size() == 1);
 
-      ModelInput input1{output.at(0)};
+      ModelVector input1{output.at(0)};
       REQUIRE(input1.data.at(65) == Approx(100.0f / 127.0f));
       REQUIRE(input1.data.at(111) == Approx(67.0f / 127.0f));
       REQUIRE(input1.data.at(78) == Approx(18.0f / 127.0f));
       REQUIRE(input1.sampleNumber == 52344);
-      REQUIRE(input1.inputType == ModelInputType::MidiInput);
+      REQUIRE(input1.inputType == ModelVector::InputType::MidiInput);
     }
 
     WHEN("there are multiple note ON events in the MidiBuffer with the same "
@@ -93,10 +93,10 @@ SCENARIO("MidiInputTransformer") {
 
       REQUIRE(output.size() == 1);
 
-      ModelInput input1{output.at(0)};
+      ModelVector input1{output.at(0)};
       REQUIRE(input1.data.at(65) == Approx((100.0f + 67.0f + 18.0f) / 127.0f));
       REQUIRE(input1.sampleNumber == 7811643);
-      REQUIRE(input1.inputType == ModelInputType::MidiInput);
+      REQUIRE(input1.inputType == ModelVector::InputType::MidiInput);
     }
 
     WHEN("there are a mixture of note ON and note OFF events in the "
@@ -110,15 +110,15 @@ SCENARIO("MidiInputTransformer") {
 
       REQUIRE(output.size() == 2);
 
-      ModelInput input1{output.at(0)};
+      ModelVector input1{output.at(0)};
       REQUIRE(input1.data.at(65) == Approx(100.0f / 127.0f));
       REQUIRE(input1.sampleNumber == 52344);
-      REQUIRE(input1.inputType == ModelInputType::MidiInput);
+      REQUIRE(input1.inputType == ModelVector::InputType::MidiInput);
 
-      ModelInput input2{output.at(1)};
+      ModelVector input2{output.at(1)};
       REQUIRE(input2.data.at(111) == Approx(67.0f / 127.0f));
       REQUIRE(input2.sampleNumber == 52418);
-      REQUIRE(input2.inputType == ModelInputType::MidiInput);
+      REQUIRE(input2.inputType == ModelVector::InputType::MidiInput);
     }
 
     WHEN("there are a complex mixture of note ON and note OFF events in the "
@@ -136,16 +136,16 @@ SCENARIO("MidiInputTransformer") {
 
       REQUIRE(output.size() == 2);
 
-      ModelInput input1{output.at(0)};
+      ModelVector input1{output.at(0)};
       REQUIRE(input1.data.at(65) == Approx((100.0f + 67.0f + 18.0f) / 127.0f));
       REQUIRE(input1.sampleNumber == 11453);
-      REQUIRE(input1.inputType == ModelInputType::MidiInput);
+      REQUIRE(input1.inputType == ModelVector::InputType::MidiInput);
 
-      ModelInput input2{output.at(1)};
+      ModelVector input2{output.at(1)};
       REQUIRE(input2.data.at(111) == Approx(67.0f / 127.0f));
       REQUIRE(input2.data.at(12) == Approx(99.0f / 127.0f));
       REQUIRE(input2.sampleNumber == 11566);
-      REQUIRE(input2.inputType == ModelInputType::MidiInput);
+      REQUIRE(input2.inputType == ModelVector::InputType::MidiInput);
     }
   }
 }
@@ -158,12 +158,12 @@ SCENARIO("MidiInputTransformer - midiMessageToModelInput") {
       MidiMessage message{MidiMessage::noteOn(1, 23, (uint8)120)};
       int sampleNumber{7719};
 
-      ModelInput result{
+      ModelVector result{
           transformer.midiMessageToModelInput(message, sampleNumber)};
 
       REQUIRE(result.data.at(23) == Approx(120.0f / 127.0f));
       REQUIRE(result.sampleNumber == 7719);
-      REQUIRE(result.inputType == ModelInputType::MidiInput);
+      REQUIRE(result.inputType == ModelVector::InputType::MidiInput);
     }
 
     WHEN("we parse a note OFF MIDI event") {
