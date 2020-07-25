@@ -11,17 +11,153 @@
 #include "../Brain/io.hpp"
 #include <vector>
 
+/** Takes the output from the Model and converts it to the relevant MIDI
+ * messages in the MIDIBuffer.
+ *
+ * It keeps track of what notes are playing and can be used to limit the length
+ * of time that MIDI notes are allowed to play for.
+ */
 class MidiOutputWriter {
 public:
-  MidiOutputWriter() {}
+  //============================================================================
+  /** Default Constructor */
+  MidiOutputWriter();
+  /** Constructor to set initial maxNoteLength */
+  MidiOutputWriter(uint_fast32_t maxNoteLength);
 
+  //============================================================================
+  /** Write MIDI output to the buffer based on the Model's output.
+   *
+   * Given a sequence of output vectors from the Model, this writer creates MIDI
+   * messages based on which notes are being activated. It also keeps track of
+   * which notes are playing and can create NOTE_OFF messages if a note has been
+   * playing longer than the maxiumum time.
+   *
+   * @param output The output vectors from the Model.
+   * @param buffer The MIDI buffer to write to.
+   * @param bufferSize The sample size of the current buffer.
+   */
   MidiBuffer &writeMidiOutput(std::vector<ModelVector> &output,
-                              MidiBuffer &buffer);
+                              MidiBuffer &buffer,
+                              int bufferSize);
+
+  /** Set the maximum length of a note in samples.
+   * @param newMaxNoteLength The number of samples to clip the note length to.
+   */
+  void setMaxNoteLength(uint_fast32_t newMaxNoteLength);
+
+  /** Stop clipping the length of time notes play for. */
+  void disableMaxNoteLength();
 
 private:
-  std::array<uint_least8_t, NUM_MIDI_NOTES> playingMidiNotes;
+  //============================================================================
+  /** A record of the MIDI notes that are playing, the array value is the number
+   * of samples that the note has been playing for. */
+  std::array<uint_fast32_t, NUM_MIDI_NOTES> playingMidiNotes;
+
+  /** Whether or not the writer should limit note length. */
+  bool limitNoteLength;
+
+  /** The maximum number of samples a note should play for. */
+  uint_fast32_t maxNoteLength;
+
+  //============================================================================
+  /** Write a simgle ModelVector to the MidiBuffer
+   *
+   * @param vec A single output vector from the Model.
+   * @param buffer The MIDI buffer to write to.
+   * @param bufferSize The sample size of the current buffer.
+   */
+  void writeVectorToBuffer(ModelVector &vec, MidiBuffer &buf, int bufferSize);
+
+  /** Return whether the given note is playing.
+   *
+   * @param noteNumber The MIDI number of the note to check.
+   */
+  bool noteIsPlayingAt(int noteNumber);
+
+  /** Returns whether or not a playing note needs to be stopped this buffer.
+   *
+   * @param noteNumber The MIDI number of the note.
+   */
+  bool noteNeedsEnding(int noteNumber);
+
+  /** Add a note on event to the MIDI Buffer.
+   *
+   * This method performs no checks, it simply adds a note with the supplied
+   * parameters, in the designated place in the buffer.
+   *
+   * @param buffer The MIDI Buffer to add the note to.
+   * @param noteNumber The MIDI number of the note on event to add.
+   * @param velocity The velocity of the MIDI note on event to add.
+   * @param sampleNumber When in the buffer to add the note.
+   */
+  void addNoteOn(MidiBuffer &buffer,
+                 int noteNumber,
+                 float velocity,
+                 int sampleNumber);
+
+  /** Add a note off event to the MIDI Buffer.
+   *
+   * This method will look at the current notes playing to see if it actually
+   * needs to end the note before the supplied sampleNumber. This could be the
+   * case if the note happens to be ending in the same buffer that it is being
+   * re-triggered.
+   *
+   * @param buffer The MIDI Buffer to add the note to.
+   * @param noteNumber The MIDI number of the note off event to add.
+   * @param sampleNumber When in the buffer to add the note.
+   */
+  void addNoteOff(MidiBuffer &buffer, int noteNumber, int sampleNumber);
+
+  /** Get the sample number to send a note off MIDI message.
+   *
+   * This might be different from the sample number of the next note on event.
+   * This will be the case if the note happens to be ending in the buffer that
+   * the next note is triggered.
+   *
+   * @param vectorSampleNumber The sample number for the next note on event.
+   * @param noteNumber The MIDI number of the note.
+   * @param bufferSize The sample size of the current buffer.
+   */
+  int getEndSampleForNote(int vectorSampleNumber,
+                          int noteNumber,
+                          int bufferSize);
+
+  /** Set the current played samples value for a current playing MIDI note.
+   *
+   * This directly sets the number of samples in the playingMidiNotes memory.
+   * This will likely only be called when a MIDI note is first played. The rest
+   * of the time with value will simply be updated by the number of samples in a
+   * buffer during each buffer.
+   *
+   * @param noteNumber The MIDI note number of the note to set.
+   * @param numSamples The number of samples to set the current value to.
+   */
+  void setNoteIsPlaying(uint_least8_t noteNumber, uint_fast32_t numSamples);
+
+  /** Add the buffer size to the number of samples of each playing note.
+   *
+   * This basically updates the value of each of the playing MIDI notes to the
+   * number of samples that the note will have played by the end of the buffer.
+   * This number can then be compared to the maxNoteLength to see if the note
+   * needs to be stopped. This is done later, after the output vectors have been
+   * processed, and any required MIDI events added to the buffer from that
+   * process.
+   *
+   * @param bufferSize The sample size of the current buffer.
+   */
+  void updatePlayingNotesSamples(int bufferSize);
+
+  /** Add note off events to the buffer for any notes that have played longer
+   * than the maxNoteLength.
+   *
+   * @param buffer The MIDI buffer to write to.
+   */
+  void stopNotesIfNeeded(MidiBuffer &buffer);
 };
 
+//==============================================================================
 /** A function to reduce the ModelVector sample numbers modulo the buffer size.
  *
  * The ModelVector's hold an absolute sample number. When the vectors are
@@ -33,5 +169,5 @@ private:
  * @param output The output vectors of the model.
  * @param bufferSize The number of samples in the current buffer.
  */
-std::vector<ModelVector> &
-sampleNumModuloBufferSize(std::vector<ModelVector> &output, int bufferSize);
+void sampleNumModuloBufferSize(std::vector<ModelVector> &output,
+                               int bufferSize);

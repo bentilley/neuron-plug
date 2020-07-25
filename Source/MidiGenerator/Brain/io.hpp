@@ -23,9 +23,9 @@ struct ModelVector {
   };
 
   ModelVector() = delete;
-  ModelVector(ModelVectorData data, int64_t sampleNum, InputType type)
+  ModelVector(ModelVectorData data, int32_t sampleNum, InputType type)
       : data{data}, sampleNumber{sampleNum}, inputType{type} {}
-  ModelVector(float dataInitValue, int64_t sampleNum, InputType type)
+  ModelVector(float dataInitValue, int32_t sampleNum, InputType type)
       : sampleNumber{sampleNum}, inputType{type} {
     data.fill(dataInitValue);
   }
@@ -44,6 +44,6 @@ struct ModelVector {
   }
 
   ModelVectorData data;
-  int64_t sampleNumber;
+  int32_t sampleNumber;
   InputType inputType;
 };
