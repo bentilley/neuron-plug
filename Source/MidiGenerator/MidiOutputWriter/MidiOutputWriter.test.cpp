@@ -15,30 +15,36 @@
 
 using Type = ModelVector::InputType;
 
-SCENARIO("MidiOutputWriter") {
-  GIVEN("an instance of MidiOutputWriter using the maxNoteLength constructor") {
+SCENARIO("MidiOutputWriter")
+{
+  GIVEN("an instance of MidiOutputWriter using the maxNoteLength constructor")
+  {
     MidiOutputWriter writer{59934};
 
     REQUIRE(writer.limitNoteLength);
     REQUIRE(writer.maxNoteLength == 59934);
   }
 
-  GIVEN("An instance of MidiOutputWriter with no notes playing") {
+  GIVEN("An instance of MidiOutputWriter with no notes playing")
+  {
     MidiOutputWriter writer;
     MidiBuffer buffer;
     int bufferSize = 256;
 
-    THEN("we test the defaults") {
+    THEN("we test the defaults")
+    {
       REQUIRE(!writer.limitNoteLength);
       REQUIRE(writer.maxNoteLength == 0);
 
-      THEN("we set the maxNoteLength") {
+      THEN("we set the maxNoteLength")
+      {
         writer.setMaxNoteLength(1024);
 
         REQUIRE(writer.limitNoteLength);
         REQUIRE(writer.maxNoteLength == 1024);
 
-        THEN("we disable the max note length") {
+        THEN("we disable the max note length")
+        {
           writer.disableMaxNoteLength();
 
           REQUIRE(!writer.limitNoteLength);
@@ -47,8 +53,9 @@ SCENARIO("MidiOutputWriter") {
       }
     }
 
-    GIVEN("Model output with only one ModelVector with one activation") {
-      ModelVectorData data;
+    GIVEN("Model output with only one ModelVector with one activation")
+    {
+      ModelVectorData data{};
       data.at(60) = 1.0f; // activation at note 60
       int sampleNumber = 87;
       ModelVector vec1{data, sampleNumber, Type::MergedInput};
@@ -64,15 +71,16 @@ SCENARIO("MidiOutputWriter") {
       i.getNextEvent(m, time);
       REQUIRE(m.isNoteOn());
       REQUIRE(m.getNoteNumber() == 60);
-      REQUIRE(m.getFloatVelocity() == 1.0f);
+      REQUIRE(m.getVelocity() == 127);
       REQUIRE(time == 87);
 
       // check the samples played so far is correct
       REQUIRE(writer.playingMidiNotes.at(60) == 168);
     }
 
-    GIVEN("Model output with one ModelVector with multiple activations") {
-      ModelVectorData data;
+    GIVEN("Model output with one ModelVector with multiple activations")
+    {
+      ModelVectorData data{};
       data.at(60) = 1.0f; // activation at note 60
       data.at(68) = 0.8f; // activation at note 68
       data.at(89) = 0.3f; // activation at note 89
@@ -90,19 +98,19 @@ SCENARIO("MidiOutputWriter") {
       i.getNextEvent(m, time);
       REQUIRE(m.isNoteOn());
       REQUIRE(m.getNoteNumber() == 60);
-      REQUIRE(m.getFloatVelocity() == 1.0f);
+      REQUIRE(m.getVelocity() == 127);
       REQUIRE(time == 145);
 
       i.getNextEvent(m, time);
       REQUIRE(m.isNoteOn());
       REQUIRE(m.getNoteNumber() == 68);
-      REQUIRE(m.getFloatVelocity() == 0.8f);
+      REQUIRE(m.getVelocity() == 102);
       REQUIRE(time == 145);
 
       i.getNextEvent(m, time);
       REQUIRE(m.isNoteOn());
       REQUIRE(m.getNoteNumber() == 89);
-      REQUIRE(m.getFloatVelocity() == 0.3f);
+      REQUIRE(m.getVelocity() == 38);
       REQUIRE(time == 145);
 
       // check the samples played so far is correct
@@ -111,21 +119,22 @@ SCENARIO("MidiOutputWriter") {
       REQUIRE(writer.playingMidiNotes.at(89) == 110);
     }
 
-    GIVEN("Model output with multiple ModelVector's with one activation each") {
-      ModelVectorData data1;
+    GIVEN("Model output with multiple ModelVector's with one activation each")
+    {
+      ModelVectorData data1{};
       data1.at(60) = 1.0f; // activation at note 60
       int sampleNumber1 = 145;
       ModelVector vec1{data1, sampleNumber1, Type::MergedInput};
 
-      ModelVectorData data2;
+      ModelVectorData data2{};
       data2.at(33) = 0.27f; // activation at note 33
       int sampleNumber2 = 172;
-      ModelVector vec2{data1, sampleNumber2, Type::MergedInput};
+      ModelVector vec2{data2, sampleNumber2, Type::MergedInput};
 
-      ModelVectorData data3;
+      ModelVectorData data3{};
       data3.at(103) = 0.345f; // activation at note 103
       int sampleNumber3 = 239;
-      ModelVector vec3{data1, sampleNumber3, Type::MergedInput};
+      ModelVector vec3{data3, sampleNumber3, Type::MergedInput};
 
       std::vector<ModelVector> output{vec1, vec2, vec3};
 
@@ -139,46 +148,46 @@ SCENARIO("MidiOutputWriter") {
       i.getNextEvent(m, time);
       REQUIRE(m.isNoteOn());
       REQUIRE(m.getNoteNumber() == 60);
-      REQUIRE(m.getFloatVelocity() == 1.0f);
+      REQUIRE(m.getVelocity() == 127);
       REQUIRE(time == 145);
 
       i.getNextEvent(m, time);
       REQUIRE(m.isNoteOn());
       REQUIRE(m.getNoteNumber() == 33);
-      REQUIRE(m.getFloatVelocity() == 0.27f);
+      REQUIRE(m.getVelocity() == 34);
       REQUIRE(time == 172);
 
       i.getNextEvent(m, time);
       REQUIRE(m.isNoteOn());
       REQUIRE(m.getNoteNumber() == 103);
-      REQUIRE(m.getFloatVelocity() == 0.345f);
+      REQUIRE(m.getVelocity() == 44);
       REQUIRE(time == 239);
 
       // check the samples played so far is correct
       REQUIRE(writer.playingMidiNotes.at(60) == 110);
-      REQUIRE(writer.playingMidiNotes.at(33) == 84);
+      REQUIRE(writer.playingMidiNotes.at(33) == 83);
       REQUIRE(writer.playingMidiNotes.at(103) == 16);
     }
 
-    GIVEN(
-        "Model output with multiple ModelVector's with multiple activations") {
-      ModelVectorData data1;
-      data1.at(60) = 1.0f; // activation at note 60
+    GIVEN("Model output with multiple ModelVector's with multiple activations")
+    {
+      ModelVectorData data1{};
       data1.at(18) = 0.9f; // activation at note 18
+      data1.at(60) = 1.0f; // activation at note 60
       int sampleNumber1 = 31;
       ModelVector vec1{data1, sampleNumber1, Type::MergedInput};
 
-      ModelVectorData data2;
+      ModelVectorData data2{};
       data2.at(33) = 0.27f; // activation at note 33
       data2.at(51) = 0.82f; // activation at note 51
       int sampleNumber2 = 48;
-      ModelVector vec2{data1, sampleNumber2, Type::MergedInput};
+      ModelVector vec2{data2, sampleNumber2, Type::MergedInput};
 
-      ModelVectorData data3;
-      data3.at(103) = 0.97f; // activation at note 103
+      ModelVectorData data3{};
       data3.at(76) = 0.175f; // activation at note 76
+      data3.at(103) = 0.97f; // activation at note 103
       int sampleNumber3 = 199;
-      ModelVector vec3{data1, sampleNumber3, Type::MergedInput};
+      ModelVector vec3{data3, sampleNumber3, Type::MergedInput};
 
       std::vector<ModelVector> output{vec1, vec2, vec3};
 
@@ -191,38 +200,38 @@ SCENARIO("MidiOutputWriter") {
 
       i.getNextEvent(m, time);
       REQUIRE(m.isNoteOn());
-      REQUIRE(m.getNoteNumber() == 60);
-      REQUIRE(m.getFloatVelocity() == 1.0f);
+      REQUIRE(m.getNoteNumber() == 18);
+      REQUIRE(m.getVelocity() == 114);
       REQUIRE(time == 31);
 
       i.getNextEvent(m, time);
       REQUIRE(m.isNoteOn());
-      REQUIRE(m.getNoteNumber() == 18);
-      REQUIRE(m.getFloatVelocity() == 0.9f);
+      REQUIRE(m.getNoteNumber() == 60);
+      REQUIRE(m.getVelocity() == 127);
       REQUIRE(time == 31);
 
       i.getNextEvent(m, time);
       REQUIRE(m.isNoteOn());
       REQUIRE(m.getNoteNumber() == 33);
-      REQUIRE(m.getFloatVelocity() == 0.27f);
+      REQUIRE(m.getVelocity() == 34);
       REQUIRE(time == 48);
 
       i.getNextEvent(m, time);
       REQUIRE(m.isNoteOn());
       REQUIRE(m.getNoteNumber() == 51);
-      REQUIRE(m.getFloatVelocity() == 0.82f);
+      REQUIRE(m.getVelocity() == 104);
       REQUIRE(time == 48);
 
       i.getNextEvent(m, time);
       REQUIRE(m.isNoteOn());
-      REQUIRE(m.getNoteNumber() == 103);
-      REQUIRE(m.getFloatVelocity() == 0.97f);
+      REQUIRE(m.getNoteNumber() == 76);
+      REQUIRE(m.getVelocity() == 22);
       REQUIRE(time == 199);
 
       i.getNextEvent(m, time);
       REQUIRE(m.isNoteOn());
-      REQUIRE(m.getNoteNumber() == 76);
-      REQUIRE(m.getFloatVelocity() == 0.175f);
+      REQUIRE(m.getNoteNumber() == 103);
+      REQUIRE(m.getVelocity() == 123);
       REQUIRE(time == 199);
 
       // check the samples played so far is correct
@@ -235,12 +244,13 @@ SCENARIO("MidiOutputWriter") {
     }
   }
 
-  GIVEN("An instance of MidiOutputWriter with some notes playing") {
+  GIVEN("An instance of MidiOutputWriter with some notes playing")
+  {
     MidiOutputWriter writer;
     MidiBuffer buffer;
     int bufferSize = 512;
 
-    ModelVectorData data;
+    ModelVectorData data{};
     data.at(60) = 1.0f; // activation at note 60
     data.at(64) = 0.9f; // activation at note 64
     data.at(67) = 0.5f; // activation at note 67
@@ -249,12 +259,17 @@ SCENARIO("MidiOutputWriter") {
     std::vector<ModelVector> output{vec};
 
     writer.writeMidiOutput(output, buffer, bufferSize);
+    buffer.clear();
 
-    THEN("we parse Model output with a new note") {
-      ModelVectorData newData;
+    // check that the buffer is reset for the tests
+    REQUIRE(buffer.getNumEvents() == 0);
+
+    THEN("we parse Model output with a new note")
+    {
+      ModelVectorData newData{};
       newData.at(70) = 0.3f; // activation at note 70
       int newSampleNumber = 158;
-      ModelVector newVec{data, newSampleNumber, Type::MergedInput};
+      ModelVector newVec{newData, newSampleNumber, Type::MergedInput};
       std::vector<ModelVector> newOutput{newVec};
 
       writer.writeMidiOutput(newOutput, buffer, bufferSize);
@@ -267,21 +282,22 @@ SCENARIO("MidiOutputWriter") {
       i.getNextEvent(m, time);
       REQUIRE(m.isNoteOn());
       REQUIRE(m.getNoteNumber() == 70);
-      REQUIRE(m.getFloatVelocity() == 0.3f);
+      REQUIRE(m.getVelocity() == 38);
       REQUIRE(time == 158);
 
       // check the samples played so far is correct
-      REQUIRE(writer.playingMidiNotes.at(60) == 480);
-      REQUIRE(writer.playingMidiNotes.at(64) == 480);
-      REQUIRE(writer.playingMidiNotes.at(67) == 480);
-      REQUIRE(writer.playingMidiNotes.at(70) == 97);
+      REQUIRE(writer.playingMidiNotes.at(60) == 992);
+      REQUIRE(writer.playingMidiNotes.at(64) == 992);
+      REQUIRE(writer.playingMidiNotes.at(67) == 992);
+      REQUIRE(writer.playingMidiNotes.at(70) == 353);
     }
 
-    THEN("we parse Model output with a note that is already playing") {
-      ModelVectorData newData;
+    THEN("we parse Model output with a note that is already playing")
+    {
+      ModelVectorData newData{};
       newData.at(60) = 0.3f; // activation at note 70
       int newSampleNumber = 12;
-      ModelVector newVec{data, newSampleNumber, Type::MergedInput};
+      ModelVector newVec{newData, newSampleNumber, Type::MergedInput};
       std::vector<ModelVector> newOutput{newVec};
 
       writer.writeMidiOutput(newOutput, buffer, bufferSize);
@@ -299,22 +315,23 @@ SCENARIO("MidiOutputWriter") {
       i.getNextEvent(m, time);
       REQUIRE(m.isNoteOn());
       REQUIRE(m.getNoteNumber() == 60);
-      REQUIRE(m.getFloatVelocity() == 0.3f);
+      REQUIRE(m.getVelocity() == 38);
       REQUIRE(time == 12);
 
       // check the samples played so far is correct
-      REQUIRE(writer.playingMidiNotes.at(60) == 243);
-      REQUIRE(writer.playingMidiNotes.at(64) == 480);
-      REQUIRE(writer.playingMidiNotes.at(67) == 480);
+      REQUIRE(writer.playingMidiNotes.at(60) == 499);
+      REQUIRE(writer.playingMidiNotes.at(64) == 992);
+      REQUIRE(writer.playingMidiNotes.at(67) == 992);
     }
 
     THEN("we parse Model output during a buffer where a note has reached the "
-         "play limit") {
-      writer.setMaxNoteLength(256);
-      ModelVectorData newData;
+         "play limit")
+    {
+      writer.setMaxNoteLength(512);
+      ModelVectorData newData{};
       newData.at(60) = 0.3f; // activation at note 70
       int newSampleNumber = 61;
-      ModelVector newVec{data, newSampleNumber, Type::MergedInput};
+      ModelVector newVec{newData, newSampleNumber, Type::MergedInput};
       std::vector<ModelVector> newOutput{newVec};
 
       writer.writeMidiOutput(newOutput, buffer, bufferSize);
@@ -342,25 +359,28 @@ SCENARIO("MidiOutputWriter") {
       i.getNextEvent(m, time);
       REQUIRE(m.isNoteOn());
       REQUIRE(m.getNoteNumber() == 60);
-      REQUIRE(m.getFloatVelocity() == 0.3f);
+      REQUIRE(m.getVelocity() == 38);
       REQUIRE(time == 61);
 
       // check the samples played so far is correct
-      REQUIRE(writer.playingMidiNotes.at(60) == 194);
+      REQUIRE(writer.playingMidiNotes.at(60) == 450);
       REQUIRE(writer.playingMidiNotes.at(64) == 0);
       REQUIRE(writer.playingMidiNotes.at(67) == 0);
     }
   }
 }
 
-SCENARIO("sampleNumModuloBufferSize") {
-  GIVEN("a vector of ModelVector's") {
+SCENARIO("sampleNumModuloBufferSize")
+{
+  GIVEN("a vector of ModelVector's")
+  {
     ModelVector vector1{0.3f, 345905, Type::MergedInput};
     ModelVector vector2{0.4f, 346048, Type::MergedInput};
     ModelVector vector3{0.5f, 346067, Type::MergedInput};
     std::vector<ModelVector> modelOutput{vector1, vector2, vector3};
 
-    THEN("with buffer size of 256") {
+    THEN("with buffer size of 256")
+    {
       int bufferSize = 256;
 
       sampleNumModuloBufferSize(modelOutput, bufferSize);
@@ -370,7 +390,8 @@ SCENARIO("sampleNumModuloBufferSize") {
       REQUIRE(modelOutput.at(2).sampleNumber == 211);
     }
 
-    THEN("with buffer size of 512") {
+    THEN("with buffer size of 512")
+    {
       int bufferSize = 512;
 
       sampleNumModuloBufferSize(modelOutput, bufferSize);

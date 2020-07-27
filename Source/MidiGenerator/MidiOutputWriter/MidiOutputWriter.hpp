@@ -17,7 +17,8 @@
  * It keeps track of what notes are playing and can be used to limit the length
  * of time that MIDI notes are allowed to play for.
  */
-class MidiOutputWriter {
+class MidiOutputWriter
+{
 public:
   //============================================================================
   /** Default Constructor */
@@ -37,9 +38,10 @@ public:
    * @param buffer The MIDI buffer to write to.
    * @param bufferSize The sample size of the current buffer.
    */
-  MidiBuffer &writeMidiOutput(std::vector<ModelVector> &output,
-                              MidiBuffer &buffer,
-                              int bufferSize);
+  MidiBuffer &writeMidiOutput(
+    std::vector<ModelVector> &output,
+    MidiBuffer &buffer,
+    int bufferSize);
 
   /** Set the maximum length of a note in samples.
    * @param newMaxNoteLength The number of samples to clip the note length to.
@@ -53,7 +55,7 @@ private:
   //============================================================================
   /** A record of the MIDI notes that are playing, the array value is the number
    * of samples that the note has been playing for. */
-  std::array<uint_fast32_t, NUM_MIDI_NOTES> playingMidiNotes;
+  std::array<uint_fast32_t, NUM_MIDI_NOTES> playingMidiNotes{};
 
   /** Whether or not the writer should limit note length. */
   bool limitNoteLength;
@@ -68,7 +70,10 @@ private:
    * @param buffer The MIDI buffer to write to.
    * @param bufferSize The sample size of the current buffer.
    */
-  void writeVectorToBuffer(ModelVector &vec, MidiBuffer &buf, int bufferSize);
+  void writeVectorToBuffer(
+    ModelVector &vec,
+    MidiBuffer &buffer,
+    int bufferSize);
 
   /** Return whether the given note is playing.
    *
@@ -88,14 +93,15 @@ private:
    * parameters, in the designated place in the buffer.
    *
    * @param buffer The MIDI Buffer to add the note to.
+   * @param bufferSize The sample size of the current buffer.
+   * @param vec Reference of the relevant ModelVector.
    * @param noteNumber The MIDI number of the note on event to add.
-   * @param velocity The velocity of the MIDI note on event to add.
-   * @param sampleNumber When in the buffer to add the note.
    */
-  void addNoteOn(MidiBuffer &buffer,
-                 int noteNumber,
-                 float velocity,
-                 int sampleNumber);
+  void addNoteOn(
+    MidiBuffer &buffer,
+    int bufferSize,
+    ModelVector &vec,
+    int noteNumber);
 
   /** Add a note off event to the MIDI Buffer.
    *
@@ -120,9 +126,20 @@ private:
    * @param noteNumber The MIDI number of the note.
    * @param bufferSize The sample size of the current buffer.
    */
-  int getEndSampleForNote(int vectorSampleNumber,
-                          int noteNumber,
-                          int bufferSize);
+  int getEndSampleForNote(
+    int vectorSampleNumber,
+    int noteNumber,
+    int bufferSize);
+
+  /** Get the sample number to send an auto note off event.
+   *
+   * This method works out what sample number in the current buffer a note that
+   * needs ending should end on, based on the maxNoteLength.
+   *
+   * @param noteNumber The MIDI number of the note.
+   * @param bufferSize The sample size of the current buffer.
+   */
+  int getAutoEndSampleNumber(int noteNumber, int bufferSize);
 
   /** Set the current played samples value for a current playing MIDI note.
    *
@@ -134,7 +151,9 @@ private:
    * @param noteNumber The MIDI note number of the note to set.
    * @param numSamples The number of samples to set the current value to.
    */
-  void setNoteIsPlaying(uint_least8_t noteNumber, uint_fast32_t numSamples);
+  void setNotePlayingSamples(
+    uint_least8_t noteNumber,
+    uint_fast32_t numSamples);
 
   /** Add the buffer size to the number of samples of each playing note.
    *
@@ -153,8 +172,9 @@ private:
    * than the maxNoteLength.
    *
    * @param buffer The MIDI buffer to write to.
+   * @param bufferSize The sample size of the current buffer.
    */
-  void stopNotesIfNeeded(MidiBuffer &buffer);
+  void stopNotesIfNeeded(MidiBuffer &buffer, int bufferSize);
 };
 
 //==============================================================================
@@ -169,5 +189,6 @@ private:
  * @param output The output vectors of the model.
  * @param bufferSize The number of samples in the current buffer.
  */
-void sampleNumModuloBufferSize(std::vector<ModelVector> &output,
-                               int bufferSize);
+void sampleNumModuloBufferSize(
+  std::vector<ModelVector> &output,
+  int bufferSize);
