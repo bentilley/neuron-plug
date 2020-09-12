@@ -65,8 +65,6 @@
 		26F17F7024ACBC6A001A1821 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26CC58A9243E3C8E003698A4 /* AppKit.framework */; };
 		26F17F7124ACBC71001A1821 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F01A96C08BF7209C93E185D /* Carbon.framework */; };
 		26F4CE2524ACDCF0006AAE46 /* MidiProcessor.test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26103A1A244AE48A0065A1B3 /* MidiProcessor.test.cpp */; };
-		26F4CE2624ACDCFD006AAE46 /* MidiGenerator.test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26E82076244AEA20004C7AFE /* MidiGenerator.test.cpp */; };
-		26F4CE2724ACDD2F006AAE46 /* MidiGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26103A28244AE4B00065A1B3 /* MidiGenerator.cpp */; };
 		26F4CE2824ACDD37006AAE46 /* MidiProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26103A1B244AE48A0065A1B3 /* MidiProcessor.cpp */; };
 		26F4CE2924ACDD68006AAE46 /* PluginLogger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26A6BE7A244A192E00E9EECA /* PluginLogger.cpp */; };
 		280FA68C353F0BA915031488 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F01A96C08BF7209C93E185D /* Carbon.framework */; };
@@ -704,11 +702,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				26E211D524B86F1A00FCD178 /* InputFilter.cpp in Sources */,
-				26F4CE2624ACDCFD006AAE46 /* MidiGenerator.test.cpp in Sources */,
 				26F4CE2524ACDCF0006AAE46 /* MidiProcessor.test.cpp in Sources */,
 				26F17F6624ACB923001A1821 /* main.test.cpp in Sources */,
 				26F4CE2824ACDD37006AAE46 /* MidiProcessor.cpp in Sources */,
-				26F4CE2724ACDD2F006AAE46 /* MidiGenerator.cpp in Sources */,
 				26E8AC3B24B71F77005D0989 /* Neuron.cpp in Sources */,
 				2664ACBA24ACC88200692215 /* include_juce_audio_basics.mm in Sources */,
 				26E211E424B8775600FCD178 /* Network.cpp in Sources */,
@@ -852,6 +848,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULE_DEBUGGING = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -1007,6 +1004,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULE_DEBUGGING = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
