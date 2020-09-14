@@ -9,17 +9,9 @@
 
 #include "../../../JuceLibraryCode/JuceHeader.h"
 #include "../Brain/io.hpp"
+#include "../transport.hpp"
 
 typedef AudioPlayHead::CurrentPositionInfo PositionInfo;
-
-struct SystemInfo {
-  SystemInfo() = delete;
-  SystemInfo(double sampleRate, int numBufferSamples)
-      : sampleRate{sampleRate}, numBufferSamples{numBufferSamples} {}
-
-  double sampleRate;
-  int numBufferSamples;
-};
 
 /** Generate input for the plugin Brain based on the current sample number.
  *

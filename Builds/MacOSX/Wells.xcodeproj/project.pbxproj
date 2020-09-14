@@ -173,6 +173,7 @@
 		26E8AC3424B71F77005D0989 /* Neuron.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Neuron.cpp; path = ../../../../Source/MidiGenerator/WellNeurons/Neuron.cpp; sourceTree = "<group>"; };
 		26E8AC3824B71F77005D0989 /* Neuron.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Neuron.hpp; path = ../../../../Source/MidiGenerator/WellNeurons/Neuron.hpp; sourceTree = "<group>"; };
 		26E8AC3924B71F77005D0989 /* Neuron.test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Neuron.test.cpp; path = ../../../../Source/MidiGenerator/WellNeurons/Neuron.test.cpp; sourceTree = "<group>"; };
+		26EA5D1925100B4600D469FA /* transport.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = transport.hpp; path = ../../../Source/MidiGenerator/transport.hpp; sourceTree = "<group>"; };
 		26F17F5824ACB5FE001A1821 /* test-wells-plugin */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "test-wells-plugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		26F17F6524ACB923001A1821 /* main.test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.test.cpp; path = ../../../Source/main.test.cpp; sourceTree = "<group>"; };
 		270692BD6603489430083317 /* PluginProcessor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PluginProcessor.cpp; path = ../../Source/PluginProcessor.cpp; sourceTree = SOURCE_ROOT; };
@@ -281,6 +282,7 @@
 				26103A28244AE4B00065A1B3 /* MidiGenerator.cpp */,
 				26103A27244AE4AF0065A1B3 /* MidiGenerator.hpp */,
 				26E82076244AEA20004C7AFE /* MidiGenerator.test.cpp */,
+				26EA5D1925100B4600D469FA /* transport.hpp */,
 				26D3A31D2440ACD800C0CB94 /* BeatClock */,
 				26E211C624B86E8C00FCD178 /* MidiInputTransformer */,
 				26E211CE24B86EF800FCD178 /* InputFilter */,

@@ -103,8 +103,9 @@ void MidiGenerator::remove_neuron_at(int index) {
  */
 
 void MidiGenerator::generate_next_midi_buffer(
-    MidiBuffer &midiBuffer, const AudioPlayHead::CurrentPositionInfo &pos,
-    double sample_rate, int num_samples) {
+  MidiBuffer &midiBuffer,
+  const AudioPlayHead::CurrentPositionInfo &pos,
+  SystemInfo &sys){
 
   //beatClock.configure(sample_rate, pos);
 

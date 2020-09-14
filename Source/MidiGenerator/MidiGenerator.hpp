@@ -12,6 +12,7 @@
 #include "BeatClock/BeatClock.hpp"
 #include "MidiProcessor/MidiProcessor.hpp"
 #include "WellNeurons/Network.hpp"
+#include "transport.hpp"
 #include <memory>
 
 class MidiGenerator {
@@ -51,9 +52,10 @@ public:
   void remove_neuron_at(int index);
 
   // Audio Thread
-  void generate_next_midi_buffer(MidiBuffer &b,
-                                 const AudioPlayHead::CurrentPositionInfo &pos,
-                                 double sample_rate, int num_samples);
+  void generate_next_midi_buffer(
+    MidiBuffer &b,
+    const AudioPlayHead::CurrentPositionInfo &pos,
+    SystemInfo &sys);
 
 private:
   bool is_on, receives_midi;
