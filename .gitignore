@@ -7,7 +7,10 @@ libs/**
 xcodebuild.log
 playground.filtergraph
 plugin.log
-docs/midi-input/**.png
+
+# docs
+docs/generated/
+docs/**/*.png
 
 ### C++ ###
 # Prerequisites
