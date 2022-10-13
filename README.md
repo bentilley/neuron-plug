@@ -63,3 +63,11 @@ the catch tests.
 
 - `Source/test-main.cpp` for the JUCE tests, and;
 - `tests/main.test.cpp` for the catch tests.
+
+## Developing
+
+### Language Server
+
+There is a `.ccls` file in the root directory for language server config. See
+[the docs](https://github.com/MaskRay/ccls/wiki/Project-Setup) for more info on
+how to use.

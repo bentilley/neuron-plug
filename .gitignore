@@ -6,6 +6,7 @@ JuceLibraryCode/**
 xcodebuild.log
 playground.filtergraph
 plugin.log
+.ccls-cache/
 
 # docs
 docs/generated/
