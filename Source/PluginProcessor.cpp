@@ -17,13 +17,14 @@ WellsAudioProcessor::WellsAudioProcessor()
     : AudioProcessor(BusesProperties()
 #if !JucePlugin_IsMidiEffect
 #if !JucePlugin_IsSynth
-                         .withInput("Input", AudioChannelSet::stereo(), true)
+                       .withInput("Input", AudioChannelSet::stereo(), true)
 #endif
-                         .withOutput("Output", AudioChannelSet::stereo(), true)
+                       .withOutput("Output", AudioChannelSet::stereo(), true)
 #endif
-                         ),
+      ),
 #endif
-      midiGenerator(std::make_unique<MidiGenerator>(5)) {
+      midiGenerator(std::make_unique<MidiGenerator>(5))
+{
 
   // Run all tests when plugin loads in debug
 #ifdef DEBUG
@@ -37,7 +38,8 @@ WellsAudioProcessor::~WellsAudioProcessor() {}
 //==============================================================================
 const String WellsAudioProcessor::getName() const { return JucePlugin_Name; }
 
-bool WellsAudioProcessor::acceptsMidi() const {
+bool WellsAudioProcessor::acceptsMidi() const
+{
 #if JucePlugin_WantsMidiInput
   return true;
 #else
@@ -45,7 +47,8 @@ bool WellsAudioProcessor::acceptsMidi() const {
 #endif
 }
 
-bool WellsAudioProcessor::producesMidi() const {
+bool WellsAudioProcessor::producesMidi() const
+{
 #if JucePlugin_ProducesMidiOutput
   return true;
 #else
@@ -53,7 +56,8 @@ bool WellsAudioProcessor::producesMidi() const {
 #endif
 }
 
-bool WellsAudioProcessor::isMidiEffect() const {
+bool WellsAudioProcessor::isMidiEffect() const
+{
 #if JucePlugin_IsMidiEffect
   return true;
 #else
@@ -63,7 +67,8 @@ bool WellsAudioProcessor::isMidiEffect() const {
 
 double WellsAudioProcessor::getTailLengthSeconds() const { return 0.0; }
 
-int WellsAudioProcessor::getNumPrograms() {
+int WellsAudioProcessor::getNumPrograms()
+{
   return 1; // NB: some hosts don't cope very well if you tell them there are 0
             // programs, so this should be at least 1, even if you're not really
             // implementing programs.
@@ -75,31 +80,31 @@ void WellsAudioProcessor::setCurrentProgram(int index) {}
 
 const String WellsAudioProcessor::getProgramName(int index) { return {}; }
 
-void WellsAudioProcessor::changeProgramName(int index, const String &newName) {}
+void WellsAudioProcessor::changeProgramName(int index, const String& newName) {}
 
 //==============================================================================
-void WellsAudioProcessor::prepareToPlay(double sampleRate,
-                                        int samplesPerBlock) {
+void WellsAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
+{
   // Use this method as the place to do any pre-playback
   // initialisation that you need..
 }
 
-void WellsAudioProcessor::releaseResources() {
+void WellsAudioProcessor::releaseResources()
+{
   // When playback stops, you can use this as an opportunity to free up any
   // spare memory, etc.
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
-bool WellsAudioProcessor::isBusesLayoutSupported(
-    const BusesLayout &layouts) const {
+bool WellsAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const
+{
 #if JucePlugin_IsMidiEffect
   ignoreUnused(layouts);
   return true;
 #else
   // This is the place where you check if the layout is supported.
   // In this template code we only support mono or stereo.
-  if (layouts.getMainOutputChannelSet() != AudioChannelSet::mono() &&
-      layouts.getMainOutputChannelSet() != AudioChannelSet::stereo())
+  if (layouts.getMainOutputChannelSet() != AudioChannelSet::mono() && layouts.getMainOutputChannelSet() != AudioChannelSet::stereo())
     return false;
 
     // This checks if the input layout matches the output layout
@@ -113,8 +118,8 @@ bool WellsAudioProcessor::isBusesLayoutSupported(
 }
 #endif
 
-void WellsAudioProcessor::processBlock(AudioBuffer<float> &buffer,
-                                       MidiBuffer &midiMessages) {
+void WellsAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
+{
   ScopedNoDenormals noDenormals;
   auto totalNumInputChannels = getTotalNumInputChannels();
   auto totalNumOutputChannels = getTotalNumOutputChannels();
@@ -134,60 +139,63 @@ void WellsAudioProcessor::processBlock(AudioBuffer<float> &buffer,
   // the samples and the outer loop is handling the channels.
   // Alternatively, you can process the samples with the channels
   // interleaved by keeping the same state.
-  for (int channel = 0; channel < totalNumInputChannels; ++channel) {
-    auto *channelData = buffer.getWritePointer(channel);
+  /* for (int channel = 0; channel < totalNumInputChannels; ++channel) { */
+  /*   auto* channelData = buffer.getWritePointer(channel); */
 
-    // ..do something to the data...
-  }
+  /*   // ..do something to the data... */
+  /* } */
 
   // Well Neuron Processing
 
   MidiBuffer processedMidi;
-  double sample_rate = getSampleRate();
-  int num_buffer_samples = buffer.getNumSamples();
+  double sampleRate = getSampleRate();
+  int numBufferSamples = buffer.getNumSamples();
   AudioPlayHead::CurrentPositionInfo pos;
   getPlayHead()->getCurrentPosition(pos);
+  SystemInfo sys(sampleRate, numBufferSamples);
 
   if (midiGenerator->get_is_on() && pos.isPlaying) {
-    midiGenerator->generate_next_midi_buffer(processedMidi, pos, sample_rate,
-                                             num_buffer_samples);
+    midiGenerator->generate_next_midi_buffer(midiMessages, processedMidi, pos, sys);
   }
 
   midiMessages.swapWith(processedMidi);
 }
 
-void WellsAudioProcessor::add_neuron() {
-  std::unique_ptr<MidiGenerator> new_generator =
-      std::make_unique<MidiGenerator>(*midiGenerator);
+void WellsAudioProcessor::add_neuron()
+{
+  std::unique_ptr<MidiGenerator> new_generator = std::make_unique<MidiGenerator>(*midiGenerator);
   new_generator->add_neuron();
   midiGenerator = std::move(new_generator);
 }
 
-void WellsAudioProcessor::remove_neuron_at(int neuron_index) {
-  std::unique_ptr<MidiGenerator> new_generator =
-      std::make_unique<MidiGenerator>(*midiGenerator);
+void WellsAudioProcessor::remove_neuron_at(int neuron_index)
+{
+  std::unique_ptr<MidiGenerator> new_generator = std::make_unique<MidiGenerator>(*midiGenerator);
   new_generator->remove_neuron_at(neuron_index);
   midiGenerator = std::move(new_generator);
 }
 
 //==============================================================================
-bool WellsAudioProcessor::hasEditor() const {
+bool WellsAudioProcessor::hasEditor() const
+{
   return true; // (change this to false if you choose to not supply an editor)
 }
 
-AudioProcessorEditor *WellsAudioProcessor::createEditor() {
+AudioProcessorEditor* WellsAudioProcessor::createEditor()
+{
   return new WellsAudioProcessorEditor(*this);
 }
 
 //==============================================================================
-void WellsAudioProcessor::getStateInformation(MemoryBlock &destData) {
+void WellsAudioProcessor::getStateInformation(MemoryBlock& destData)
+{
   // You should use this method to store your parameters in the memory block.
   // You could do that either as raw data, or use the XML or ValueTree classes
   // as intermediaries to make it easy to save and load complex data.
 }
 
-void WellsAudioProcessor::setStateInformation(const void *data,
-                                              int sizeInBytes) {
+void WellsAudioProcessor::setStateInformation(const void* data, int sizeInBytes)
+{
   // You should use this method to restore your parameters from this memory
   // block, whose contents will have been created by the getStateInformation()
   // call.
@@ -195,6 +203,4 @@ void WellsAudioProcessor::setStateInformation(const void *data,
 
 //==============================================================================
 // This creates new instances of the plugin..
-AudioProcessor *JUCE_CALLTYPE createPluginFilter() {
-  return new WellsAudioProcessor();
-}
+AudioProcessor* JUCE_CALLTYPE createPluginFilter() { return new WellsAudioProcessor(); }
