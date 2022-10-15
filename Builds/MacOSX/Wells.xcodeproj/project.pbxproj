@@ -58,6 +58,8 @@
 		26E8AC3A24B71F77005D0989 /* Neuron.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26E8AC3424B71F77005D0989 /* Neuron.cpp */; };
 		26E8AC3B24B71F77005D0989 /* Neuron.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26E8AC3424B71F77005D0989 /* Neuron.cpp */; };
 		26E8AC4124B71F77005D0989 /* Neuron.test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26E8AC3924B71F77005D0989 /* Neuron.test.cpp */; };
+		26EA5D17251003DA00D469FA /* MidiGenerator.test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26E82076244AEA20004C7AFE /* MidiGenerator.test.cpp */; };
+		26EA5D18251003E700D469FA /* MidiGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26103A28244AE4B00065A1B3 /* MidiGenerator.cpp */; };
 		26F17F6624ACB923001A1821 /* main.test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26F17F6524ACB923001A1821 /* main.test.cpp */; };
 		26F17F6B24ACB982001A1821 /* BeatClock.test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26103A13244AE47A0065A1B3 /* BeatClock.test.cpp */; };
 		26F17F6C24ACB9F7001A1821 /* BeatClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26103A14244AE47A0065A1B3 /* BeatClock.cpp */; };
@@ -718,6 +720,8 @@
 				26F17F6C24ACB9F7001A1821 /* BeatClock.cpp in Sources */,
 				2694CD2B24B8794C0027E0E6 /* io.test.cpp in Sources */,
 				26E211D624B86F3A00FCD178 /* InputFilter.test.cpp in Sources */,
+				26EA5D17251003DA00D469FA /* MidiGenerator.test.cpp in Sources */,
+				26EA5D18251003E700D469FA /* MidiGenerator.cpp in Sources */,
 				26F17F6B24ACB982001A1821 /* BeatClock.test.cpp in Sources */,
 				26E211DC24B86F6700FCD178 /* MidiOutputWriter.test.cpp in Sources */,
 				26E211DE24B86F6700FCD178 /* MidiOutputWriter.cpp in Sources */,
