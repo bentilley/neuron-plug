@@ -25,24 +25,30 @@ struct ModelVector {
   ModelVector() = delete;
   ModelVector(ModelVectorData data, int32_t sampleNum, InputType type)
       : data{data}, sampleNumber{sampleNum}, inputType{type}
-  {
-  }
+  {}
   ModelVector(float dataInitValue, int32_t sampleNum, InputType type)
       : sampleNumber{sampleNum}, inputType{type}
   {
     data.fill(dataInitValue);
   }
-
-  friend bool operator==(const ModelVector &m1, const ModelVector &m2)
+  ModelVector(std::vector<std::pair<int, float>> points, int32_t sampleNum, InputType type)
+      : sampleNumber{sampleNum}, inputType{type}
   {
-    return m1.data == m2.data && m1.sampleNumber == m2.sampleNumber &&
-           m1.inputType == m2.inputType;
+    data.fill(0.0);
+    for_each(points.begin(), points.end(), [this](std::pair<int, float> p) {
+      data.at(p.first) = p.second;
+    });
   }
 
-  friend ModelVector operator+(const ModelVector &m1, const ModelVector &m2)
+  friend bool operator==(const ModelVector& m1, const ModelVector& m2)
+  {
+    return m1.data == m2.data && m1.sampleNumber == m2.sampleNumber && m1.inputType == m2.inputType;
+  }
+
+  friend ModelVector operator+(const ModelVector& m1, const ModelVector& m2)
   {
     ModelVectorData mergedData;
-    for (int i{0}; i < mergedData.size(); ++i) {
+    for (int i{0}; i < static_cast<int>(mergedData.size()); ++i) {
       mergedData.at(i) = m1.data.at(i) + m2.data.at(i);
     }
     return ModelVector(mergedData, m1.sampleNumber, InputType::MergedInput);
