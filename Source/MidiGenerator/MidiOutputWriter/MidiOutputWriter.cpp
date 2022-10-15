@@ -12,23 +12,25 @@
  * Constructors *
  ****************/
 
-MidiOutputWriter::MidiOutputWriter() : limitNoteLength{false}, maxNoteLength{0}
-{
-}
+MidiOutputWriter::MidiOutputWriter()
+    : limitNoteLength{false}, maxNoteLength{0}, maxNetworkOutput{1.0}, globalVolume{1.0},
+      volumeClip(0.0, 1.0)
+{}
 
 MidiOutputWriter::MidiOutputWriter(uint_fast32_t maxNoteLength)
-    : limitNoteLength{true}, maxNoteLength{maxNoteLength}
-{
-}
+    : limitNoteLength{true}, maxNoteLength{maxNoteLength}, maxNetworkOutput{1.0}, globalVolume{1.0},
+      volumeClip(0.0, 1.0)
+{}
 
 /******************
  * Public Methods *
  ******************/
 
-MidiBuffer &MidiOutputWriter::writeMidiOutput(
-  std::vector<ModelVector> &output,
-  MidiBuffer &buffer,
-  int bufferSize)
+MidiBuffer& MidiOutputWriter::writeMidiOutput(
+  std::vector<ModelVector>& output,
+  MidiBuffer& buffer,
+  int bufferSize
+)
 {
   updatePlayingNotesSamples(bufferSize);
   sampleNumModuloBufferSize(output, bufferSize);
@@ -39,9 +41,25 @@ MidiBuffer &MidiOutputWriter::writeMidiOutput(
   return buffer;
 }
 
-/***********
- * Setters *
- ***********/
+/***********************
+ * Getters and Setters *
+ ***********************/
+
+float MidiOutputWriter::getGlobalVolume() { return globalVolume; };
+
+void MidiOutputWriter::setGlobalVolume(float v) { globalVolume = v; };
+
+float MidiOutputWriter::getVolumeClipMin() { return volumeClip.first; };
+
+float MidiOutputWriter::getVolumeClipMax() { return volumeClip.second; };
+
+void MidiOutputWriter::setVolumeClip(float min, float max)
+{
+  assert(min <= max && max <= 1.0);
+  volumeClip = std::make_pair(min, max);
+};
+
+float MidiOutputWriter::getVolumeClipRange() { return volumeClip.second - volumeClip.first; }
 
 void MidiOutputWriter::setMaxNoteLength(uint_fast32_t newMaxNoteLength)
 {
@@ -59,18 +77,14 @@ void MidiOutputWriter::disableMaxNoteLength()
  * Private Methods *
  *******************/
 
-void MidiOutputWriter::writeVectorToBuffer(
-  ModelVector &vec,
-  MidiBuffer &buffer,
-  int bufferSize)
+void MidiOutputWriter::writeVectorToBuffer(ModelVector& vec, MidiBuffer& buffer, int bufferSize)
 {
-  for (int noteNumber{0}; noteNumber < vec.data.size(); ++noteNumber) {
+  for (int noteNumber{0}; noteNumber < static_cast<int>(vec.data.size()); ++noteNumber) {
     if (vec.data.at(noteNumber) > 0.001) {
       if (!noteIsPlayingAt(noteNumber)) {
         addNoteOn(buffer, bufferSize, vec, noteNumber);
       } else {
-        int endingSampleNumber =
-          getEndSampleForNote(vec.sampleNumber, noteNumber, bufferSize);
+        int endingSampleNumber = getEndSampleForNote(vec.sampleNumber, noteNumber, bufferSize);
         addNoteOff(buffer, noteNumber, endingSampleNumber);
         addNoteOn(buffer, bufferSize, vec, noteNumber);
       }
@@ -92,30 +106,24 @@ bool MidiOutputWriter::noteNeedsEnding(int noteNumber)
 }
 
 void MidiOutputWriter::addNoteOn(
-  MidiBuffer &buffer,
+  MidiBuffer& buffer,
   int bufferSize,
-  ModelVector &vec,
-  int noteNumber)
+  ModelVector& vec,
+  int noteNumber
+)
 {
-  buffer.addEvent(
-    MidiMessage::noteOn(1, noteNumber, vec.data.at(noteNumber)),
-    vec.sampleNumber);
+  float vel = getNoteVelocity(vec.data.at(noteNumber));
+  buffer.addEvent(MidiMessage::noteOn(1, noteNumber, vel), vec.sampleNumber);
   setNotePlayingSamples(noteNumber, bufferSize - vec.sampleNumber - 1);
 }
 
-void MidiOutputWriter::addNoteOff(
-  MidiBuffer &buffer,
-  int noteNumber,
-  int sampleNumber)
+void MidiOutputWriter::addNoteOff(MidiBuffer& buffer, int noteNumber, int sampleNumber)
 {
   buffer.addEvent(MidiMessage::noteOff(1, noteNumber, 1.0f), sampleNumber);
   setNotePlayingSamples(noteNumber, 0);
 }
 
-int MidiOutputWriter::getEndSampleForNote(
-  int vectorSampleNumber,
-  int noteNumber,
-  int bufferSize)
+int MidiOutputWriter::getEndSampleForNote(int vectorSampleNumber, int noteNumber, int bufferSize)
 {
   if (!noteNeedsEnding(noteNumber)) {
     return vectorSampleNumber;
@@ -128,40 +136,55 @@ int MidiOutputWriter::getEndSampleForNote(
 int MidiOutputWriter::getAutoEndSampleNumber(int noteNumber, int bufferSize)
 {
   int currentNoteLength = playingMidiNotes.at(noteNumber);
-  assert(currentNoteLength >= maxNoteLength);
+  assert(currentNoteLength >= static_cast<int>(maxNoteLength));
 
   return bufferSize - 1 - (currentNoteLength - maxNoteLength);
 }
 
-void MidiOutputWriter::setNotePlayingSamples(
-  uint_least8_t noteNumber,
-  uint_fast32_t numSamples)
+void MidiOutputWriter::setNotePlayingSamples(uint_least8_t noteNumber, uint_fast32_t numSamples)
 {
   playingMidiNotes.at(noteNumber) = numSamples;
 }
 
 void MidiOutputWriter::updatePlayingNotesSamples(int bufferSize)
 {
-  for (int noteNumber{0}; noteNumber < playingMidiNotes.size(); ++noteNumber) {
+  for (int noteNumber{0}; noteNumber < static_cast<int>(playingMidiNotes.size()); ++noteNumber) {
     if (playingMidiNotes.at(noteNumber) > 0) {
       playingMidiNotes.at(noteNumber) += bufferSize;
     }
   }
 }
 
-void MidiOutputWriter::stopNotesIfNeeded(MidiBuffer &buffer, int bufferSize)
+void MidiOutputWriter::stopNotesIfNeeded(MidiBuffer& buffer, int bufferSize)
 {
   if (!limitNoteLength)
     return;
 
-  for (int noteNumber{0}; noteNumber < playingMidiNotes.size(); ++noteNumber) {
+  for (int noteNumber{0}; noteNumber < static_cast<int>(playingMidiNotes.size()); ++noteNumber) {
     if (playingMidiNotes.at(noteNumber) > maxNoteLength) {
-      addNoteOff(
-        buffer,
-        noteNumber,
-        getAutoEndSampleNumber(noteNumber, bufferSize));
+      addNoteOff(buffer, noteNumber, getAutoEndSampleNumber(noteNumber, bufferSize));
     }
   }
+}
+
+float MidiOutputWriter::clipBrainOutput(float output)
+{
+  return output <= maxNetworkOutput ? output : maxNetworkOutput;
+}
+
+float MidiOutputWriter::asPercentOfMax(float output) { return output / maxNetworkOutput; }
+
+float MidiOutputWriter::getClippedMidiVolume(float vel)
+{
+  if (vel < 0.001)
+    return 0;
+  return volumeClip.first + (getVolumeClipRange() * vel);
+}
+
+float MidiOutputWriter::getNoteVelocity(float brainOutputValue)
+{
+  float output = asPercentOfMax(clipBrainOutput(brainOutputValue));
+  return getClippedMidiVolume(output) * globalVolume;
 }
 
 /*******************
@@ -175,9 +198,9 @@ void MidiOutputWriter::stopNotesIfNeeded(MidiBuffer &buffer, int bufferSize)
  * this method isn't needed. Then we just need to enforce the standard for input
  * generating devices.
  */
-void sampleNumModuloBufferSize(std::vector<ModelVector> &output, int bufferSize)
+void sampleNumModuloBufferSize(std::vector<ModelVector>& output, int bufferSize)
 {
-  for (auto &modelVector : output) {
+  for (auto& modelVector : output) {
     modelVector.sampleNumber = modelVector.sampleNumber % bufferSize;
   }
 }

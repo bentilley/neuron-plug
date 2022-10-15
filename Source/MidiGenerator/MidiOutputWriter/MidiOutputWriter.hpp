@@ -17,8 +17,7 @@
  * It keeps track of what notes are playing and can be used to limit the length
  * of time that MIDI notes are allowed to play for.
  */
-class MidiOutputWriter
-{
+class MidiOutputWriter {
 public:
   //============================================================================
   /** Default Constructor */
@@ -27,6 +26,24 @@ public:
   MidiOutputWriter(uint_fast32_t maxNoteLength);
 
   //============================================================================
+  /** Get the value of the global volume parameter. */
+  float getGlobalVolume();
+
+  /** Set the value of the global volume parameter. */
+  void setGlobalVolume(float v);
+
+  /** Get the minimum of the volume clip. */
+  float getVolumeClipMin();
+
+  /** Get the maximum of the volume clip. */
+  float getVolumeClipMax();
+
+  /** Set the minimum and maximum of the volume clip. */
+  void setVolumeClip(float min, float max);
+
+  /** Get the range of the volume clip. */
+  float getVolumeClipRange();
+
   /** Write MIDI output to the buffer based on the Model's output.
    *
    * Given a sequence of output vectors from the Model, this writer creates MIDI
@@ -38,10 +55,7 @@ public:
    * @param buffer The MIDI buffer to write to.
    * @param bufferSize The sample size of the current buffer.
    */
-  MidiBuffer &writeMidiOutput(
-    std::vector<ModelVector> &output,
-    MidiBuffer &buffer,
-    int bufferSize);
+  MidiBuffer& writeMidiOutput(std::vector<ModelVector>& output, MidiBuffer& buffer, int bufferSize);
 
   /** Set the maximum length of a note in samples.
    * @param newMaxNoteLength The number of samples to clip the note length to.
@@ -63,6 +77,19 @@ private:
   /** The maximum number of samples a note should play for. */
   uint_fast32_t maxNoteLength;
 
+  /** The maximum value a value in the Network output should take. */
+  float maxNetworkOutput;
+
+  /** Value for the global MIDI volume slider. */
+  float globalVolume;
+
+  /** A pair of values to clip the MIDI volume between.
+   *
+   * This allows the quietest MIDI volumne and the loudest MIDI volume to be
+   * set independently.
+   */
+  std::pair<float, float> volumeClip;
+
   //============================================================================
   /** Write a simgle ModelVector to the MidiBuffer
    *
@@ -70,10 +97,7 @@ private:
    * @param buffer The MIDI buffer to write to.
    * @param bufferSize The sample size of the current buffer.
    */
-  void writeVectorToBuffer(
-    ModelVector &vec,
-    MidiBuffer &buffer,
-    int bufferSize);
+  void writeVectorToBuffer(ModelVector& vec, MidiBuffer& buffer, int bufferSize);
 
   /** Return whether the given note is playing.
    *
@@ -97,11 +121,7 @@ private:
    * @param vec Reference of the relevant ModelVector.
    * @param noteNumber The MIDI number of the note on event to add.
    */
-  void addNoteOn(
-    MidiBuffer &buffer,
-    int bufferSize,
-    ModelVector &vec,
-    int noteNumber);
+  void addNoteOn(MidiBuffer& buffer, int bufferSize, ModelVector& vec, int noteNumber);
 
   /** Add a note off event to the MIDI Buffer.
    *
@@ -114,7 +134,7 @@ private:
    * @param noteNumber The MIDI number of the note off event to add.
    * @param sampleNumber When in the buffer to add the note.
    */
-  void addNoteOff(MidiBuffer &buffer, int noteNumber, int sampleNumber);
+  void addNoteOff(MidiBuffer& buffer, int noteNumber, int sampleNumber);
 
   /** Get the sample number to send a note off MIDI message.
    *
@@ -126,10 +146,7 @@ private:
    * @param noteNumber The MIDI number of the note.
    * @param bufferSize The sample size of the current buffer.
    */
-  int getEndSampleForNote(
-    int vectorSampleNumber,
-    int noteNumber,
-    int bufferSize);
+  int getEndSampleForNote(int vectorSampleNumber, int noteNumber, int bufferSize);
 
   /** Get the sample number to send an auto note off event.
    *
@@ -151,9 +168,7 @@ private:
    * @param noteNumber The MIDI note number of the note to set.
    * @param numSamples The number of samples to set the current value to.
    */
-  void setNotePlayingSamples(
-    uint_least8_t noteNumber,
-    uint_fast32_t numSamples);
+  void setNotePlayingSamples(uint_least8_t noteNumber, uint_fast32_t numSamples);
 
   /** Add the buffer size to the number of samples of each playing note.
    *
@@ -174,7 +189,28 @@ private:
    * @param buffer The MIDI buffer to write to.
    * @param bufferSize The sample size of the current buffer.
    */
-  void stopNotesIfNeeded(MidiBuffer &buffer, int bufferSize);
+  void stopNotesIfNeeded(MidiBuffer& buffer, int bufferSize);
+
+  /** Ensure that the output of the Network is not great than some max.
+   *
+   * @param output The value of the Network output.
+   */
+  float clipBrainOutput(float output);
+  /** Get the size of the output as a percentage of the max output.
+   *
+   * @param output The value of the network output.
+   */
+  float asPercentOfMax(float output);
+  /** Get the MIDI velocity base on the current velocity clip.
+   *
+   * @param velocity The current velocity before the clip is applied.
+   */
+  float getClippedMidiVolume(float velocity);
+  /** Get the MIDI velocity of a given Network output value.
+   *
+   * @param brainOutputValue The output value of the Network.
+   */
+  float getNoteVelocity(float brainOutputValue);
 };
 
 //==============================================================================
@@ -189,6 +225,4 @@ private:
  * @param output The output vectors of the model.
  * @param bufferSize The number of samples in the current buffer.
  */
-void sampleNumModuloBufferSize(
-  std::vector<ModelVector> &output,
-  int bufferSize);
+void sampleNumModuloBufferSize(std::vector<ModelVector>& output, int bufferSize);
