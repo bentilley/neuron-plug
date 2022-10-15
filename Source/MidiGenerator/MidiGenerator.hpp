@@ -10,6 +10,9 @@
 #include "../../JuceLibraryCode/JuceHeader.h"
 #include "../Utils/PluginLogger.hpp"
 #include "BeatClock/BeatClock.hpp"
+#include "InputFilter/InputFilter.hpp"
+#include "MidiInputTransformer/MidiInputTransformer.hpp"
+#include "MidiOutputWriter/MidiOutputWriter.hpp"
 #include "MidiProcessor/MidiProcessor.hpp"
 #include "WellNeurons/Network.hpp"
 #include "transport.hpp"
@@ -31,9 +34,9 @@ public:
 
   float get_volume();
   void set_volume(float v);
-  int get_volume_clip_min();
-  int get_volume_clip_max();
-  void set_volume_clip(int min, int max);
+  float get_volume_clip_min();
+  float get_volume_clip_max();
+  void set_volume_clip(float min, float max);
 
   int get_neuron_midi_note(int neuron_idx);
   void set_neuron_midi_note(int neuron_idx, int new_note_number);
@@ -42,8 +45,7 @@ public:
   int get_neuron_threshold(int neuron_idx);
   void set_neuron_threshold(int neuron_idx, int new_threshold);
   int get_neuron_connection_weight(int from, int to);
-  void set_neuron_connection_weight(int from, int to,
-                                    int new_connection_weight);
+  void set_neuron_connection_weight(int from, int to, int new_connection_weight);
 
   // Neuron Model Methods
   int num_neurons();
@@ -53,14 +55,18 @@ public:
 
   // Audio Thread
   void generate_next_midi_buffer(
-    MidiBuffer &b,
-    const AudioPlayHead::CurrentPositionInfo &pos,
-    SystemInfo &sys);
+    MidiBuffer& input,
+    MidiBuffer& output,
+    const AudioPlayHead::CurrentPositionInfo& pos,
+    SystemInfo& sys
+  );
 
 private:
   bool is_on, receives_midi;
 
   Network network;
-  MidiProcessor midiProcessor;
   BeatClock beatClock;
+  MidiInputTransformer midiInputTransformer;
+  InputFilter inputFilter;
+  MidiOutputWriter midiOutputWriter;
 };
