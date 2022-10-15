@@ -12,10 +12,11 @@
  ******************************/
 
 InputFilter::InputFilter()
-    : mergeStrategy{MergeStrategy::SimpleMerge},
-      strategy{std::make_unique<SimpleMergeStrategy>()} {}
+    : mergeStrategy{MergeStrategy::SimpleMerge}, strategy{std::make_unique<SimpleMergeStrategy>()}
+{}
 
-InputFilter::InputFilter(MergeStrategy strat) : mergeStrategy{strat} {
+InputFilter::InputFilter(MergeStrategy strat) : mergeStrategy{strat}
+{
   switch (mergeStrategy) {
   default:
     strategy = std::make_unique<SimpleMergeStrategy>();
@@ -27,15 +28,14 @@ InputFilter::InputFilter(MergeStrategy strat) : mergeStrategy{strat} {
  * Getters *
  ***********/
 
-const InputFilter::MergeStrategy InputFilter::getMergeStrategy() const {
-  return mergeStrategy;
-}
+InputFilter::MergeStrategy InputFilter::getMergeStrategy() const { return mergeStrategy; }
 
 /***********
  * Setters *
  ***********/
 
-void InputFilter::setMergeStrategy(MergeStrategy newStrategy) {
+void InputFilter::setMergeStrategy(MergeStrategy newStrategy)
+{
   mergeStrategy = newStrategy;
   switch (mergeStrategy) {
   default:
@@ -49,7 +49,9 @@ void InputFilter::setMergeStrategy(MergeStrategy newStrategy) {
  ******************/
 
 std::vector<ModelVector> InputFilter::mergeInputStreams(
-    std::vector<std::vector<ModelVector>> &streams) const {
+  std::vector<std::vector<ModelVector>>& streams
+) const
+{
   std::vector<ModelVector> results;
   for (auto inputStream : streams) {
     for (auto inputVector : inputStream) {
@@ -64,11 +66,12 @@ std::vector<ModelVector> InputFilter::mergeInputStreams(
  *************************/
 
 void SimpleMergeStrategy::mergeInputVector(
-    std::vector<ModelVector> &mergedVectors,
-    ModelVector &nextVector) {
+  std::vector<ModelVector>& mergedVectors,
+  ModelVector& nextVector
+)
+{
 
-  std::vector<ModelVector>::iterator vectorWithSameSampleNumber{
-      mergedVectors.end()};
+  std::vector<ModelVector>::iterator vectorWithSameSampleNumber{mergedVectors.end()};
   for (auto v{mergedVectors.begin()}; v != mergedVectors.end(); ++v) {
     if (v->sampleNumber == nextVector.sampleNumber) {
       vectorWithSameSampleNumber = v;

@@ -46,8 +46,10 @@ public:
      * @param mergedVectors A vector of all of the currently mergedVectors.
      * @param nextVector The next ModelVector vector to be merged.
      */
-    virtual void mergeInputVector(std::vector<ModelVector> &mergedVectors,
-                                  ModelVector &nextVector) = 0;
+    virtual void mergeInputVector(
+      std::vector<ModelVector>& mergedVectors,
+      ModelVector& nextVector
+    ) = 0;
   };
 
   /** Default constructor creates an InputFilter that uses the
@@ -69,11 +71,10 @@ public:
    *
    * @param streams The input streams to be merged.
    */
-  std::vector<ModelVector>
-  mergeInputStreams(std::vector<std::vector<ModelVector>> &streams) const;
+  std::vector<ModelVector> mergeInputStreams(std::vector<std::vector<ModelVector>>& streams) const;
 
   /** Get the enum of the currently configured MergeStrategy. */
-  const MergeStrategy getMergeStrategy() const;
+  MergeStrategy getMergeStrategy() const;
 
   /** Set the MergeStrategy that this InputFilter will use.
    *
@@ -86,8 +87,8 @@ public:
 
 private:
   MergeStrategy mergeStrategy; ///< The InputFilter::MergeStrategy being used.
-  std::unique_ptr<MergeStrategyImplementation>
-      strategy; ///< The corresponding InputFilter::MergeStrategyImplementation
+  std::shared_ptr<MergeStrategyImplementation>
+    strategy; ///< The corresponding InputFilter::MergeStrategyImplementation
 };
 
 /** A naieve merge strategy that simply merges input vectors if they have the
@@ -97,6 +98,5 @@ private:
  */
 class SimpleMergeStrategy : public InputFilter::MergeStrategyImplementation {
 public:
-  void mergeInputVector(std::vector<ModelVector> &mergedVectors,
-                        ModelVector &nextVector) override;
+  void mergeInputVector(std::vector<ModelVector>& mergedVectors, ModelVector& nextVector) override;
 };
