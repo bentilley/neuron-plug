@@ -2,7 +2,6 @@
 
 libs/
 # TODO - handle JUCE dependency in build process
-JuceLibraryCode/**
 xcodebuild.log
 playground.filtergraph
 plugin.log
