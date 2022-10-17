@@ -8,10 +8,10 @@
 #include "PluginBody.hpp"
 #include "Styles.hpp"
 
-PluginBody::PluginBody(WellsAudioProcessor &p)
-    : processor(p), editor_num_neurons{p.midiGenerator->num_neurons()},
-      neuronTitleBar(p), midiNotesBar(p), inputWeightsBar(p), thresholdsBar(p),
-      connectionWeightsMatrix(p) {
+PluginBody::PluginBody(WellsAudioProcessor& p)
+    : processor(p), editor_num_neurons{p.midiGenerator->num_neurons()}, neuronTitleBar(p),
+      midiNotesBar(p), inputWeightsBar(p), thresholdsBar(p), connectionWeightsMatrix(p)
+{
   addAndMakeVisible(neuronTitleBar);
   addAndMakeVisible(midiNotesBar);
   addAndMakeVisible(inputWeightsBar);
@@ -20,9 +20,10 @@ PluginBody::PluginBody(WellsAudioProcessor &p)
 }
 PluginBody::~PluginBody() {}
 
-void PluginBody::paint(Graphics &g) {}
+void PluginBody::paint(Graphics& g) {}
 
-void PluginBody::resized() {
+void PluginBody::resized()
+{
   auto area = getLocalBounds();
 
   neuronTitleBar.setBounds(area.removeFromTop(AppStyle.neuronTitleBarHeight));
@@ -34,7 +35,8 @@ void PluginBody::resized() {
   connectionWeightsMatrix.setBounds(area);
 }
 
-void PluginBody::updateComponents() {
+void PluginBody::updateComponents()
+{
   int processor_num_neurons = processor.midiGenerator->num_neurons();
   if (processor_num_neurons != editor_num_neurons) {
     int neuron_diff = processor_num_neurons - editor_num_neurons;
@@ -48,7 +50,8 @@ void PluginBody::updateComponents() {
   connectionWeightsMatrix.updateComponents();
 }
 
-void PluginBody::update_neuron_ui(int neuron_num_change) {
+void PluginBody::update_neuron_ui(int neuron_num_change)
+{
   if (neuron_num_change > 0) {
     for (int i{0}; i < neuron_num_change; ++i) {
       add_neuron_ui_update();
@@ -60,14 +63,16 @@ void PluginBody::update_neuron_ui(int neuron_num_change) {
   }
 }
 
-void PluginBody::add_neuron_ui_update() {
+void PluginBody::add_neuron_ui_update()
+{
   neuronTitleBar.add_neuron_ui_update();
   midiNotesBar.add_neuron_ui_update();
   inputWeightsBar.add_neuron_ui_update();
   thresholdsBar.add_neuron_ui_update();
   connectionWeightsMatrix.add_neuron_ui_update();
 }
-void PluginBody::remove_neuron_ui_update() {
+void PluginBody::remove_neuron_ui_update()
+{
   neuronTitleBar.remove_neuron_ui_update();
   midiNotesBar.remove_neuron_ui_update();
   inputWeightsBar.remove_neuron_ui_update();

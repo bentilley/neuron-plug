@@ -19,13 +19,13 @@ class NeuronTitleBar;
 
 class AddNeuronButton : public TextButton {
 public:
-  AddNeuronButton(WellsAudioProcessor &p);
+  AddNeuronButton(WellsAudioProcessor& p);
   ~AddNeuronButton();
 
 private:
-  WellsAudioProcessor &processor;
+  WellsAudioProcessor& processor;
 
-  NeuronTitleBar *getNeuronTitleBar();
+  NeuronTitleBar* getNeuronTitleBar();
 };
 
 /*
@@ -34,14 +34,14 @@ private:
 
 class NeuronLabel : public Component {
 public:
-  NeuronLabel(WellsAudioProcessor &p, int neuron_index);
+  NeuronLabel(WellsAudioProcessor& p, int neuron_index);
   ~NeuronLabel();
 
-  void paint(Graphics &) override;
+  void paint(Graphics&) override;
   void resized() override;
 
 private:
-  WellsAudioProcessor &processor;
+  WellsAudioProcessor& processor;
   int neuron_index;
 
   Colour darkGrey{51, 51, 51};
@@ -60,10 +60,10 @@ private:
 
 class NeuronTitleBar : public Component {
 public:
-  NeuronTitleBar(WellsAudioProcessor &p);
+  NeuronTitleBar(WellsAudioProcessor& p);
   ~NeuronTitleBar();
 
-  void paint(Graphics &) override;
+  void paint(Graphics&) override;
   void resized() override;
 
   void add_neuron_ui_update();
@@ -72,7 +72,7 @@ public:
   void add_neuron_label();
 
 private:
-  WellsAudioProcessor &processor;
+  WellsAudioProcessor& processor;
 
   AddNeuronButton addNeuron;
   std::vector<std::unique_ptr<NeuronLabel>> neuronColumnLabels;

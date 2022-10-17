@@ -14,14 +14,14 @@
 
 class MainComponent : public Component, private Timer {
 public:
-  MainComponent(WellsAudioProcessor &p);
+  MainComponent(WellsAudioProcessor& p);
   ~MainComponent();
 
-  void paint(Graphics &) override;
+  void paint(Graphics&) override;
   void resized() override;
 
 private:
-  WellsAudioProcessor &processor;
+  WellsAudioProcessor& processor;
 
   TitleBar titleBar;
   PluginBody pluginBody;

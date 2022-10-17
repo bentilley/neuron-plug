@@ -17,16 +17,16 @@
 
 class PluginBody : public Component {
 public:
-  PluginBody(WellsAudioProcessor &p);
+  PluginBody(WellsAudioProcessor& p);
   ~PluginBody();
 
-  void paint(Graphics &) override;
+  void paint(Graphics&) override;
   void resized() override;
 
   void updateComponents();
 
 private:
-  WellsAudioProcessor &processor;
+  WellsAudioProcessor& processor;
 
   int editor_num_neurons;
 

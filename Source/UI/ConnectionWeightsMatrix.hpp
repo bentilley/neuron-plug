@@ -28,13 +28,13 @@ private:
 
 class ConnectionWeightSlider : public Slider {
 public:
-  ConnectionWeightSlider(WellsAudioProcessor &p, int from, int to);
+  ConnectionWeightSlider(WellsAudioProcessor& p, int from, int to);
   ~ConnectionWeightSlider();
 
   void updateComponent();
 
 private:
-  WellsAudioProcessor &processor;
+  WellsAudioProcessor& processor;
   int neuron_from, neuron_to;
 };
 
@@ -47,10 +47,10 @@ private:
 
 class ConnectionWeightsMatrix : public Component {
 public:
-  ConnectionWeightsMatrix(WellsAudioProcessor &p);
+  ConnectionWeightsMatrix(WellsAudioProcessor& p);
   ~ConnectionWeightsMatrix();
 
-  void paint(Graphics &) override;
+  void paint(Graphics&) override;
   void resized() override;
 
   void updateComponents();
@@ -58,11 +58,10 @@ public:
   void remove_neuron_ui_update();
 
 private:
-  WellsAudioProcessor &processor;
+  WellsAudioProcessor& processor;
 
   std::vector<std::unique_ptr<NeuronRowLabel>> neuronRowLabels;
-  std::vector<std::vector<std::unique_ptr<ConnectionWeightSlider>>>
-      connectionWeightSliders;
+  std::vector<std::vector<std::unique_ptr<ConnectionWeightSlider>>> connectionWeightSliders;
 
   void add_neuron_row_label(int neuron_index);
   void add_connection_weight_slider(int neuron_index);

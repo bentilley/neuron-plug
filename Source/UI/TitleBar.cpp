@@ -8,9 +8,10 @@
 #include "TitleBar.hpp"
 #include "Styles.hpp"
 
-TitleBar::TitleBar(WellsAudioProcessor &p)
-    : onOffButton(p), receivesMidiButton(p), subdivisionSlider(p),
-      globalVolumeSlider(p), volumeRange(p) {
+TitleBar::TitleBar(WellsAudioProcessor& p)
+    : onOffButton(p), receivesMidiButton(p), subdivisionSlider(p), globalVolumeSlider(p),
+      volumeRange(p)
+{
 
   addAndMakeVisible(onOffButton);
   addAndMakeVisible(receivesMidiButton);
@@ -20,7 +21,8 @@ TitleBar::TitleBar(WellsAudioProcessor &p)
 }
 TitleBar::~TitleBar() {}
 
-void TitleBar::paint(Graphics &g) {
+void TitleBar::paint(Graphics& g)
+{
   auto area = getLocalBounds();
   auto bottomBorder = area.removeFromBottom(bottomBorderPx);
 
@@ -30,7 +32,8 @@ void TitleBar::paint(Graphics &g) {
   g.fillRect(bottomBorder);
 }
 
-void TitleBar::resized() {
+void TitleBar::resized()
+{
 
   auto area = getLocalBounds();
   area.removeFromBottom(bottomBorderPx);
@@ -56,7 +59,8 @@ void TitleBar::resized() {
   volumeRange.setBounds(buttonArea);
 }
 
-void TitleBar::updateComponents() {
+void TitleBar::updateComponents()
+{
   // TODO only update GUI when needed
   onOffButton.updateComponent();
   receivesMidiButton.updateComponent();
@@ -69,61 +73,61 @@ void TitleBar::updateComponents() {
  * On/Off Button
  */
 
-OnOffButton::OnOffButton(WellsAudioProcessor &p)
-    : TextButton("On/Off"), processor(p) {
+OnOffButton::OnOffButton(WellsAudioProcessor& p) : TextButton("On/Off"), processor(p)
+{
   onClick = [this]() { processor.midiGenerator->toggleOnOff(); };
 }
 OnOffButton::~OnOffButton() {}
 
-void OnOffButton::updateComponent() {
-  setColour(TextButton::ColourIds::buttonColourId,
-            processor.midiGenerator->get_is_on() ? AppStyle.buttonOnColour
-                                                 : AppStyle.buttonOffColour);
+void OnOffButton::updateComponent()
+{
+  setColour(
+    TextButton::ColourIds::buttonColourId,
+    processor.midiGenerator->get_is_on() ? AppStyle.buttonOnColour : AppStyle.buttonOffColour
+  );
 }
 
 /*
  * Receives MIDI Button
  */
 
-ReceivesMidiButton::ReceivesMidiButton(WellsAudioProcessor &p)
-    : TextButton("MIDI In"), processor(p) {
+ReceivesMidiButton::ReceivesMidiButton(WellsAudioProcessor& p) : TextButton("MIDI In"), processor(p)
+{
   onClick = [this]() { processor.midiGenerator->toggleReceivesMidi(); };
 }
 ReceivesMidiButton::~ReceivesMidiButton() {}
 
-void ReceivesMidiButton::updateComponent() {
-  setColour(TextButton::ColourIds::buttonColourId,
-            processor.midiGenerator->get_receives_midi()
-                ? AppStyle.buttonOnColour
-                : AppStyle.buttonOffColour);
+void ReceivesMidiButton::updateComponent()
+{
+  setColour(
+    TextButton::ColourIds::buttonColourId,
+    processor.midiGenerator->get_receives_midi() ? AppStyle.buttonOnColour
+                                                 : AppStyle.buttonOffColour
+  );
 }
 
 /*
  * Subdivision Slider
  */
 
-SubdivisionSlider::SubdivisionSlider(WellsAudioProcessor &p)
-    : Slider("Subdivision"), processor(p) {
+SubdivisionSlider::SubdivisionSlider(WellsAudioProcessor& p) : Slider("Subdivision"), processor(p)
+{
   setSliderStyle(Slider::RotaryVerticalDrag);
   setRange(1, 256, 1);
   setTextBoxStyle(Slider::NoTextBox, false, 10, 0);
   setPopupDisplayEnabled(true, false, getParentComponent());
-  onValueChange = [this]() {
-    processor.midiGenerator->set_subdivision(getValue());
-  };
+  onValueChange = [this]() { processor.midiGenerator->set_subdivision(getValue()); };
 }
 SubdivisionSlider::~SubdivisionSlider() {}
 
-void SubdivisionSlider::updateComponent() {
-  setValue(processor.midiGenerator->get_subdivision());
-}
+void SubdivisionSlider::updateComponent() { setValue(processor.midiGenerator->get_subdivision()); }
 
 /*
  * Global Volume Slider
  */
 
-GlobalVolumeSlider::GlobalVolumeSlider(WellsAudioProcessor &p)
-    : Slider("Volume"), processor(p) {
+GlobalVolumeSlider::GlobalVolumeSlider(WellsAudioProcessor& p) : Slider("Volume"), processor(p)
+{
   setSliderStyle(Slider::RotaryVerticalDrag);
   setRange(0.0, 1.0, 0.00);
   setNumDecimalPlacesToDisplay(2);
@@ -133,16 +137,15 @@ GlobalVolumeSlider::GlobalVolumeSlider(WellsAudioProcessor &p)
 }
 GlobalVolumeSlider::~GlobalVolumeSlider() {}
 
-void GlobalVolumeSlider::updateComponent() {
-  setValue(processor.midiGenerator->get_volume());
-}
+void GlobalVolumeSlider::updateComponent() { setValue(processor.midiGenerator->get_volume()); }
 
 /*
  * Volume Range Slider
  */
 
-VolumeRangeSlider::VolumeRangeSlider(WellsAudioProcessor &p)
-    : Slider("MIDI Volume Range"), processor(p) {
+VolumeRangeSlider::VolumeRangeSlider(WellsAudioProcessor& p)
+    : Slider("MIDI Volume Range"), processor(p)
+{
   setSliderStyle(Slider::TwoValueHorizontal);
   setRange(0, 127, 1);
   setTextBoxStyle(Slider::NoTextBox, false, 10, 0);
@@ -153,7 +156,8 @@ VolumeRangeSlider::VolumeRangeSlider(WellsAudioProcessor &p)
 }
 VolumeRangeSlider::~VolumeRangeSlider() {}
 
-void VolumeRangeSlider::updateComponent() {
+void VolumeRangeSlider::updateComponent()
+{
   setMinValue(processor.midiGenerator->get_volume_clip_min());
   setMaxValue(processor.midiGenerator->get_volume_clip_max());
 }

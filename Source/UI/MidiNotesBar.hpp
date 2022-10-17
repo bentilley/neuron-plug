@@ -17,14 +17,14 @@
 
 class MidiNoteComboBox : public ComboBox {
 public:
-  MidiNoteComboBox(WellsAudioProcessor &p, int index);
+  MidiNoteComboBox(WellsAudioProcessor& p, int index);
   ~MidiNoteComboBox();
 
   void updateComponent();
   int get_midi_note_id(int note_num);
 
 private:
-  WellsAudioProcessor &processor;
+  WellsAudioProcessor& processor;
   int neuron_index;
 };
 
@@ -37,10 +37,10 @@ private:
 
 class MidiNotesBar : public Component {
 public:
-  MidiNotesBar(WellsAudioProcessor &p);
+  MidiNotesBar(WellsAudioProcessor& p);
   ~MidiNotesBar();
 
-  void paint(Graphics &) override;
+  void paint(Graphics&) override;
   void resized() override;
 
   void updateComponents();
@@ -48,7 +48,7 @@ public:
   void remove_neuron_ui_update();
 
 private:
-  WellsAudioProcessor &processor;
+  WellsAudioProcessor& processor;
 
   std::vector<std::unique_ptr<MidiNoteComboBox>> midiNoteSelectors;
 

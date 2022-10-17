@@ -15,24 +15,24 @@
 
 class OnOffButton : public TextButton {
 public:
-  OnOffButton(WellsAudioProcessor &p);
+  OnOffButton(WellsAudioProcessor& p);
   ~OnOffButton();
   void updateComponent();
 
 private:
-  WellsAudioProcessor &processor;
+  WellsAudioProcessor& processor;
 };
 
 // Receives MIDI Button - for toggling whether the plugin responds to MIDI in.
 
 class ReceivesMidiButton : public TextButton {
 public:
-  ReceivesMidiButton(WellsAudioProcessor &p);
+  ReceivesMidiButton(WellsAudioProcessor& p);
   ~ReceivesMidiButton();
   void updateComponent();
 
 private:
-  WellsAudioProcessor &processor;
+  WellsAudioProcessor& processor;
 };
 
 /*
@@ -41,12 +41,12 @@ private:
 
 class SubdivisionSlider : public Slider {
 public:
-  SubdivisionSlider(WellsAudioProcessor &p);
+  SubdivisionSlider(WellsAudioProcessor& p);
   ~SubdivisionSlider();
   void updateComponent();
 
 private:
-  WellsAudioProcessor &processor;
+  WellsAudioProcessor& processor;
 };
 
 /*
@@ -55,12 +55,12 @@ private:
 
 class GlobalVolumeSlider : public Slider {
 public:
-  GlobalVolumeSlider(WellsAudioProcessor &p);
+  GlobalVolumeSlider(WellsAudioProcessor& p);
   ~GlobalVolumeSlider();
   void updateComponent();
 
 private:
-  WellsAudioProcessor &processor;
+  WellsAudioProcessor& processor;
 };
 
 /*
@@ -69,12 +69,12 @@ private:
 
 class VolumeRangeSlider : public Slider {
 public:
-  VolumeRangeSlider(WellsAudioProcessor &p);
+  VolumeRangeSlider(WellsAudioProcessor& p);
   ~VolumeRangeSlider();
   void updateComponent();
 
 private:
-  WellsAudioProcessor &processor;
+  WellsAudioProcessor& processor;
 };
 
 /*
@@ -90,10 +90,10 @@ private:
 
 class TitleBar : public Component {
 public:
-  TitleBar(WellsAudioProcessor &p);
+  TitleBar(WellsAudioProcessor& p);
   ~TitleBar();
 
-  void paint(Graphics &) override;
+  void paint(Graphics&) override;
   void resized() override;
 
   void updateComponents();

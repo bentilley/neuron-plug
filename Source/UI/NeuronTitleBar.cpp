@@ -12,8 +12,8 @@
  * Neuron Title Bar
  */
 
-NeuronTitleBar::NeuronTitleBar(WellsAudioProcessor &p)
-    : processor(p), addNeuron(p) {
+NeuronTitleBar::NeuronTitleBar(WellsAudioProcessor& p) : processor(p), addNeuron(p)
+{
   for (int i = 0; i < p.midiGenerator->num_neurons(); ++i) {
     add_neuron_label(i);
   }
@@ -21,15 +21,15 @@ NeuronTitleBar::NeuronTitleBar(WellsAudioProcessor &p)
 }
 NeuronTitleBar::~NeuronTitleBar() {}
 
-void NeuronTitleBar::paint(Graphics &g) {}
+void NeuronTitleBar::paint(Graphics& g) {}
 
-void NeuronTitleBar::resized() {
+void NeuronTitleBar::resized()
+{
   auto area = getLocalBounds();
   AppStyle.blockPadding.subtractFrom(area);
   area.removeFromLeft(AppStyle.rowLabelWidth);
 
-  for (auto it = neuronColumnLabels.begin(); it != neuronColumnLabels.end();
-       it++) {
+  for (auto it = neuronColumnLabels.begin(); it != neuronColumnLabels.end(); it++) {
     auto labelArea = area.removeFromLeft(AppStyle.colWidth);
     (*it)->setBounds(labelArea);
   }
@@ -37,36 +37,36 @@ void NeuronTitleBar::resized() {
   addNeuron.setBounds(buttonArea);
 }
 
-void NeuronTitleBar::add_neuron_label(int neuron_index) {
-  std::unique_ptr<NeuronLabel> label =
-      std::make_unique<NeuronLabel>(processor, neuron_index);
+void NeuronTitleBar::add_neuron_label(int neuron_index)
+{
+  std::unique_ptr<NeuronLabel> label = std::make_unique<NeuronLabel>(processor, neuron_index);
   addAndMakeVisible(*label);
   neuronColumnLabels.push_back(std::move(label));
 }
 
 // Public Methods
 
-void NeuronTitleBar::add_neuron_ui_update() {
+void NeuronTitleBar::add_neuron_ui_update()
+{
   add_neuron_label();
   resized();
 }
-void NeuronTitleBar::remove_neuron_ui_update() {
+void NeuronTitleBar::remove_neuron_ui_update()
+{
   neuronColumnLabels.pop_back();
   resized();
 }
 
-void NeuronTitleBar::add_neuron_label() {
-  add_neuron_label(neuronColumnLabels.size());
-}
+void NeuronTitleBar::add_neuron_label() { add_neuron_label(neuronColumnLabels.size()); }
 
 /*
  * Neuron Label
  */
 
-NeuronLabel::NeuronLabel(WellsAudioProcessor &p, int idx)
+NeuronLabel::NeuronLabel(WellsAudioProcessor& p, int idx)
     : processor(p), neuron_index(idx),
-      columnLabel("neuron" + String(idx + 1), "Neuron " + String(idx + 1)),
-      removeNeuron("-") {
+      columnLabel("neuron" + String(idx + 1), "Neuron " + String(idx + 1)), removeNeuron("-")
+{
   columnLabel.setColour(Label::ColourIds::textColourId, AppStyle.lightGrey);
   columnLabel.setJustificationType(Justification::centred);
   removeNeuron.onClick = [this]() { processor.remove_neuron_at(neuron_index); };
@@ -75,8 +75,9 @@ NeuronLabel::NeuronLabel(WellsAudioProcessor &p, int idx)
 }
 NeuronLabel::~NeuronLabel() {}
 
-void NeuronLabel::paint(Graphics &g) {}
-void NeuronLabel::resized() {
+void NeuronLabel::paint(Graphics& g) {}
+void NeuronLabel::resized()
+{
   auto area = getLocalBounds();
   columnLabel.setBounds(area.removeFromBottom(area.getHeight() * 0.6));
   int width = area.getWidth();
@@ -89,12 +90,13 @@ void NeuronLabel::resized() {
  * Add Neuron Button
  */
 
-AddNeuronButton::AddNeuronButton(WellsAudioProcessor &p)
-    : TextButton("+"), processor(p) {
+AddNeuronButton::AddNeuronButton(WellsAudioProcessor& p) : TextButton("+"), processor(p)
+{
   onClick = [this]() { processor.add_neuron(); };
 }
 AddNeuronButton::~AddNeuronButton() {}
 
-NeuronTitleBar *AddNeuronButton::getNeuronTitleBar() {
-  return static_cast<NeuronTitleBar *>(getParentComponent());
+NeuronTitleBar* AddNeuronButton::getNeuronTitleBar()
+{
+  return static_cast<NeuronTitleBar*>(getParentComponent());
 }

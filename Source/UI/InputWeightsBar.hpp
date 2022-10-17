@@ -16,7 +16,7 @@
 
 class InputWeightSlider : public Slider {
 public:
-  InputWeightSlider(WellsAudioProcessor &p, int neuron_num);
+  InputWeightSlider(WellsAudioProcessor& p, int neuron_num);
   ~InputWeightSlider();
 
   void updateComponent();
@@ -24,7 +24,7 @@ public:
 private:
   Colour darkGrey{51, 51, 51};
 
-  WellsAudioProcessor &processor;
+  WellsAudioProcessor& processor;
   int neuron_index;
 };
 
@@ -37,10 +37,10 @@ private:
 
 class InputWeightsBar : public Component {
 public:
-  InputWeightsBar(WellsAudioProcessor &p);
+  InputWeightsBar(WellsAudioProcessor& p);
   ~InputWeightsBar();
 
-  void paint(Graphics &) override;
+  void paint(Graphics&) override;
   void resized() override;
 
   void updateComponents();
@@ -48,7 +48,7 @@ public:
   void remove_neuron_ui_update();
 
 private:
-  WellsAudioProcessor &processor;
+  WellsAudioProcessor& processor;
 
   std::vector<std::unique_ptr<InputWeightSlider>> inputWeightSliders;
 

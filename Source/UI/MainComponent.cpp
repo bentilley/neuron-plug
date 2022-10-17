@@ -8,28 +8,31 @@
 #include "MainComponent.hpp"
 #include "Styles.hpp"
 
-MainComponent::MainComponent(WellsAudioProcessor &p)
-    : processor(p), titleBar(p), pluginBody(p) {
+MainComponent::MainComponent(WellsAudioProcessor& p) : processor(p), titleBar(p), pluginBody(p)
+{
   addAndMakeVisible(&titleBar);
   addAndMakeVisible(&pluginBody);
   startTimer(100);
 };
 MainComponent::~MainComponent(){};
 
-void MainComponent::paint(Graphics &g) {
+void MainComponent::paint(Graphics& g)
+{
   auto area = getLocalBounds();
   g.setColour(AppStyle.veryDarkGrey);
   g.fillRect(area);
 }
 
-void MainComponent::resized() {
+void MainComponent::resized()
+{
   auto area = getLocalBounds();
 
   titleBar.setBounds(area.removeFromTop(AppStyle.titleHeight));
   pluginBody.setBounds(area);
 }
 
-void MainComponent::timerCallback() {
+void MainComponent::timerCallback()
+{
   titleBar.updateComponents();
   pluginBody.updateComponents();
 };

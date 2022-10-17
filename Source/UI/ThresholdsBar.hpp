@@ -16,13 +16,13 @@
 
 class ThresholdSlider : public Slider {
 public:
-  ThresholdSlider(WellsAudioProcessor &p, int neuron_num);
+  ThresholdSlider(WellsAudioProcessor& p, int neuron_num);
   ~ThresholdSlider();
 
   void updateComponent();
 
 private:
-  WellsAudioProcessor &processor;
+  WellsAudioProcessor& processor;
   int neuron_index;
 };
 
@@ -35,10 +35,10 @@ private:
 
 class ThresholdsBar : public Component {
 public:
-  ThresholdsBar(WellsAudioProcessor &p);
+  ThresholdsBar(WellsAudioProcessor& p);
   ~ThresholdsBar();
 
-  void paint(Graphics &) override;
+  void paint(Graphics&) override;
   void resized() override;
 
   void updateComponents();
@@ -46,7 +46,7 @@ public:
   void remove_neuron_ui_update();
 
 private:
-  WellsAudioProcessor &processor;
+  WellsAudioProcessor& processor;
 
   std::vector<std::unique_ptr<ThresholdSlider>> thresholdSliders;
 
