@@ -190,7 +190,7 @@
 		4E885BF5084F59C48E7C3BC4 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		5291DB91CCE2E19E08CE0910 /* include_juce_audio_formats.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_audio_formats.mm; path = ../../JuceLibraryCode/include_juce_audio_formats.mm; sourceTree = SOURCE_ROOT; };
 		563479C0950C42E9F4496F5F /* juce_core */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_core; path = "/Users/MrSquee/Projects/fractal-flow/JUCE/modules/juce_core"; sourceTree = "<absolute>"; };
-		56EFB8FD74A7E86A49F92B78 /* Wells.vst3 */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Wells.vst3; sourceTree = BUILT_PRODUCTS_DIR; };
+		56EFB8FD74A7E86A49F92B78 /* wells-0.0.2.vst3 */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "wells-0.0.2.vst3"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C05DD4C1542AB868231B188 /* include_juce_graphics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_graphics.mm; path = ../../JuceLibraryCode/include_juce_graphics.mm; sourceTree = SOURCE_ROOT; };
 		5DB1BED11EE8DF703CA89E1B /* Info-VST3.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-VST3.plist"; sourceTree = SOURCE_ROOT; };
 		5DCAE9DAF428CE7304DC4CE2 /* juce_audio_processors */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_audio_processors; path = "/Users/MrSquee/Projects/fractal-flow/JUCE/modules/juce_audio_processors"; sourceTree = "<absolute>"; };
@@ -471,7 +471,7 @@
 		7FB97391E1427497C61F853A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				56EFB8FD74A7E86A49F92B78 /* Wells.vst3 */,
+				56EFB8FD74A7E86A49F92B78 /* wells-0.0.2.vst3 */,
 				9FC0766645245AA9CE494EB8 /* libWells.a */,
 				26F17F5824ACB5FE001A1821 /* test-wells-plugin */,
 			);
@@ -559,7 +559,7 @@
 			);
 			name = "Wells - VST3";
 			productName = Wells;
-			productReference = 56EFB8FD74A7E86A49F92B78 /* Wells.vst3 */;
+			productReference = 56EFB8FD74A7E86A49F92B78 /* wells-0.0.2.vst3 */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -908,13 +908,14 @@
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_LOCATION = YES;
 				DSTROOT = /;
+				FF_PLUGIN_VERSION_SUFFIX = "-0.0.2";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_DEBUG=1",
 					"DEBUG=1",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=0.0.1",
+					"JUCE_APP_VERSION=0.0.2",
 					"JUCE_APP_VERSION_HEX=0x1",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=1",
@@ -944,7 +945,7 @@
 					"-lWells",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.Wells;
-				PRODUCT_NAME = Wells;
+				PRODUCT_NAME = "wells$(FF_PLUGIN_VERSION_SUFFIX)";
 				USE_HEADERMAP = NO;
 				WRAPPER_EXTENSION = vst3;
 			};
@@ -962,13 +963,14 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEPLOYMENT_LOCATION = YES;
 				DSTROOT = /;
+				FF_PLUGIN_VERSION_SUFFIX = "-0.0.2";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_NDEBUG=1",
 					"NDEBUG=1",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=0.0.1",
+					"JUCE_APP_VERSION=0.0.2",
 					"JUCE_APP_VERSION_HEX=0x1",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=1",
@@ -1000,7 +1002,7 @@
 					"-lWells",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.Wells;
-				PRODUCT_NAME = Wells;
+				PRODUCT_NAME = "wells$(FF_PLUGIN_VERSION_SUFFIX)";
 				USE_HEADERMAP = NO;
 				WRAPPER_EXTENSION = vst3;
 			};
@@ -1070,7 +1072,7 @@
 					"_NDEBUG=1",
 					"NDEBUG=1",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=0.0.1",
+					"JUCE_APP_VERSION=0.0.2",
 					"JUCE_APP_VERSION_HEX=0x1",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=1",
@@ -1131,7 +1133,7 @@
 					"_DEBUG=1",
 					"DEBUG=1",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=0.0.1",
+					"JUCE_APP_VERSION=0.0.2",
 					"JUCE_APP_VERSION_HEX=0x1",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=1",

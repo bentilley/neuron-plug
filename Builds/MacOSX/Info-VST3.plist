@@ -8,7 +8,7 @@
     <key>CFBundleIconFile</key>
     <string></string>
     <key>CFBundleIdentifier</key>
-    <string>com.yourcompany.Wells</string>
+    <string>com.fractalflow.Wells</string>
     <key>CFBundleName</key>
     <string>Wells</string>
     <key>CFBundleDisplayName</key>
@@ -18,9 +18,9 @@
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleShortVersionString</key>
-    <string>0.0.1</string>
+    <string>0.0.2</string>
     <key>CFBundleVersion</key>
-    <string>0.0.1</string>
+    <string>0.0.2</string>
     <key>NSHumanReadableCopyright</key>
     <string></string>
     <key>NSHighResolutionCapable</key>

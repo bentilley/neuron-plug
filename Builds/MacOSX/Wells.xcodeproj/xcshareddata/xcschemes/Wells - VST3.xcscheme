@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9E2FCEFE1DC2B1C3E64F675E"
-               BuildableName = "Wells.vst3"
+               BuildableName = "wells-0.0.2.vst3"
                BlueprintName = "Wells - VST3"
                ReferencedContainer = "container:Wells.xcodeproj">
             </BuildableReference>
@@ -51,7 +51,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9E2FCEFE1DC2B1C3E64F675E"
-            BuildableName = "Wells.vst3"
+            BuildableName = "wells-0.0.2.vst3"
             BlueprintName = "Wells - VST3"
             ReferencedContainer = "container:Wells.xcodeproj">
          </BuildableReference>

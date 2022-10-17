@@ -3,7 +3,7 @@
 <JUCERPROJECT id="nHn5EE" name="Wells" projectType="audioplug" jucerVersion="5.4.5"
               pluginManufacturer="fractalflow" pluginVST3Category="Fx,Instrument"
               pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
-              version="0.0.1" pluginFormats="buildVST3">
+              version="0.0.2" pluginFormats="buildVST3" companyName="fractalflow">
   <MAINGROUP id="vwRVhx" name="Wells">
     <GROUP id="{E0F93E8B-4102-685A-CBEF-06617C698607}" name="Source">
       <FILE id="orgijw" name="PluginProcessor.cpp" compile="1" resource="0"
