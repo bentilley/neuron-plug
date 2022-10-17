@@ -30,13 +30,13 @@ public:
   void releaseResources() override;
 
 #ifndef JucePlugin_PreferredChannelConfigurations
-  bool isBusesLayoutSupported(const BusesLayout &layouts) const override;
+  bool isBusesLayoutSupported(const BusesLayout& layouts) const override;
 #endif
 
-  void processBlock(AudioBuffer<float> &, MidiBuffer &) override;
+  void processBlock(AudioBuffer<float>&, MidiBuffer&) override;
 
   //==============================================================================
-  AudioProcessorEditor *createEditor() override;
+  AudioProcessorEditor* createEditor() override;
   bool hasEditor() const override;
 
   //==============================================================================
@@ -52,11 +52,11 @@ public:
   int getCurrentProgram() override;
   void setCurrentProgram(int index) override;
   const String getProgramName(int index) override;
-  void changeProgramName(int index, const String &newName) override;
+  void changeProgramName(int index, const String& newName) override;
 
   //==============================================================================
-  void getStateInformation(MemoryBlock &destData) override;
-  void setStateInformation(const void *data, int sizeInBytes) override;
+  void getStateInformation(MemoryBlock& destData) override;
+  void setStateInformation(const void* data, int sizeInBytes) override;
 
   //==Model=======================================================================
   std::unique_ptr<MidiGenerator> midiGenerator;

@@ -19,17 +19,17 @@
  */
 class WellsAudioProcessorEditor : public AudioProcessorEditor {
 public:
-  WellsAudioProcessorEditor(WellsAudioProcessor &);
+  WellsAudioProcessorEditor(WellsAudioProcessor&);
   ~WellsAudioProcessorEditor();
 
   //==============================================================================
-  void paint(Graphics &) override;
+  void paint(Graphics&) override;
   void resized() override;
 
 private:
   // This reference is provided as a quick way for your editor to
   // access the processor object that created it.
-  WellsAudioProcessor &processor;
+  WellsAudioProcessor& processor;
 
   MainComponent mainComponent;
 
