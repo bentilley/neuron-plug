@@ -112,6 +112,7 @@ void ReceivesMidiButton::updateComponent()
 
 SubdivisionSlider::SubdivisionSlider(WellsAudioProcessor& p) : Slider("Subdivision"), processor(p)
 {
+  setTooltip("subdivision");
   setSliderStyle(Slider::RotaryVerticalDrag);
   setRange(1, 256, 1);
   setTextBoxStyle(Slider::NoTextBox, false, 10, 0);
@@ -128,6 +129,7 @@ void SubdivisionSlider::updateComponent() { setValue(processor.midiGenerator->ge
 
 GlobalVolumeSlider::GlobalVolumeSlider(WellsAudioProcessor& p) : Slider("Volume"), processor(p)
 {
+  setTooltip("global volume");
   setSliderStyle(Slider::RotaryVerticalDrag);
   setRange(0.0, 1.0, 0.00);
   setNumDecimalPlacesToDisplay(2);
@@ -146,6 +148,7 @@ void GlobalVolumeSlider::updateComponent() { setValue(processor.midiGenerator->g
 VolumeRangeSlider::VolumeRangeSlider(WellsAudioProcessor& p)
     : Slider("MIDI Volume Range"), processor(p)
 {
+  setTooltip("volume range");
   setSliderStyle(Slider::TwoValueHorizontal);
   setRange(0, 127, 1);
   setTextBoxStyle(Slider::NoTextBox, false, 10, 0);

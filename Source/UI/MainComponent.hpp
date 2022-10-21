@@ -26,6 +26,8 @@ private:
   TitleBar titleBar;
   PluginBody pluginBody;
 
+  SharedResourcePointer<TooltipWindow> tooltipWindow;
+
   void timerCallback() override;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
