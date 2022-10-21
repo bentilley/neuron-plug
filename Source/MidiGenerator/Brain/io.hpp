@@ -40,6 +40,15 @@ struct ModelVector {
     });
   }
 
+  operator std::vector<float>() const
+  {
+    std::vector<float> vec(data.size(), 0);
+    for (int i = 0; i < static_cast<int>(data.size()); ++i) {
+      vec.at(i) = data.at(i);
+    }
+    return vec;
+  }
+
   friend bool operator==(const ModelVector& m1, const ModelVector& m2)
   {
     return m1.data == m2.data && m1.sampleNumber == m2.sampleNumber && m1.inputType == m2.inputType;
