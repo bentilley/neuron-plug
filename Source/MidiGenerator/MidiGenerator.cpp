@@ -78,7 +78,7 @@ void MidiGenerator::set_neuron_threshold(int neuron_idx, int new_threshold)
   std::vector<int> thresholds(num_neurons(), 0);
   std::vector<Neuron> neurons = network.getNeurons();
   std::transform(neurons.begin(), neurons.end(), thresholds.begin(), [](Neuron n) {
-    return n.get_threshold();
+    return n.getThreshold();
   });
   PluginLogger::logger.log_vec("thresholds", thresholds);
 }
@@ -121,10 +121,16 @@ void MidiGenerator::generate_next_midi_buffer(
   SystemInfo& sys
 )
 {
-  std::vector<std::vector<ModelVector>> inputs{
-    beatClock.getModelInputForBuffer(pos, sys),
-    midiInputTransformer.getModelInputForBuffer(midiInput),
-  };
+  std::vector<std::vector<ModelVector>> inputs;
+
+  if (beatClockIsOn) {
+    inputs.push_back(beatClock.getModelInputForBuffer(pos, sys));
+  }
+
+  if (midiInputIsOn) {
+    inputs.push_back(midiInputTransformer.getModelInputForBuffer(midiInput));
+  }
+
   auto input = inputFilter.mergeInputStreams(inputs);
 
   std::vector<ModelVector> output;

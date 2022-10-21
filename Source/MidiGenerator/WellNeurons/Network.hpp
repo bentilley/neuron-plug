@@ -21,8 +21,7 @@
  * responsible for outputting a vector that will be used to generate the MIDI
  * output of the plugin.
  */
-class Network
-{
+class Network {
 public:
   //============================================================================
   /** Constructor to set number of initial neurons */
@@ -32,7 +31,7 @@ public:
 
   //============================================================================
   /** Get a vector of the outputs of the neurons. */
-  std::vector<int> getOutput();
+  std::vector<float> getOutput();
   /** Get the Network Neurons. */
   std::vector<Neuron> getNeurons();
 
@@ -123,12 +122,12 @@ public:
    *
    * @param input The input vector to weight.
    */
-  std::vector<int> getWeightedInput(std::vector<int> input);
+  std::vector<float> getWeightedInput(std::vector<float> input);
   /** Get the energy passed between neurons.
    *
    * @param output The output vector to distribute between neurons.
    */
-  std::vector<int> getConnectionEnergy(std::vector<int> output);
+  std::vector<float> getConnectionEnergy(std::vector<float> output);
   /** Process a ModelVector input and return a ModelVector output.
    *
    * This is the main processing method for the network. It takes the input and
@@ -154,23 +153,23 @@ private:
    *
    * @param input The input vector to the network.
    */
-  std::vector<int> compressInput(ModelVector input);
+  std::vector<float> compressInput(ModelVector input);
 
   /** Calculate the new input to the neurons.
    *
    * @param input The input to the network.
    * @param prevOutput The output of the network at time `t-1`.
    */
-  std::vector<int> getNeuronInput(std::vector<int> input, std::vector<int> prevOutput);
+  std::vector<float> getNeuronInput(std::vector<float> input, std::vector<float> prevOutput);
 
   /** Each neuron calculates its new state based on its current state and
    * current input.
    */
-  void neuronsUpdateState(std::vector<int> input);
+  void neuronsUpdateState(std::vector<float> input);
 
   /** Take the network output and convert it back to the size of ModelVector.
    *
    * @param output The output vector of the network.
    */
-  ModelVector expandOutput(ModelVector& origInput, std::vector<int> output);
+  ModelVector expandOutput(ModelVector& origInput, std::vector<float> output);
 };

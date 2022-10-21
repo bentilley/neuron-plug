@@ -28,11 +28,13 @@ SCENARIO("The Network")
       REQUIRE(network.getConnectionWeights().size() == 4);
       REQUIRE(network.getConnectionWeights().at(0).size() == 4);
       REQUIRE(
-        network.getConnectionWeights() == std::vector<std::vector<int>>{
-                                            std::vector<int>{0, 0, 0, 0},
-                                            std::vector<int>{0, 0, 0, 0},
-                                            std::vector<int>{0, 0, 0, 0},
-                                            std::vector<int>{0, 0, 0, 0}});
+        network.getConnectionWeights() ==
+        std::vector<std::vector<int>>{
+          std::vector<int>{0, 0, 0, 0},
+          std::vector<int>{0, 0, 0, 0},
+          std::vector<int>{0, 0, 0, 0},
+          std::vector<int>{0, 0, 0, 0}}
+      );
     }
 
     WHEN("we add a neuron to the network")
@@ -70,10 +72,12 @@ SCENARIO("The Network")
       {
         REQUIRE(network.getInputWeights() == std::vector<int>{1, 3, 4});
         REQUIRE(
-          network.getConnectionWeights() == std::vector<std::vector<int>>{
-                                              std::vector<int>{1, 3, 4},
-                                              std::vector<int>{9, 11, 12},
-                                              std::vector<int>{13, 15, 16}});
+          network.getConnectionWeights() ==
+          std::vector<std::vector<int>>{
+            std::vector<int>{1, 3, 4},
+            std::vector<int>{9, 11, 12},
+            std::vector<int>{13, 15, 16}}
+        );
       }
     }
 
@@ -133,7 +137,7 @@ SCENARIO("The Network")
 
     THEN("there is no output from the neurons in this default state")
     {
-      REQUIRE(network.getOutput() == std::vector<int>{0, 0, 0, 0});
+      REQUIRE(network.getOutput() == std::vector<float>{0, 0, 0, 0});
     }
   }
 
@@ -144,19 +148,19 @@ SCENARIO("The Network")
 
     WHEN("we have an input signal")
     {
-      std::vector<int> input{1, 1, 1};
+      std::vector<float> input{1, 1, 1};
       THEN("the input has been multiplied by the input weights")
       {
-        REQUIRE(network.getWeightedInput(input) == std::vector<int>{1, 0, -2});
+        REQUIRE(network.getWeightedInput(input) == std::vector<float>{1, 0, -2});
       }
     }
 
     WHEN("only some neurons have an input signal")
     {
-      std::vector<int> input{0, 0, 2};
+      std::vector<float> input{0, 0, 2};
       THEN("only those neurons receive a weighted input")
       {
-        REQUIRE(network.getWeightedInput(input) == std::vector<int>{0, 0, -4});
+        REQUIRE(network.getWeightedInput(input) == std::vector<float>{0, 0, -4});
       }
     }
   }
@@ -171,28 +175,28 @@ SCENARIO("The Network")
 
     WHEN("we have an output signal of (1, 1, 1)")
     {
-      std::vector<int> output{1, 1, 1};
+      std::vector<float> output{1, 1, 1};
       THEN("the output signal gets multiplied by the connection weights")
       {
-        REQUIRE(network.getConnectionEnergy(output) == std::vector<int>{5, 6, 7});
+        REQUIRE(network.getConnectionEnergy(output) == std::vector<float>{5, 6, 7});
       }
     }
 
     WHEN("we have an output signal of (1, 0, 1)")
     {
-      std::vector<int> output{1, 0, 1};
+      std::vector<float> output{1, 0, 1};
       THEN("the output signal gets multiplied by the connection weights")
       {
-        REQUIRE(network.getConnectionEnergy(output) == std::vector<int>{4, 4, 4});
+        REQUIRE(network.getConnectionEnergy(output) == std::vector<float>{4, 4, 4});
       }
     }
 
     WHEN("we have an output signal of (1, 0, 0)")
     {
-      std::vector<int> output{1, 0, 0};
+      std::vector<float> output{1, 0, 0};
       THEN("the output signal gets multiplied by the connection weights")
       {
-        REQUIRE(network.getConnectionEnergy(output) == std::vector<int>{1, 2, 3});
+        REQUIRE(network.getConnectionEnergy(output) == std::vector<float>{1, 2, 3});
       }
     }
   }
@@ -226,20 +230,21 @@ SCENARIO("The Network")
     Network network(2);
     network.setInputWeights(std::vector<int>{1, 1});
     network.setConnectionWeights(
-      std::vector<std::vector<int>>{std::vector<int>{-3, 1}, std::vector<int>{1, -3}});
+      std::vector<std::vector<int>>{std::vector<int>{-3, 1}, std::vector<int>{1, -3}}
+    );
     network.setNeuronMidiNotes(std::vector<int>{60, 64});
 
     WHEN("we advance the state once")
     {
       network.processNext(getModelVector(Points{{60, 1}, {64, 1}}));
-      REQUIRE(network.getOutput() == std::vector<int>{1, 1});
+      REQUIRE(network.getOutput() == std::vector<float>{1, 1});
     }
 
     WHEN("we advance the state twice")
     {
       network.processNext(getModelVector(Points{{60, 1}, {64, 1}}));
       network.processNext(getModelVector(Points{{60, 1}, {64, 1}}));
-      REQUIRE(network.getOutput() == std::vector<int>{0, 0});
+      REQUIRE(network.getOutput() == std::vector<float>{0, 0});
     }
 
     WHEN("we advance the state thrice")
@@ -247,7 +252,7 @@ SCENARIO("The Network")
       network.processNext(getModelVector(Points{{60, 1}, {64, 1}}));
       network.processNext(getModelVector(Points{{60, 1}, {64, 1}}));
       network.processNext(getModelVector(Points{{60, 1}, {64, 0}}));
-      REQUIRE(network.getOutput() == std::vector<int>{1, 0});
+      REQUIRE(network.getOutput() == std::vector<float>{1, 0});
     }
   }
 
@@ -256,27 +261,28 @@ SCENARIO("The Network")
     Network network(2);
     network.setInputWeights(std::vector<int>{1, 1});
     network.setConnectionWeights(
-      std::vector<std::vector<int>>{std::vector<int>{-3, 1}, std::vector<int>{1, -2}});
+      std::vector<std::vector<int>>{std::vector<int>{-3, 1}, std::vector<int>{1, -2}}
+    );
     network.setNeuronMidiNotes(std::vector<int>{60, 64});
 
     THEN("it should handle multiple state updates")
     {
       network.processNext(getModelVector(Points{{60, 1}, {64, 1}}));
-      REQUIRE(network.getOutput() == std::vector<int>{1, 1});
+      REQUIRE(network.getOutput() == std::vector<float>{1, 1});
       network.processNext(getModelVector(Points{{60, 0}, {64, 0}}));
-      REQUIRE(network.getOutput() == std::vector<int>{0, 0});
+      REQUIRE(network.getOutput() == std::vector<float>{0, 0});
       network.processNext(getModelVector(Points{{60, 1}, {64, 1}}));
-      REQUIRE(network.getOutput() == std::vector<int>{0, 1});
+      REQUIRE(network.getOutput() == std::vector<float>{0, 1});
       network.processNext(getModelVector(Points{{60, 0}, {64, 0}}));
-      REQUIRE(network.getOutput() == std::vector<int>{1, 0});
+      REQUIRE(network.getOutput() == std::vector<float>{1, 0});
       network.processNext(getModelVector(Points{{60, 1}, {64, 0}}));
-      REQUIRE(network.getOutput() == std::vector<int>{0, 0});
+      REQUIRE(network.getOutput() == std::vector<float>{0, 0});
       network.processNext(getModelVector(Points{{60, 0}, {64, 1}}));
-      REQUIRE(network.getOutput() == std::vector<int>{0, 1});
+      REQUIRE(network.getOutput() == std::vector<float>{0, 1});
       network.processNext(getModelVector(Points{{60, 1}, {64, 0}}));
-      REQUIRE(network.getOutput() == std::vector<int>{1, 0});
+      REQUIRE(network.getOutput() == std::vector<float>{1, 0});
       network.processNext(getModelVector(Points{{60, 0}, {64, 1}}));
-      REQUIRE(network.getOutput() == std::vector<int>{0, 1});
+      REQUIRE(network.getOutput() == std::vector<float>{0, 1});
     }
   }
 
@@ -302,21 +308,21 @@ SCENARIO("The Network")
     THEN("it should handle multiple state updates")
     {
       network.processNext(getModelVector(Points{{60, 1}, {64, 1}, {67, 1}, {71, 0}}));
-      REQUIRE(network.getOutput() == std::vector<int>{0, 1, 1, 0});
+      REQUIRE(network.getOutput() == std::vector<float>{0, 1, 1, 0});
       network.processNext(getModelVector(Points{{60, 0}, {64, 0}, {67, 0}, {71, 1}}));
-      REQUIRE(network.getOutput() == std::vector<int>{1, 0, 0, 1});
+      REQUIRE(network.getOutput() == std::vector<float>{1, 0, 0, 1});
       network.processNext(getModelVector(Points{{60, 1}, {64, 1}, {67, 1}, {71, 0}}));
-      REQUIRE(network.getOutput() == std::vector<int>{1, 0, 0, 0});
+      REQUIRE(network.getOutput() == std::vector<float>{1, 0, 0, 0});
       network.processNext(getModelVector(Points{{60, 0}, {64, 0}, {67, 0}, {71, 1}}));
-      REQUIRE(network.getOutput() == std::vector<int>{0, 1, 1, 1});
+      REQUIRE(network.getOutput() == std::vector<float>{0, 1, 1, 1});
       network.processNext(getModelVector(Points{{60, 1}, {64, 0}, {67, 1}, {71, 1}}));
-      REQUIRE(network.getOutput() == std::vector<int>{1, 0, 0, 0});
+      REQUIRE(network.getOutput() == std::vector<float>{1, 0, 0, 0});
       network.processNext(getModelVector(Points{{60, 0}, {64, 1}, {67, 0}, {71, 0}}));
-      REQUIRE(network.getOutput() == std::vector<int>{1, 0, 1, 1});
+      REQUIRE(network.getOutput() == std::vector<float>{1, 0, 1, 1});
       network.processNext(getModelVector(Points{{60, 1}, {64, 0}, {67, 1}, {71, 1}}));
-      REQUIRE(network.getOutput() == std::vector<int>{1, 0, 1, 0});
+      REQUIRE(network.getOutput() == std::vector<float>{1, 0, 1, 0});
       network.processNext(getModelVector(Points{{60, 0}, {64, 1}, {67, 0}, {71, 0}}));
-      REQUIRE(network.getOutput() == std::vector<int>{1, 1, 0, 0});
+      REQUIRE(network.getOutput() == std::vector<float>{1, 1, 0, 0});
     }
   }
 }

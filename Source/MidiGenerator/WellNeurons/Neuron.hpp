@@ -14,8 +14,7 @@
  *
  * A neuron has state, takes input, updates its state, and produces output.
  */
-class Neuron
-{
+class Neuron {
 public:
   //============================================================================
   /** Default constructor */
@@ -25,17 +24,17 @@ public:
 
   //============================================================================
   /** Get the neuron output, based on the state and the threshold. */
-  int get_output();
+  float getOutput();
   /** Get the neuron state. */
-  int get_state();
+  float getState();
   /** Get the neuron threshold. */
-  int get_threshold();
+  float getThreshold();
 
   /** Set the neuron threshold.
    *
    * @param new_threshold The new threshold of the neuron.
    */
-  void set_threshold(int new_threshold);
+  void setThreshold(float new_threshold);
 
   /** Calculate the new state of the neuron.
    *
@@ -43,16 +42,16 @@ public:
    *
    * @param input The current input to the neuron.
    */
-  void update_state(int input);
+  void updateState(float input);
 
 private:
   //============================================================================
   /** The current state of the neuron. */
-  int state{0};
+  float state{0};
   /** The firing threshold of the neuron.
    *
    * In order for the neuron to produce output, the value of the state must be
    * greater than the threshold.
    */
-  int threshold{0};
+  float threshold{0};
 };

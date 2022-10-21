@@ -21,11 +21,11 @@ Network::~Network(){};
  * Getters & Setters *
  *********************/
 
-std::vector<int> Network::getOutput()
+std::vector<float> Network::getOutput()
 {
-  std::vector<int> outputs(numNeurons(), 0);
+  std::vector<float> outputs(numNeurons(), 0);
   transform(neurons.begin(), neurons.end(), outputs.begin(), [](Neuron n) {
-    return n.get_output();
+    return n.getOutput();
   });
   return outputs;
 };
@@ -71,14 +71,11 @@ void Network::setConnectionWeightForNeurons(int from, int to, int new_weight)
   connectionWeights.at(from).at(to) = new_weight;
 };
 
-int Network::getThresholdForNeuron(int neuron_num)
-{
-  return neurons.at(neuron_num).get_threshold();
-}
+int Network::getThresholdForNeuron(int neuron_num) { return neurons.at(neuron_num).getThreshold(); }
 
 void Network::setThresholdForNeuron(int neuron_num, int new_threshold)
 {
-  neurons.at(neuron_num).set_threshold(new_threshold);
+  neurons.at(neuron_num).setThreshold(new_threshold);
 };
 
 /***********
@@ -127,29 +124,29 @@ void Network::removeNeuronAt(int neuron_index)
   neurons.erase(neurons.begin() + neuron_index);
   inputWeights.erase(inputWeights.begin() + neuron_index);
   connectionWeights.erase(connectionWeights.begin() + neuron_index);
-  for (int i = 0; i < connectionWeights.size(); ++i) {
+  for (int i = 0; i < static_cast<int>(connectionWeights.size()); ++i) {
     std::vector<int>* n = &connectionWeights.at(i);
     n->erase(n->begin() + neuron_index);
   }
   midiNotes.erase(midiNotes.begin() + neuron_index);
 };
 
-std::vector<int> Network::getWeightedInput(std::vector<int> input)
+std::vector<float> Network::getWeightedInput(std::vector<float> input)
 {
-  assert(input.size() == numNeurons());
-  std::vector<int> weighted_input(numNeurons(), 0);
-  for (int i = 0; i < input.size(); ++i) {
+  assert(static_cast<int>(input.size()) == numNeurons());
+  std::vector<float> weighted_input(numNeurons(), 0);
+  for (int i = 0; i < static_cast<int>(input.size()); ++i) {
     weighted_input.at(i) = input.at(i) * inputWeights.at(i);
   }
   return weighted_input;
 };
 
-std::vector<int> Network::getConnectionEnergy(std::vector<int> output)
+std::vector<float> Network::getConnectionEnergy(std::vector<float> output)
 {
-  assert(output.size() == numNeurons());
-  std::vector<int> connection_energy(numNeurons(), 0);
+  assert(static_cast<int>(output.size()) == numNeurons());
+  std::vector<float> connection_energy(numNeurons(), 0);
   for (int i = 0; i < numNeurons(); ++i) {
-    int total_connection_energy = 0;
+    float total_connection_energy = 0;
     for (int j = 0; j < numNeurons(); ++j) {
       total_connection_energy += connectionWeights.at(j).at(i) * output.at(j);
     }
@@ -158,40 +155,39 @@ std::vector<int> Network::getConnectionEnergy(std::vector<int> output)
   return connection_energy;
 };
 
-std::vector<int> Network::compressInput(ModelVector input)
+std::vector<float> Network::compressInput(ModelVector input)
 {
-  std::vector<int> compressed(numNeurons(), 0);
+  std::vector<float> compressed(numNeurons(), 0);
   for (int i = 0; i < numNeurons(); ++i) {
     compressed.at(i) = input.data.at(midiNotes.at(i));
   }
   return compressed;
 };
 
-std::vector<int> Network::getNeuronInput(std::vector<int> input, std::vector<int> prev_output)
+std::vector<float> Network::getNeuronInput(std::vector<float> input, std::vector<float> prev_output)
 {
-  std::vector<int> neuron_input(numNeurons(), 0);
-  std::vector<int> weighted_input = getWeightedInput(input);
-  std::vector<int> connection_energy = getConnectionEnergy(prev_output);
-  for (int i = 0; i < neurons.size(); ++i) {
-    int next_input = weighted_input.at(i) + connection_energy.at(i);
-    neuron_input.at(i) = next_input;
+  std::vector<float> neuron_input(numNeurons(), 0);
+  std::vector<float> weighted_input = getWeightedInput(input);
+  std::vector<float> connection_energy = getConnectionEnergy(prev_output);
+  for (int i = 0; i < static_cast<int>(neurons.size()); ++i) {
+    neuron_input.at(i) = weighted_input.at(i) + connection_energy.at(i);
   }
   return neuron_input;
 }
 
-void Network::neuronsUpdateState(std::vector<int> input)
+void Network::neuronsUpdateState(std::vector<float> input)
 {
-  assert(input.size() == numNeurons());
-  for (int i = 0; i < neurons.size(); ++i) {
-    neurons.at(i).update_state(input.at(i));
+  assert(static_cast<int>(input.size()) == numNeurons());
+  for (int i = 0; i < static_cast<int>(neurons.size()); ++i) {
+    neurons.at(i).updateState(input.at(i));
   }
 };
 
-ModelVector Network::expandOutput(ModelVector& origInput, std::vector<int> output)
+ModelVector Network::expandOutput(ModelVector& origInput, std::vector<float> output)
 {
-  assert(output.size() == numNeurons());
+  assert(static_cast<int>(output.size()) == numNeurons());
   ModelVector expanded(0, origInput.sampleNumber, origInput.inputType);
-  for (int i = 0; i < output.size(); ++i) {
+  for (int i = 0; i < static_cast<int>(output.size()); ++i) {
     expanded.data.at(midiNotes.at(i)) = output.at(i);
   }
   return expanded;

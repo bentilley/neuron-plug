@@ -11,10 +11,10 @@
 Neuron::Neuron(){};
 Neuron::~Neuron(){};
 
-int Neuron::get_state() { return state; };
-int Neuron::get_threshold() { return threshold; };
+float Neuron::getState() { return state; };
+float Neuron::getThreshold() { return threshold; };
 
-int Neuron::get_output()
+float Neuron::getOutput()
 {
   if (state - threshold > 0) {
     return 1;
@@ -23,6 +23,6 @@ int Neuron::get_output()
   }
 };
 
-void Neuron::set_threshold(int new_threshold) { threshold = new_threshold; };
+void Neuron::setThreshold(float new_threshold) { threshold = new_threshold; };
 
-void Neuron::update_state(int input) { state = state + input; };
+void Neuron::updateState(float input) { state = state + input; };
