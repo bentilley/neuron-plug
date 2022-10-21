@@ -28,7 +28,6 @@
 		21292B239F354870CE7789B2 /* PluginProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 270692BD6603489430083317 /* PluginProcessor.cpp */; };
 		254A96D6AAC8C6A8567B680E /* DiscRecording.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08A58B2C2B4868880C8EB151 /* DiscRecording.framework */; };
 		26103A18244AE47A0065A1B3 /* BeatClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26103A14244AE47A0065A1B3 /* BeatClock.cpp */; };
-		26103A1F244AE48B0065A1B3 /* MidiProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26103A1B244AE48A0065A1B3 /* MidiProcessor.cpp */; };
 		26103A29244AE4B00065A1B3 /* MidiGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26103A28244AE4B00065A1B3 /* MidiGenerator.cpp */; };
 		2664ACB724ACC69100692215 /* RecentFilesMenuTemplate.nib in Resources */ = {isa = PBXBuildFile; fileRef = 0B1F5E1BAFF21D38D0099480 /* RecentFilesMenuTemplate.nib */; };
 		2664ACBA24ACC88200692215 /* include_juce_audio_basics.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0A473DD6B3BDE5C790BEFC43 /* include_juce_audio_basics.mm */; };
@@ -66,8 +65,6 @@
 		26F17F6F24ACBC64001A1821 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E89D74A759026C467E7A8E4B /* Accelerate.framework */; };
 		26F17F7024ACBC6A001A1821 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26CC58A9243E3C8E003698A4 /* AppKit.framework */; };
 		26F17F7124ACBC71001A1821 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F01A96C08BF7209C93E185D /* Carbon.framework */; };
-		26F4CE2524ACDCF0006AAE46 /* MidiProcessor.test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26103A1A244AE48A0065A1B3 /* MidiProcessor.test.cpp */; };
-		26F4CE2824ACDD37006AAE46 /* MidiProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26103A1B244AE48A0065A1B3 /* MidiProcessor.cpp */; };
 		26F4CE2924ACDD68006AAE46 /* PluginLogger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26A6BE7A244A192E00E9EECA /* PluginLogger.cpp */; };
 		280FA68C353F0BA915031488 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F01A96C08BF7209C93E185D /* Carbon.framework */; };
 		3340A81427C88C3C68297022 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9ED73607D9FE82BC9F75C24 /* CoreAudio.framework */; };
@@ -132,9 +129,6 @@
 		26103A13244AE47A0065A1B3 /* BeatClock.test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BeatClock.test.cpp; path = ../../../../Source/MidiGenerator/BeatClock/BeatClock.test.cpp; sourceTree = "<group>"; };
 		26103A14244AE47A0065A1B3 /* BeatClock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BeatClock.cpp; path = ../../../../Source/MidiGenerator/BeatClock/BeatClock.cpp; sourceTree = "<group>"; };
 		26103A15244AE47A0065A1B3 /* BeatClock.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BeatClock.hpp; path = ../../../../Source/MidiGenerator/BeatClock/BeatClock.hpp; sourceTree = "<group>"; };
-		26103A1A244AE48A0065A1B3 /* MidiProcessor.test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MidiProcessor.test.cpp; path = ../../../../Source/MidiGenerator/MidiProcessor/MidiProcessor.test.cpp; sourceTree = "<group>"; };
-		26103A1B244AE48A0065A1B3 /* MidiProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MidiProcessor.cpp; path = ../../../../Source/MidiGenerator/MidiProcessor/MidiProcessor.cpp; sourceTree = "<group>"; };
-		26103A1C244AE48B0065A1B3 /* MidiProcessor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MidiProcessor.hpp; path = ../../../../Source/MidiGenerator/MidiProcessor/MidiProcessor.hpp; sourceTree = "<group>"; };
 		26103A27244AE4AF0065A1B3 /* MidiGenerator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MidiGenerator.hpp; path = ../../../Source/MidiGenerator/MidiGenerator.hpp; sourceTree = "<group>"; };
 		26103A28244AE4B00065A1B3 /* MidiGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MidiGenerator.cpp; path = ../../../Source/MidiGenerator/MidiGenerator.cpp; sourceTree = "<group>"; };
 		2678500F244220110008C804 /* ThresholdsBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ThresholdsBar.cpp; path = ../../../Source/UI/ThresholdsBar.cpp; sourceTree = "<group>"; };
@@ -288,21 +282,10 @@
 				26D3A31D2440ACD800C0CB94 /* BeatClock */,
 				26E211C624B86E8C00FCD178 /* MidiInputTransformer */,
 				26E211CE24B86EF800FCD178 /* InputFilter */,
-				2641AA74243A373F00C0E5A1 /* MidiProcessor */,
 				26E8AC3324B71F48005D0989 /* Model */,
 				26E211D724B86F5100FCD178 /* MidiOutputWriter */,
 			);
 			path = MidiGenerator;
-			sourceTree = "<group>";
-		};
-		2641AA74243A373F00C0E5A1 /* MidiProcessor */ = {
-			isa = PBXGroup;
-			children = (
-				26103A1B244AE48A0065A1B3 /* MidiProcessor.cpp */,
-				26103A1C244AE48B0065A1B3 /* MidiProcessor.hpp */,
-				26103A1A244AE48A0065A1B3 /* MidiProcessor.test.cpp */,
-			);
-			path = MidiProcessor;
 			sourceTree = "<group>";
 		};
 		2694CD2724B879350027E0E6 /* Brain */ = {
@@ -684,7 +667,6 @@
 				26A6BE7B244A192E00E9EECA /* PluginLogger.cpp in Sources */,
 				26103A18244AE47A0065A1B3 /* BeatClock.cpp in Sources */,
 				26E8AC3A24B71F77005D0989 /* Neuron.cpp in Sources */,
-				26103A1F244AE48B0065A1B3 /* MidiProcessor.cpp in Sources */,
 				26103A29244AE4B00065A1B3 /* MidiGenerator.cpp in Sources */,
 				26C013672441124D00208F3C /* MainComponent.cpp in Sources */,
 				26785023244220110008C804 /* TitleBar.cpp in Sources */,
@@ -706,9 +688,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				26E211D524B86F1A00FCD178 /* InputFilter.cpp in Sources */,
-				26F4CE2524ACDCF0006AAE46 /* MidiProcessor.test.cpp in Sources */,
 				26F17F6624ACB923001A1821 /* main.test.cpp in Sources */,
-				26F4CE2824ACDD37006AAE46 /* MidiProcessor.cpp in Sources */,
 				26E8AC3B24B71F77005D0989 /* Neuron.cpp in Sources */,
 				2664ACBA24ACC88200692215 /* include_juce_audio_basics.mm in Sources */,
 				26E211E424B8775600FCD178 /* Network.cpp in Sources */,

@@ -13,7 +13,6 @@
 #include "InputFilter/InputFilter.hpp"
 #include "MidiInputTransformer/MidiInputTransformer.hpp"
 #include "MidiOutputWriter/MidiOutputWriter.hpp"
-#include "MidiProcessor/MidiProcessor.hpp"
 #include "WellNeurons/Network.hpp"
 #include "transport.hpp"
 #include <memory>
