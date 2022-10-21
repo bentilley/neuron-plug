@@ -9,12 +9,13 @@
 #include "Styles.hpp"
 
 TitleBar::TitleBar(WellsAudioProcessor& p)
-    : onOffButton(p), receivesMidiButton(p), subdivisionSlider(p), globalVolumeSlider(p),
-      volumeRange(p)
+    : onOffButton(p), beatClockOnOffButton(p), midiInputOnOffButton(p), subdivisionSlider(p),
+      globalVolumeSlider(p), volumeRange(p)
 {
 
   addAndMakeVisible(onOffButton);
-  addAndMakeVisible(receivesMidiButton);
+  addAndMakeVisible(beatClockOnOffButton);
+  addAndMakeVisible(midiInputOnOffButton);
   addAndMakeVisible(subdivisionSlider);
   addAndMakeVisible(globalVolumeSlider);
   addAndMakeVisible(volumeRange);
@@ -44,7 +45,15 @@ void TitleBar::resized()
 
   buttonArea = area.removeFromLeft(componentWidth);
   componentPadding.subtractFrom(buttonArea);
-  receivesMidiButton.setBounds(buttonArea);
+  globalVolumeSlider.setBounds(buttonArea);
+
+  buttonArea = area.removeFromLeft(2 * componentWidth);
+  componentPadding.subtractFrom(buttonArea);
+  volumeRange.setBounds(buttonArea);
+
+  buttonArea = area.removeFromLeft(componentWidth);
+  componentPadding.subtractFrom(buttonArea);
+  beatClockOnOffButton.setBounds(buttonArea);
 
   buttonArea = area.removeFromLeft(componentWidth);
   componentPadding.subtractFrom(buttonArea);
@@ -52,27 +61,21 @@ void TitleBar::resized()
 
   buttonArea = area.removeFromLeft(componentWidth);
   componentPadding.subtractFrom(buttonArea);
-  globalVolumeSlider.setBounds(buttonArea);
-
-  buttonArea = area.removeFromLeft(2 * componentWidth);
-  componentPadding.subtractFrom(buttonArea);
-  volumeRange.setBounds(buttonArea);
+  midiInputOnOffButton.setBounds(buttonArea);
 }
 
 void TitleBar::updateComponents()
 {
   // TODO only update GUI when needed
   onOffButton.updateComponent();
-  receivesMidiButton.updateComponent();
+  beatClockOnOffButton.updateComponent();
+  midiInputOnOffButton.updateComponent();
   subdivisionSlider.updateComponent();
   globalVolumeSlider.updateComponent();
   volumeRange.updateComponent();
 }
 
-/*
- * On/Off Button
- */
-
+/** On/Off Button */
 OnOffButton::OnOffButton(WellsAudioProcessor& p) : TextButton("On/Off"), processor(p)
 {
   onClick = [this]() { processor.midiGenerator->toggleOnOff(); };
@@ -83,26 +86,39 @@ void OnOffButton::updateComponent()
 {
   setColour(
     TextButton::ColourIds::buttonColourId,
-    processor.midiGenerator->get_is_on() ? AppStyle.buttonOnColour : AppStyle.buttonOffColour
+    processor.midiGenerator->getIsOn() ? AppStyle.buttonOnColour : AppStyle.buttonOffColour
   );
 }
 
-/*
- * Receives MIDI Button
- */
-
-ReceivesMidiButton::ReceivesMidiButton(WellsAudioProcessor& p) : TextButton("MIDI In"), processor(p)
+/** Beat Clock On/Off Button */
+BeatClockOnOffButton::BeatClockOnOffButton(WellsAudioProcessor& p)
+    : TextButton("Beat Clock"), processor(p)
 {
-  onClick = [this]() { processor.midiGenerator->toggleReceivesMidi(); };
+  onClick = [this]() { processor.midiGenerator->toggleBeatClockIsOn(); };
 }
-ReceivesMidiButton::~ReceivesMidiButton() {}
+BeatClockOnOffButton::~BeatClockOnOffButton() {}
 
-void ReceivesMidiButton::updateComponent()
+void BeatClockOnOffButton::updateComponent()
 {
   setColour(
     TextButton::ColourIds::buttonColourId,
-    processor.midiGenerator->get_receives_midi() ? AppStyle.buttonOnColour
-                                                 : AppStyle.buttonOffColour
+    processor.midiGenerator->getBeatClockIsOn() ? AppStyle.buttonOnColour : AppStyle.buttonOffColour
+  );
+}
+
+/** MIDI Input On/Off Button */
+MidiInputOnOffButton::MidiInputOnOffButton(WellsAudioProcessor& p)
+    : TextButton("MIDI Input"), processor(p)
+{
+  onClick = [this]() { processor.midiGenerator->toggleMidiInputIsOn(); };
+}
+MidiInputOnOffButton::~MidiInputOnOffButton() {}
+
+void MidiInputOnOffButton::updateComponent()
+{
+  setColour(
+    TextButton::ColourIds::buttonColourId,
+    processor.midiGenerator->getMidiInputIsOn() ? AppStyle.buttonOnColour : AppStyle.buttonOffColour
   );
 }
 
@@ -150,7 +166,7 @@ VolumeRangeSlider::VolumeRangeSlider(WellsAudioProcessor& p)
 {
   setTooltip("volume range");
   setSliderStyle(Slider::TwoValueHorizontal);
-  setRange(0, 127, 1);
+  setRange(0, 1, 0.01);
   setTextBoxStyle(Slider::NoTextBox, false, 10, 0);
   setPopupDisplayEnabled(true, false, getParentComponent());
   onValueChange = [this]() {

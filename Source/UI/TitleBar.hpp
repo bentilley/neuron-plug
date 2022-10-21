@@ -11,8 +11,7 @@
 #include "../PluginProcessor.h"
 #include "../Utils/PluginLogger.hpp"
 
-// On/Off Button - toggling the plugin on and off.
-
+/** On/Off Button - toggling the plugin on and off. */
 class OnOffButton : public TextButton {
 public:
   OnOffButton(WellsAudioProcessor& p);
@@ -23,22 +22,29 @@ private:
   WellsAudioProcessor& processor;
 };
 
-// Receives MIDI Button - for toggling whether the plugin responds to MIDI in.
-
-class ReceivesMidiButton : public TextButton {
+/** Beat Clock On/Off Button - for toggling whether the plugin uses the Beat Clock. */
+class BeatClockOnOffButton : public TextButton {
 public:
-  ReceivesMidiButton(WellsAudioProcessor& p);
-  ~ReceivesMidiButton();
+  BeatClockOnOffButton(WellsAudioProcessor& p);
+  ~BeatClockOnOffButton();
   void updateComponent();
 
 private:
   WellsAudioProcessor& processor;
 };
 
-/*
- * Subdivision Slider - changes the subdivision in the BeatClock
- */
+/** MIDI Input On/Off Button - for toggling whether the plugin uses MIDI input. */
+class MidiInputOnOffButton : public TextButton {
+public:
+  MidiInputOnOffButton(WellsAudioProcessor& p);
+  ~MidiInputOnOffButton();
+  void updateComponent();
 
+private:
+  WellsAudioProcessor& processor;
+};
+
+/** Subdivision Slider - changes the subdivision in the BeatClock */
 class SubdivisionSlider : public Slider {
 public:
   SubdivisionSlider(WellsAudioProcessor& p);
@@ -49,10 +55,7 @@ private:
   WellsAudioProcessor& processor;
 };
 
-/*
- * Global Volume Slider - changes the volume of all midi notes created
- */
-
+/** Global Volume Slider - changes the volume of all midi notes created */
 class GlobalVolumeSlider : public Slider {
 public:
   GlobalVolumeSlider(WellsAudioProcessor& p);
@@ -63,10 +66,7 @@ private:
   WellsAudioProcessor& processor;
 };
 
-/*
- * Volume Range Slider - clips the volume range of midi notes created
- */
-
+/** Volume Range Slider - clips the volume range of midi notes created */
 class VolumeRangeSlider : public Slider {
 public:
   VolumeRangeSlider(WellsAudioProcessor& p);
@@ -77,17 +77,14 @@ private:
   WellsAudioProcessor& processor;
 };
 
-/*
- * Title Bar
- *
- * The main title bar at the top of the app. Holds the global controls:
+/** The main title bar at the top of the app. Holds the global controls:
  *   - On/Off Button
- *   - Receives MIDI Button
+ *   - Beat Clock On/Off Button
+ *   - MIDI Input On/Off Button
  *   - Subdivision Slider
  *   - Global Volume Slider
  *   - Volume Range Slider
  */
-
 class TitleBar : public Component {
 public:
   TitleBar(WellsAudioProcessor& p);
@@ -104,7 +101,8 @@ private:
   int componentWidth{100};
 
   OnOffButton onOffButton;
-  ReceivesMidiButton receivesMidiButton;
+  BeatClockOnOffButton beatClockOnOffButton;
+  MidiInputOnOffButton midiInputOnOffButton;
   SubdivisionSlider subdivisionSlider;
   GlobalVolumeSlider globalVolumeSlider;
   VolumeRangeSlider volumeRange;
