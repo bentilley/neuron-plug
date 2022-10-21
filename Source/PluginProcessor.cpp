@@ -154,7 +154,7 @@ void WellsAudioProcessor::processBlock(AudioBuffer<float>& buffer, MidiBuffer& m
   getPlayHead()->getCurrentPosition(pos);
   SystemInfo sys(sampleRate, numBufferSamples);
 
-  if (midiGenerator->get_is_on() && pos.isPlaying) {
+  if (midiGenerator->getIsOn() && pos.isPlaying) {
     midiGenerator->generate_next_midi_buffer(midiMessages, processedMidi, pos, sys);
   }
 

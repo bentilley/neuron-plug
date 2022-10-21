@@ -18,7 +18,7 @@ SCENARIO("MidiGenerator")
 
     THEN("the default values are correct")
     {
-      REQUIRE(!generator.get_is_on());
+      REQUIRE(!generator.getIsOn());
       // Parameters
       REQUIRE(generator.get_subdivision() == 1);
       REQUIRE(generator.get_volume() == Approx(1.0f));
@@ -51,20 +51,28 @@ SCENARIO("MidiGenerator")
     WHEN("we toggle the on/off state")
     {
       generator.toggleOnOff();
-      REQUIRE(generator.get_is_on());
+      REQUIRE(generator.getIsOn());
 
       generator.toggleOnOff();
-      REQUIRE(!generator.get_is_on());
+      REQUIRE(!generator.getIsOn());
     }
 
-    WHEN("we toggle the receives MIDI state")
+    WHEN("we toggle the beat clock")
     {
-      // component can't currently process MIDI so this should always be false
-      generator.toggleReceivesMidi();
-      REQUIRE(!generator.get_receives_midi());
+      generator.toggleBeatClockIsOn();
+      REQUIRE(!generator.getBeatClockIsOn());
 
-      generator.toggleReceivesMidi();
-      REQUIRE(!generator.get_receives_midi());
+      generator.toggleBeatClockIsOn();
+      REQUIRE(generator.getBeatClockIsOn());
+    }
+
+    WHEN("we toggle the MIDI input")
+    {
+      generator.toggleMidiInputIsOn();
+      REQUIRE(!generator.getMidiInputIsOn());
+
+      generator.toggleMidiInputIsOn();
+      REQUIRE(generator.getMidiInputIsOn());
     }
 
     WHEN("we set the parameters")
@@ -228,6 +236,8 @@ SCENARIO("MidiGenerator Network Methods")
   GIVEN("an instance of MidiGenerator with parameters setup, neurons: 3")
   {
     MidiGenerator generator(3);
+
+    generator.toggleOnOff();
 
     generator.set_neuron_midi_note(0, 60);
     generator.set_neuron_midi_note(1, 64);

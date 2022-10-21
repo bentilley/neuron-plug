@@ -24,9 +24,11 @@ public:
 
   // Getters & Setters - mostly called on the GUI thread
   void toggleOnOff();
-  bool get_is_on();
-  void toggleReceivesMidi();
-  bool get_receives_midi();
+  bool getIsOn();
+  void toggleBeatClockIsOn();
+  bool getBeatClockIsOn();
+  void toggleMidiInputIsOn();
+  bool getMidiInputIsOn();
 
   int get_subdivision();
   void set_subdivision(int s);
@@ -61,7 +63,8 @@ public:
   );
 
 private:
-  bool is_on, receives_midi;
+  bool isOn, receivesMidi;
+  bool beatClockIsOn, midiInputIsOn;
 
   Network network;
   BeatClock beatClock;
