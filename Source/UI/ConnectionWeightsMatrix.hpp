@@ -10,10 +10,7 @@
 #include "../../JuceLibraryCode/JuceHeader.h"
 #include "../PluginProcessor.h"
 
-/*
- * Neuron Row Labels - label each row on connection weights
- */
-
+/** Label for each row on connection weights. */
 class NeuronRowLabel : public Label {
 public:
   NeuronRowLabel(int neuron_index);
@@ -22,10 +19,7 @@ public:
 private:
 };
 
-/*
- * Connection Weight Slider - controls the connection weight between two neurons
- */
-
+/** Controls the connection weight between two neurons. */
 class ConnectionWeightSlider : public Slider {
 public:
   ConnectionWeightSlider(WellsAudioProcessor& p, int from, int to);
@@ -38,13 +32,7 @@ private:
   int neuron_from, neuron_to;
 };
 
-/*
- * Connection Weight Matrix
- *
- * Used to control the connection weights between all of the neurons. It does
- * this using the connection weight sliders.
- */
-
+/** Controls the connection weights between all of the neurons. */
 class ConnectionWeightsMatrix : public Component {
 public:
   ConnectionWeightsMatrix(WellsAudioProcessor& p);

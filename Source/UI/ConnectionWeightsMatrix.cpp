@@ -8,10 +8,6 @@
 #include "ConnectionWeightsMatrix.hpp"
 #include "Styles.hpp"
 
-/*
- * Connection Weight Matrix
- */
-
 ConnectionWeightsMatrix::ConnectionWeightsMatrix(WellsAudioProcessor& p) : processor(p)
 {
   for (int i = 0; i < p.midiGenerator->num_neurons(); ++i) {
@@ -47,10 +43,10 @@ void ConnectionWeightsMatrix::resized()
   AppStyle.blockPadding.subtractFrom(area);
   area.removeFromTop(AppStyle.connectionMatrixTitleHeight);
 
-  for (int i = 0; i < neuronRowLabels.size(); ++i) {
+  for (int i = 0; i < static_cast<int>(neuronRowLabels.size()); ++i) {
     auto rowArea = area.removeFromTop(AppStyle.connectionMatrixRowHeight);
     neuronRowLabels.at(i)->setBounds(rowArea.removeFromLeft(AppStyle.rowLabelWidth));
-    for (int j = 0; j < connectionWeightSliders.size(); ++j) {
+    for (int j = 0; j < static_cast<int>(connectionWeightSliders.size()); ++j) {
       auto sliderArea = rowArea.removeFromLeft(AppStyle.colWidth);
       AppStyle.componentPadding.subtractFrom(sliderArea);
       connectionWeightSliders.at(i).at(j)->setBounds(sliderArea);
@@ -69,7 +65,7 @@ void ConnectionWeightsMatrix::add_neuron_row_label(int neuron_index)
 
 void ConnectionWeightsMatrix::add_connection_weight_slider(int neuron_index)
 {
-  for (int i{0}; i < connectionWeightSliders.size(); ++i) {
+  for (int i{0}; i < static_cast<int>(connectionWeightSliders.size()); ++i) {
     std::unique_ptr<ConnectionWeightSlider> slider =
       std::make_unique<ConnectionWeightSlider>(processor, i, neuron_index);
     addAndMakeVisible(*slider);
@@ -77,7 +73,7 @@ void ConnectionWeightsMatrix::add_connection_weight_slider(int neuron_index)
   }
 
   std::vector<std::unique_ptr<ConnectionWeightSlider>> sliderRow{};
-  for (int j = 0; j < connectionWeightSliders.size() + 1; ++j) {
+  for (int j = 0; j < static_cast<int>(connectionWeightSliders.size()) + 1; ++j) {
     std::unique_ptr<ConnectionWeightSlider> slider =
       std::make_unique<ConnectionWeightSlider>(processor, neuron_index, j);
     addAndMakeVisible(*slider);
@@ -94,8 +90,6 @@ void ConnectionWeightsMatrix::remove_connection_weight_slider()
     (*sliderRow).pop_back();
   }
 }
-
-// Public Methods
 
 void ConnectionWeightsMatrix::updateComponents()
 {
@@ -120,19 +114,11 @@ void ConnectionWeightsMatrix::remove_neuron_ui_update()
   resized();
 }
 
-/*
- * Neuron Row Label
- */
-
 NeuronRowLabel::NeuronRowLabel(int i) : Label("neuron" + String(i + 1), "Neuron " + String(i + 1))
 {
   setColour(Label::ColourIds::textColourId, AppStyle.darkGrey);
 }
 NeuronRowLabel::~NeuronRowLabel() {}
-
-/*
- * Connection Weight Slider
- */
 
 ConnectionWeightSlider::ConnectionWeightSlider(WellsAudioProcessor& p, int from, int to)
     : Slider("connectionWeightSlider" + String(from) + "-" + String(to)), processor(p),
