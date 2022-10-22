@@ -1,5 +1,5 @@
 clang++
--std=c++14
+-std=c++17
 -stdlib=libc++
 
 -isystem/usr/local/include
