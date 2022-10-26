@@ -10,6 +10,7 @@
 #include "../../JuceLibraryCode/JuceHeader.h"
 #include "../PluginProcessor.h"
 #include "PluginBody.hpp"
+#include "Styles.hpp"
 #include "TitleBar.hpp"
 
 class MainComponent : public Component, private Timer {
@@ -23,6 +24,7 @@ public:
 private:
   WellsAudioProcessor& processor;
 
+  WellsLookAndFeel lookAndFeel;
   TitleBar titleBar;
   PluginBody pluginBody;
 

@@ -23,18 +23,39 @@ struct PluginStyle {
 
   // Dimensions
   const int neuronTitleBarHeight{40};
-  const int controlsBarHeight{50};
+  const int controlsBarHeight{40};
 
-  const int titleHeight{80};
-  const int colWidth{80};
+  const int titleBarHeight{40};
+  const int titleBarPowerButtonWidth{40};
+  const int titleBarRotarySliderWidth{100};
+  const int titleBarRangeSliderWidth{160};
+  BorderSize<int> titleBarComponentPadding{5, 5, 5, 5};
+
+  BorderSize<int> inputModuleBarComponentPadding{5, 5, 5, 5};
+  const int inputModuleBarRotarySliderWidth{120};
+
+  const int colWidth{60};
   const int rowLabelWidth{110};
 
-  const int connectionMatrixTitleHeight{40};
-  const int connectionMatrixRowHeight{40};
+  const int connectionMatrixTitleHeight{32};
+  const int connectionMatrixRowHeight{32};
 
   const BorderSize<int> componentPadding{3, 3, 3, 3};
-  const BorderSize<int> blockPadding{5, 10, 5, 10};
-  const BorderSize<int> rowLabelPadding{0, 10, 0, 0};
+  const BorderSize<int> blockPadding{3, 6, 3, 6};
+  const BorderSize<int> rowLabelPadding{0, 5, 0, 0};
 };
 
 inline PluginStyle AppStyle;
+
+class WellsLookAndFeel : public juce::LookAndFeel_V4 {
+public:
+  WellsLookAndFeel() { setDefaultSansSerifTypefaceName("Avenir Next"); }
+};
+
+class SymbolsLookAndFeel : public WellsLookAndFeel {
+public:
+  Font getTextButtonFont(TextButton&, int buttonHeight) override
+  {
+    return Font("Noto Sans Symbols2", 20.0f, Font::plain);
+  }
+};

@@ -20,7 +20,7 @@ SCENARIO("MidiGenerator")
     {
       REQUIRE(!generator.getIsOn());
       // Parameters
-      REQUIRE(generator.get_subdivision() == 1);
+      REQUIRE(generator.getBeatClockSubdivision() == 1);
       REQUIRE(generator.get_volume() == Approx(1.0f));
       REQUIRE(generator.get_volume_clip_min() == 0.0);
       REQUIRE(generator.get_volume_clip_max() == 1.0);
@@ -77,11 +77,11 @@ SCENARIO("MidiGenerator")
 
     WHEN("we set the parameters")
     {
-      generator.set_subdivision(8);
-      REQUIRE(generator.get_subdivision() == 8);
+      generator.setBeatClockSubdivision(8);
+      REQUIRE(generator.getBeatClockSubdivision() == 8);
 
-      generator.set_subdivision(2);
-      REQUIRE(generator.get_subdivision() == 2);
+      generator.setBeatClockSubdivision(2);
+      REQUIRE(generator.getBeatClockSubdivision() == 2);
 
       generator.set_volume(0.5);
       REQUIRE(generator.get_volume() == Approx(0.5f));

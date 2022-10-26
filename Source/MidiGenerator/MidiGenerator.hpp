@@ -19,19 +19,27 @@
 
 class MidiGenerator {
 public:
-  MidiGenerator(int num_neurons);
+  MidiGenerator(int numNeurons);
   ~MidiGenerator();
 
   // Getters & Setters - mostly called on the GUI thread
   void toggleOnOff();
   bool getIsOn();
+
   void toggleBeatClockIsOn();
   bool getBeatClockIsOn();
+  void setBeatClockInputWeight(double w);
+  double getBeatClockInputWeight();
+  int getBeatClockSubdivision();
+  void setBeatClockSubdivision(int s);
+
   void toggleMidiInputIsOn();
   bool getMidiInputIsOn();
+  void setMidiInputInputWeight(double w);
+  double getMidiInputInputWeight();
 
-  int get_subdivision();
-  void set_subdivision(int s);
+  void setMidiOutputWriterMaxNoteLength(int l);
+  int getMidiOutputWriterMaxNoteLength();
 
   float get_volume();
   void set_volume(float v);

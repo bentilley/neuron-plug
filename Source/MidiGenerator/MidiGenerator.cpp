@@ -25,13 +25,31 @@ void MidiGenerator::toggleBeatClockIsOn() { beatClockIsOn = !beatClockIsOn; };
 
 bool MidiGenerator::getBeatClockIsOn() { return beatClockIsOn; };
 
+void MidiGenerator::setBeatClockInputWeight(double w) { beatClock.setWeight(w); };
+
+double MidiGenerator::getBeatClockInputWeight() { return beatClock.getWeight(); };
+
+int MidiGenerator::getBeatClockSubdivision() { return beatClock.getSubdivision(); }
+
+void MidiGenerator::setBeatClockSubdivision(int s) { beatClock.setSubdivision(s); }
+
 void MidiGenerator::toggleMidiInputIsOn() { midiInputIsOn = !midiInputIsOn; };
 
 bool MidiGenerator::getMidiInputIsOn() { return midiInputIsOn; };
 
-int MidiGenerator::get_subdivision() { return beatClock.getSubdivision(); }
+void MidiGenerator::setMidiInputInputWeight(double w) { midiInputTransformer.setWeight(w); };
 
-void MidiGenerator::set_subdivision(int s) { beatClock.setSubdivision(s); }
+double MidiGenerator::getMidiInputInputWeight() { return midiInputTransformer.getWeight(); };
+
+void MidiGenerator::setMidiOutputWriterMaxNoteLength(int l)
+{
+  midiOutputWriter.setMaxNoteLength(l);
+};
+
+int MidiGenerator::getMidiOutputWriterMaxNoteLength()
+{
+  return midiOutputWriter.getMaxNoteLength();
+};
 
 float MidiGenerator::get_volume() { return midiOutputWriter.getGlobalVolume(); };
 

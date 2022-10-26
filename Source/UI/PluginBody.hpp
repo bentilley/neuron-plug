@@ -9,8 +9,10 @@
 
 #include "../../JuceLibraryCode/JuceHeader.h"
 #include "../PluginProcessor.h"
+#include "BeatClockBar.hpp"
 #include "ConnectionWeightsMatrix.hpp"
 #include "InputWeightsBar.hpp"
+#include "MidiInputBar.hpp"
 #include "MidiNotesBar.hpp"
 #include "NeuronTitleBar.hpp"
 #include "ThresholdsBar.hpp"
@@ -18,9 +20,7 @@
 class PluginBody : public Component {
 public:
   PluginBody(WellsAudioProcessor& p);
-  ~PluginBody();
 
-  void paint(Graphics&) override;
   void resized() override;
 
   void updateComponents();
@@ -29,6 +29,9 @@ private:
   WellsAudioProcessor& processor;
 
   int editor_num_neurons;
+
+  BeatClockBar beatClockBar;
+  MidiInputBar midiInputBar;
 
   NeuronTitleBar neuronTitleBar;
   MidiNotesBar midiNotesBar;

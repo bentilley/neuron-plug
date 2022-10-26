@@ -13,13 +13,11 @@
  ****************/
 
 MidiOutputWriter::MidiOutputWriter()
-    : limitNoteLength{false}, maxNoteLength{0}, maxNetworkOutput{1.0}, globalVolume{1.0},
-      volumeClip(0.0, 1.0)
+    : maxNoteLength{0}, maxNetworkOutput{1.0}, globalVolume{1.0}, volumeClip(0.0, 1.0)
 {}
 
 MidiOutputWriter::MidiOutputWriter(uint_fast32_t maxNoteLength)
-    : limitNoteLength{true}, maxNoteLength{maxNoteLength}, maxNetworkOutput{1.0}, globalVolume{1.0},
-      volumeClip(0.0, 1.0)
+    : maxNoteLength{maxNoteLength}, maxNetworkOutput{1.0}, globalVolume{1.0}, volumeClip(0.0, 1.0)
 {}
 
 /******************
@@ -61,17 +59,14 @@ void MidiOutputWriter::setVolumeClip(float min, float max)
 
 float MidiOutputWriter::getVolumeClipRange() { return volumeClip.second - volumeClip.first; }
 
+uint_fast32_t MidiOutputWriter::getMaxNoteLength() { return maxNoteLength; }
+
 void MidiOutputWriter::setMaxNoteLength(uint_fast32_t newMaxNoteLength)
 {
   maxNoteLength = newMaxNoteLength;
-  limitNoteLength = true;
 }
 
-void MidiOutputWriter::disableMaxNoteLength()
-{
-  limitNoteLength = false;
-  maxNoteLength = 0;
-}
+void MidiOutputWriter::disableMaxNoteLength() { maxNoteLength = 0; }
 
 /*******************
  * Private Methods *
@@ -99,7 +94,7 @@ bool MidiOutputWriter::noteIsPlayingAt(int noteNumber)
 
 bool MidiOutputWriter::noteNeedsEnding(int noteNumber)
 {
-  if (!limitNoteLength)
+  if (maxNoteLength == 0)
     return false;
 
   return playingMidiNotes.at(noteNumber) > maxNoteLength;
@@ -157,7 +152,7 @@ void MidiOutputWriter::updatePlayingNotesSamples(int bufferSize)
 
 void MidiOutputWriter::stopNotesIfNeeded(MidiBuffer& buffer, int bufferSize)
 {
-  if (!limitNoteLength)
+  if (maxNoteLength == 0)
     return;
 
   for (int noteNumber{0}; noteNumber < static_cast<int>(playingMidiNotes.size()); ++noteNumber) {

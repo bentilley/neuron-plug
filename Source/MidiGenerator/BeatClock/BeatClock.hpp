@@ -29,12 +29,12 @@ public:
   /** Get the #subdivision from this BeatClock. */
   int getSubdivision();
   /** Set the #subdivision from this BeatClock. */
-  void setSubdivision(int new_subdivision);
+  void setSubdivision(int newSubdivision);
 
   /** Get the #modelInputScaleFactor from this BeatClock. */
-  double getModelInputScaleFactor();
+  double getWeight();
   /** Set the #modelInputScaleFactor from this BeatClock. */
-  void setModelInputScaleFactor(double newScaleFactor);
+  void setWeight(double newScaleFactor);
 
   /** Get the Brain input vectors for this buffer.
    *
@@ -51,8 +51,8 @@ public:
   );
 
 private:
-  int subdivision;              /**< The number of times the Clock fires each beat. */
-  double modelInputScaleFactor; /**< The value of the input vectors generated. */
+  int subdivision; /**< The number of times the Clock fires each beat. */
+  double weight;   /**< The value of the input vectors generated. */
 
   /** Calculate the number of samples per subdivision.
    *

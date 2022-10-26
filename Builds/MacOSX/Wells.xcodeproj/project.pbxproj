@@ -66,6 +66,8 @@
 		26F17F7024ACBC6A001A1821 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26CC58A9243E3C8E003698A4 /* AppKit.framework */; };
 		26F17F7124ACBC71001A1821 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F01A96C08BF7209C93E185D /* Carbon.framework */; };
 		26F4CE2924ACDD68006AAE46 /* PluginLogger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26A6BE7A244A192E00E9EECA /* PluginLogger.cpp */; };
+		26FB2AB52906BD1A005CD9C3 /* BeatClockBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26FB2AB32906BD1A005CD9C3 /* BeatClockBar.cpp */; };
+		26FB2AB82906BD29005CD9C3 /* MidiInputBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26FB2AB62906BD29005CD9C3 /* MidiInputBar.cpp */; };
 		280FA68C353F0BA915031488 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F01A96C08BF7209C93E185D /* Carbon.framework */; };
 		3340A81427C88C3C68297022 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9ED73607D9FE82BC9F75C24 /* CoreAudio.framework */; };
 		35B6A296DA7AB929E17EAA4F /* include_juce_audio_utils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6C4454F7437A1E4BD9B98CE1 /* include_juce_audio_utils.mm */; };
@@ -131,6 +133,7 @@
 		26103A15244AE47A0065A1B3 /* BeatClock.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BeatClock.hpp; path = ../../../../Source/MidiGenerator/BeatClock/BeatClock.hpp; sourceTree = "<group>"; };
 		26103A27244AE4AF0065A1B3 /* MidiGenerator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MidiGenerator.hpp; path = ../../../Source/MidiGenerator/MidiGenerator.hpp; sourceTree = "<group>"; };
 		26103A28244AE4B00065A1B3 /* MidiGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MidiGenerator.cpp; path = ../../../Source/MidiGenerator/MidiGenerator.cpp; sourceTree = "<group>"; };
+		2668FDB52907526E005FCA3F /* RotarySliderWithLabel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = RotarySliderWithLabel.hpp; path = ../../../../Source/UI/Components/RotarySliderWithLabel.hpp; sourceTree = "<group>"; };
 		2678500F244220110008C804 /* ThresholdsBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ThresholdsBar.cpp; path = ../../../Source/UI/ThresholdsBar.cpp; sourceTree = "<group>"; };
 		26785010244220110008C804 /* NeuronTitleBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NeuronTitleBar.cpp; path = ../../../Source/UI/NeuronTitleBar.cpp; sourceTree = "<group>"; };
 		26785011244220110008C804 /* ConnectionWeightsMatrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConnectionWeightsMatrix.cpp; path = ../../../Source/UI/ConnectionWeightsMatrix.cpp; sourceTree = "<group>"; };
@@ -145,6 +148,7 @@
 		2678501A244220110008C804 /* InputWeightsBar.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = InputWeightsBar.hpp; path = ../../../Source/UI/InputWeightsBar.hpp; sourceTree = "<group>"; };
 		2678501B244220110008C804 /* PluginBody.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = PluginBody.hpp; path = ../../../Source/UI/PluginBody.hpp; sourceTree = "<group>"; };
 		2678501C244220110008C804 /* TitleBar.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TitleBar.hpp; path = ../../../Source/UI/TitleBar.hpp; sourceTree = "<group>"; };
+		268F8DBE290706C100A826B7 /* OnOffButton.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = OnOffButton.hpp; path = ../../../../Source/UI/Components/OnOffButton.hpp; sourceTree = "<group>"; };
 		2694CD2824B879480027E0E6 /* io.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = io.hpp; path = ../../../../Source/MidiGenerator/Brain/io.hpp; sourceTree = "<group>"; };
 		2694CD2924B879480027E0E6 /* io.test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = io.test.cpp; path = ../../../../Source/MidiGenerator/Brain/io.test.cpp; sourceTree = "<group>"; };
 		26A6BE79244A192E00E9EECA /* PluginLogger.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = PluginLogger.hpp; path = ../../../Source/Utils/PluginLogger.hpp; sourceTree = "<group>"; };
@@ -172,6 +176,10 @@
 		26EA5D1925100B4600D469FA /* transport.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = transport.hpp; path = ../../../Source/MidiGenerator/transport.hpp; sourceTree = "<group>"; };
 		26F17F5824ACB5FE001A1821 /* test-wells-plugin */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "test-wells-plugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		26F17F6524ACB923001A1821 /* main.test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.test.cpp; path = ../../../Source/main.test.cpp; sourceTree = "<group>"; };
+		26FB2AB32906BD1A005CD9C3 /* BeatClockBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BeatClockBar.cpp; path = ../../../Source/UI/BeatClockBar.cpp; sourceTree = "<group>"; };
+		26FB2AB42906BD1A005CD9C3 /* BeatClockBar.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BeatClockBar.hpp; path = ../../../Source/UI/BeatClockBar.hpp; sourceTree = "<group>"; };
+		26FB2AB62906BD29005CD9C3 /* MidiInputBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MidiInputBar.cpp; path = ../../../Source/UI/MidiInputBar.cpp; sourceTree = "<group>"; };
+		26FB2AB72906BD29005CD9C3 /* MidiInputBar.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MidiInputBar.hpp; path = ../../../Source/UI/MidiInputBar.hpp; sourceTree = "<group>"; };
 		270692BD6603489430083317 /* PluginProcessor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PluginProcessor.cpp; path = ../../Source/PluginProcessor.cpp; sourceTree = SOURCE_ROOT; };
 		2960013B4BB77E94F72A9C78 /* AppConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppConfig.h; path = ../../JuceLibraryCode/AppConfig.h; sourceTree = SOURCE_ROOT; };
 		2F758386E991ACB19BA63AC6 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -288,6 +296,15 @@
 			path = MidiGenerator;
 			sourceTree = "<group>";
 		};
+		268F8DBD290706A700A826B7 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				268F8DBE290706C100A826B7 /* OnOffButton.hpp */,
+				2668FDB52907526E005FCA3F /* RotarySliderWithLabel.hpp */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		2694CD2724B879350027E0E6 /* Brain */ = {
 			isa = PBXGroup;
 			children = (
@@ -309,12 +326,17 @@
 		26C01364244111DD00208F3C /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				26C013652441124D00208F3C /* MainComponent.cpp */,
-				26C013662441124D00208F3C /* MainComponent.hpp */,
+				268F8DBD290706A700A826B7 /* Components */,
+				26FB2AB32906BD1A005CD9C3 /* BeatClockBar.cpp */,
+				26FB2AB42906BD1A005CD9C3 /* BeatClockBar.hpp */,
 				26785011244220110008C804 /* ConnectionWeightsMatrix.cpp */,
 				26785012244220110008C804 /* ConnectionWeightsMatrix.hpp */,
 				26785017244220110008C804 /* InputWeightsBar.cpp */,
 				2678501A244220110008C804 /* InputWeightsBar.hpp */,
+				26C013652441124D00208F3C /* MainComponent.cpp */,
+				26C013662441124D00208F3C /* MainComponent.hpp */,
+				26FB2AB62906BD29005CD9C3 /* MidiInputBar.cpp */,
+				26FB2AB72906BD29005CD9C3 /* MidiInputBar.hpp */,
 				26785014244220110008C804 /* MidiNotesBar.cpp */,
 				26785013244220110008C804 /* MidiNotesBar.hpp */,
 				26785010244220110008C804 /* NeuronTitleBar.cpp */,
@@ -665,12 +687,14 @@
 			files = (
 				26E211D424B86F1A00FCD178 /* InputFilter.cpp in Sources */,
 				26A6BE7B244A192E00E9EECA /* PluginLogger.cpp in Sources */,
+				26FB2AB52906BD1A005CD9C3 /* BeatClockBar.cpp in Sources */,
 				26103A18244AE47A0065A1B3 /* BeatClock.cpp in Sources */,
 				26E8AC3A24B71F77005D0989 /* Neuron.cpp in Sources */,
 				26103A29244AE4B00065A1B3 /* MidiGenerator.cpp in Sources */,
 				26C013672441124D00208F3C /* MainComponent.cpp in Sources */,
 				26785023244220110008C804 /* TitleBar.cpp in Sources */,
 				26785021244220110008C804 /* PluginBody.cpp in Sources */,
+				26FB2AB82906BD29005CD9C3 /* MidiInputBar.cpp in Sources */,
 				2678501E244220110008C804 /* NeuronTitleBar.cpp in Sources */,
 				26E211E324B8775600FCD178 /* Network.cpp in Sources */,
 				26785020244220110008C804 /* MidiNotesBar.cpp in Sources */,

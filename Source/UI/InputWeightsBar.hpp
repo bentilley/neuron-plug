@@ -17,7 +17,6 @@
 class InputWeightSlider : public Slider {
 public:
   InputWeightSlider(WellsAudioProcessor& p, int neuron_num);
-  ~InputWeightSlider();
 
   void updateComponent();
 
@@ -38,7 +37,6 @@ private:
 class InputWeightsBar : public Component {
 public:
   InputWeightsBar(WellsAudioProcessor& p);
-  ~InputWeightsBar();
 
   void paint(Graphics&) override;
   void resized() override;

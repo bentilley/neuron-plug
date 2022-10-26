@@ -10,6 +10,12 @@
 #include <stdexcept>
 #include <utility>
 
+MidiInputTransformer::MidiInputTransformer() : weight(1.0) {}
+
+double MidiInputTransformer::getWeight() { return weight; }
+
+void MidiInputTransformer::setWeight(double newWeight) { weight = newWeight; }
+
 std::vector<ModelVector> MidiInputTransformer::getModelInputForBuffer(MidiBuffer& buffer)
 {
   return parseMidiInput(buffer);
@@ -25,7 +31,7 @@ std::vector<ModelVector> MidiInputTransformer::parseMidiInput(MidiBuffer& buffer
     if (message.isNoteOn()) {
       if (inputBySample.count(sampleNumber) == 1) {
         inputBySample.at(sampleNumber).data.at(message.getNoteNumber()) +=
-          message.getFloatVelocity();
+          weight * message.getFloatVelocity();
       } else {
         inputBySample.emplace(
           std::make_pair(sampleNumber, midiMessageToModelInput(message, sampleNumber))
@@ -49,6 +55,6 @@ ModelVector MidiInputTransformer::midiMessageToModelInput(
     throw std::invalid_argument("MIDI message is not noteOn");
   }
   ModelVectorData data{};
-  data.at(message.getNoteNumber()) = message.getFloatVelocity();
+  data.at(message.getNoteNumber()) = weight * message.getFloatVelocity();
   return ModelVector{data, (int32_t)sampleNumber, ModelVector::InputType::MidiInput};
 }

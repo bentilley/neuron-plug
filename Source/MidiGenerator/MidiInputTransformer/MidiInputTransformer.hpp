@@ -14,9 +14,16 @@
 
 class MidiInputTransformer {
 public:
+  MidiInputTransformer();
+
+  double getWeight();
+  void setWeight(double w);
+
   std::vector<ModelVector> getModelInputForBuffer(MidiBuffer& buffer);
 
 private:
+  double weight;
+
   std::vector<ModelVector> parseMidiInput(MidiBuffer& buffer);
 
   ModelVector midiMessageToModelInput(const MidiMessage& message, int sampleNumber);

@@ -18,7 +18,6 @@ InputWeightsBar::InputWeightsBar(WellsAudioProcessor& p) : processor(p)
     add_input_weight_slider(i);
   }
 }
-InputWeightsBar::~InputWeightsBar() {}
 
 void InputWeightsBar::paint(Graphics& g)
 {
@@ -92,7 +91,6 @@ InputWeightSlider::InputWeightSlider(WellsAudioProcessor& p, int i)
     processor.midiGenerator->set_neuron_input_weight(neuron_index, getValue());
   };
 }
-InputWeightSlider::~InputWeightSlider() {}
 
 void InputWeightSlider::updateComponent()
 {

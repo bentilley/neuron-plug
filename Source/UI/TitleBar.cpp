@@ -9,18 +9,13 @@
 #include "Styles.hpp"
 
 TitleBar::TitleBar(WellsAudioProcessor& p)
-    : onOffButton(p), beatClockOnOffButton(p), midiInputOnOffButton(p), subdivisionSlider(p),
-      globalVolumeSlider(p), volumeRange(p)
+    : onOffButton(p), globalVolumeSlider(p), maxNoteLengthSlider(p), volumeRange(p)
 {
-
   addAndMakeVisible(onOffButton);
-  addAndMakeVisible(beatClockOnOffButton);
-  addAndMakeVisible(midiInputOnOffButton);
-  addAndMakeVisible(subdivisionSlider);
   addAndMakeVisible(globalVolumeSlider);
+  addAndMakeVisible(maxNoteLengthSlider);
   addAndMakeVisible(volumeRange);
 }
-TitleBar::~TitleBar() {}
 
 void TitleBar::paint(Graphics& g)
 {
@@ -35,54 +30,37 @@ void TitleBar::paint(Graphics& g)
 
 void TitleBar::resized()
 {
-
   auto area = getLocalBounds();
   area.removeFromBottom(bottomBorderPx);
-  auto buttonArea = area.removeFromLeft(componentWidth);
 
-  componentPadding.subtractFrom(buttonArea);
-  onOffButton.setBounds(buttonArea);
+  auto controlsArea = area.removeFromLeft(AppStyle.titleBarPowerButtonWidth);
+  AppStyle.titleBarComponentPadding.subtractFrom(controlsArea);
+  onOffButton.setBounds(controlsArea);
 
-  buttonArea = area.removeFromLeft(componentWidth);
-  componentPadding.subtractFrom(buttonArea);
-  globalVolumeSlider.setBounds(buttonArea);
+  globalVolumeSlider.setBounds(area.removeFromLeft(AppStyle.titleBarRotarySliderWidth));
 
-  buttonArea = area.removeFromLeft(2 * componentWidth);
-  componentPadding.subtractFrom(buttonArea);
-  volumeRange.setBounds(buttonArea);
+  maxNoteLengthSlider.setBounds(area.removeFromLeft(AppStyle.titleBarRotarySliderWidth));
 
-  buttonArea = area.removeFromLeft(componentWidth);
-  componentPadding.subtractFrom(buttonArea);
-  beatClockOnOffButton.setBounds(buttonArea);
-
-  buttonArea = area.removeFromLeft(componentWidth);
-  componentPadding.subtractFrom(buttonArea);
-  subdivisionSlider.setBounds(buttonArea);
-
-  buttonArea = area.removeFromLeft(componentWidth);
-  componentPadding.subtractFrom(buttonArea);
-  midiInputOnOffButton.setBounds(buttonArea);
+  controlsArea = area.removeFromRight(AppStyle.titleBarRangeSliderWidth);
+  AppStyle.titleBarComponentPadding.subtractFrom(controlsArea);
+  volumeRange.setBounds(controlsArea);
 }
 
 void TitleBar::updateComponents()
 {
   // TODO only update GUI when needed
   onOffButton.updateComponent();
-  beatClockOnOffButton.updateComponent();
-  midiInputOnOffButton.updateComponent();
-  subdivisionSlider.updateComponent();
   globalVolumeSlider.updateComponent();
   volumeRange.updateComponent();
 }
 
-/** On/Off Button */
-OnOffButton::OnOffButton(WellsAudioProcessor& p) : TextButton("On/Off"), processor(p)
+PluginOnOffButton::PluginOnOffButton(WellsAudioProcessor& p) : OnOffButton(p)
 {
+  setTooltip("turn plugin on or off");
   onClick = [this]() { processor.midiGenerator->toggleOnOff(); };
 }
-OnOffButton::~OnOffButton() {}
 
-void OnOffButton::updateComponent()
+void PluginOnOffButton::updateComponent()
 {
   setColour(
     TextButton::ColourIds::buttonColourId,
@@ -90,76 +68,33 @@ void OnOffButton::updateComponent()
   );
 }
 
-/** Beat Clock On/Off Button */
-BeatClockOnOffButton::BeatClockOnOffButton(WellsAudioProcessor& p)
-    : TextButton("Beat Clock"), processor(p)
+GlobalVolumeSlider::GlobalVolumeSlider(WellsAudioProcessor& p) : RotarySliderWithLabel(p, "Volume")
 {
-  onClick = [this]() { processor.midiGenerator->toggleBeatClockIsOn(); };
-}
-BeatClockOnOffButton::~BeatClockOnOffButton() {}
-
-void BeatClockOnOffButton::updateComponent()
-{
-  setColour(
-    TextButton::ColourIds::buttonColourId,
-    processor.midiGenerator->getBeatClockIsOn() ? AppStyle.buttonOnColour : AppStyle.buttonOffColour
-  );
+  slider.setTooltip("global volume");
+  slider.setRange(0.0, 1.0, 0.00);
+  slider.setNumDecimalPlacesToDisplay(2);
+  slider.onValueChange = [this]() { processor.midiGenerator->set_volume(slider.getValue()); };
 }
 
-/** MIDI Input On/Off Button */
-MidiInputOnOffButton::MidiInputOnOffButton(WellsAudioProcessor& p)
-    : TextButton("MIDI Input"), processor(p)
+void GlobalVolumeSlider::updateComponent()
 {
-  onClick = [this]() { processor.midiGenerator->toggleMidiInputIsOn(); };
-}
-MidiInputOnOffButton::~MidiInputOnOffButton() {}
-
-void MidiInputOnOffButton::updateComponent()
-{
-  setColour(
-    TextButton::ColourIds::buttonColourId,
-    processor.midiGenerator->getMidiInputIsOn() ? AppStyle.buttonOnColour : AppStyle.buttonOffColour
-  );
+  slider.setValue(processor.midiGenerator->get_volume());
 }
 
-/*
- * Subdivision Slider
- */
-
-SubdivisionSlider::SubdivisionSlider(WellsAudioProcessor& p) : Slider("Subdivision"), processor(p)
+MaxNoteLengthSlider::MaxNoteLengthSlider(WellsAudioProcessor& p)
+    : RotarySliderWithLabel(p, "Max Note Length")
 {
-  setTooltip("subdivision");
-  setSliderStyle(Slider::RotaryVerticalDrag);
-  setRange(1, 256, 1);
-  setTextBoxStyle(Slider::NoTextBox, false, 10, 0);
-  setPopupDisplayEnabled(true, false, getParentComponent());
-  onValueChange = [this]() { processor.midiGenerator->set_subdivision(getValue()); };
+  slider.setTooltip("the maximum length of MIDI notes generated by the plugin (in samples)");
+  slider.setRange(0.0, 44100.0, 100.0);
+  slider.onValueChange = [this]() {
+    processor.midiGenerator->setMidiOutputWriterMaxNoteLength(slider.getValue());
+  };
 }
-SubdivisionSlider::~SubdivisionSlider() {}
 
-void SubdivisionSlider::updateComponent() { setValue(processor.midiGenerator->get_subdivision()); }
-
-/*
- * Global Volume Slider
- */
-
-GlobalVolumeSlider::GlobalVolumeSlider(WellsAudioProcessor& p) : Slider("Volume"), processor(p)
+void MaxNoteLengthSlider::updateComponent()
 {
-  setTooltip("global volume");
-  setSliderStyle(Slider::RotaryVerticalDrag);
-  setRange(0.0, 1.0, 0.00);
-  setNumDecimalPlacesToDisplay(2);
-  setTextBoxStyle(Slider::NoTextBox, false, 10, 0);
-  setPopupDisplayEnabled(true, false, getParentComponent());
-  onValueChange = [this]() { processor.midiGenerator->set_volume(getValue()); };
+  slider.setValue(processor.midiGenerator->getMidiOutputWriterMaxNoteLength());
 }
-GlobalVolumeSlider::~GlobalVolumeSlider() {}
-
-void GlobalVolumeSlider::updateComponent() { setValue(processor.midiGenerator->get_volume()); }
-
-/*
- * Volume Range Slider
- */
 
 VolumeRangeSlider::VolumeRangeSlider(WellsAudioProcessor& p)
     : Slider("MIDI Volume Range"), processor(p)
@@ -173,7 +108,6 @@ VolumeRangeSlider::VolumeRangeSlider(WellsAudioProcessor& p)
     processor.midiGenerator->set_volume_clip(getMinValue(), getMaxValue());
   };
 }
-VolumeRangeSlider::~VolumeRangeSlider() {}
 
 void VolumeRangeSlider::updateComponent()
 {

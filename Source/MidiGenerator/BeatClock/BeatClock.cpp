@@ -8,30 +8,17 @@
 #include "BeatClock.hpp"
 #include <cmath>
 
-BeatClock::BeatClock() : subdivision{1}, modelInputScaleFactor{1.0} {};
+BeatClock::BeatClock() : subdivision{1}, weight{1.0} {};
 
-BeatClock::BeatClock(int subdivision, double modelInputScaleFactor)
-    : subdivision{subdivision}, modelInputScaleFactor{modelInputScaleFactor}
-{}
-
-/*
- * Getters
- */
+BeatClock::BeatClock(int subdivision, double weight) : subdivision{subdivision}, weight{weight} {}
 
 int BeatClock::getSubdivision() { return subdivision; }
 
-double BeatClock::getModelInputScaleFactor() { return modelInputScaleFactor; }
-
-/*
- * Setters
- */
-
 void BeatClock::setSubdivision(int new_subdiv) { subdivision = new_subdiv; }
 
-void BeatClock::setModelInputScaleFactor(double newScaleFactor)
-{
-  modelInputScaleFactor = newScaleFactor;
-}
+double BeatClock::getWeight() { return weight; }
+
+void BeatClock::setWeight(double newWeight) { weight = newWeight; }
 
 /*
  * Public Methods
@@ -46,8 +33,7 @@ std::vector<ModelVector> BeatClock::getModelInputForBuffer(const PositionInfo& p
 
   while (numberOfNextHit * samplesPerSubdivision <= lastSampleOfBuffer) {
     int64_t sampleNumber = std::round(numberOfNextHit * samplesPerSubdivision);
-    result
-      .emplace_back(modelInputScaleFactor, sampleNumber, ModelVector::InputType::BeatClockInput);
+    result.emplace_back(weight, sampleNumber, ModelVector::InputType::BeatClockInput);
     ++numberOfNextHit;
   }
 

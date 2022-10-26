@@ -10,67 +10,35 @@
 #include "../../JuceLibraryCode/JuceHeader.h"
 #include "../PluginProcessor.h"
 #include "../Utils/PluginLogger.hpp"
+#include "Components/OnOffButton.hpp"
+#include "Components/RotarySliderWithLabel.hpp"
+#include "Styles.hpp"
 
-/** On/Off Button - toggling the plugin on and off. */
-class OnOffButton : public TextButton {
+/** Toggling the plugin on and off. */
+class PluginOnOffButton : public OnOffButton {
 public:
-  OnOffButton(WellsAudioProcessor& p);
-  ~OnOffButton();
+  PluginOnOffButton(WellsAudioProcessor& p);
   void updateComponent();
-
-private:
-  WellsAudioProcessor& processor;
 };
 
-/** Beat Clock On/Off Button - for toggling whether the plugin uses the Beat Clock. */
-class BeatClockOnOffButton : public TextButton {
-public:
-  BeatClockOnOffButton(WellsAudioProcessor& p);
-  ~BeatClockOnOffButton();
-  void updateComponent();
-
-private:
-  WellsAudioProcessor& processor;
-};
-
-/** MIDI Input On/Off Button - for toggling whether the plugin uses MIDI input. */
-class MidiInputOnOffButton : public TextButton {
-public:
-  MidiInputOnOffButton(WellsAudioProcessor& p);
-  ~MidiInputOnOffButton();
-  void updateComponent();
-
-private:
-  WellsAudioProcessor& processor;
-};
-
-/** Subdivision Slider - changes the subdivision in the BeatClock */
-class SubdivisionSlider : public Slider {
-public:
-  SubdivisionSlider(WellsAudioProcessor& p);
-  ~SubdivisionSlider();
-  void updateComponent();
-
-private:
-  WellsAudioProcessor& processor;
-};
-
-/** Global Volume Slider - changes the volume of all midi notes created */
-class GlobalVolumeSlider : public Slider {
+/** Changes the volume of all midi notes created. */
+class GlobalVolumeSlider : public RotarySliderWithLabel {
 public:
   GlobalVolumeSlider(WellsAudioProcessor& p);
-  ~GlobalVolumeSlider();
   void updateComponent();
-
-private:
-  WellsAudioProcessor& processor;
 };
 
-/** Volume Range Slider - clips the volume range of midi notes created */
+/** Changes the maximum note length of the MIDI output. */
+class MaxNoteLengthSlider : public RotarySliderWithLabel {
+public:
+  MaxNoteLengthSlider(WellsAudioProcessor& p);
+  void updateComponent();
+};
+
+/** Clips the volume range of midi notes created. */
 class VolumeRangeSlider : public Slider {
 public:
   VolumeRangeSlider(WellsAudioProcessor& p);
-  ~VolumeRangeSlider();
   void updateComponent();
 
 private:
@@ -88,7 +56,6 @@ private:
 class TitleBar : public Component {
 public:
   TitleBar(WellsAudioProcessor& p);
-  ~TitleBar();
 
   void paint(Graphics&) override;
   void resized() override;
@@ -98,13 +65,10 @@ public:
 private:
   int bottomBorderPx{1};
   BorderSize<int> componentPadding{10, 5, 10, 5};
-  int componentWidth{100};
 
-  OnOffButton onOffButton;
-  BeatClockOnOffButton beatClockOnOffButton;
-  MidiInputOnOffButton midiInputOnOffButton;
-  SubdivisionSlider subdivisionSlider;
+  PluginOnOffButton onOffButton;
   GlobalVolumeSlider globalVolumeSlider;
+  MaxNoteLengthSlider maxNoteLengthSlider;
   VolumeRangeSlider volumeRange;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TitleBar)

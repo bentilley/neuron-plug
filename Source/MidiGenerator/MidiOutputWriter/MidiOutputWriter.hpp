@@ -57,6 +57,9 @@ public:
    */
   MidiBuffer& writeMidiOutput(std::vector<ModelVector>& output, MidiBuffer& buffer, int bufferSize);
 
+  /** Get the maximum length of a note in samples. */
+  uint_fast32_t getMaxNoteLength();
+
   /** Set the maximum length of a note in samples.
    * @param newMaxNoteLength The number of samples to clip the note length to.
    */
@@ -70,9 +73,6 @@ private:
   /** A record of the MIDI notes that are playing, the array value is the number
    * of samples that the note has been playing for. */
   std::array<uint_fast32_t, NUM_MIDI_NOTES> playingMidiNotes{};
-
-  /** Whether or not the writer should limit note length. */
-  bool limitNoteLength;
 
   /** The maximum number of samples a note should play for. */
   uint_fast32_t maxNoteLength;

@@ -10,6 +10,9 @@
 
 MainComponent::MainComponent(WellsAudioProcessor& p) : processor(p), titleBar(p), pluginBody(p)
 {
+  /* LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName("Avenir Next"); */
+  LookAndFeel::setDefaultLookAndFeel(&lookAndFeel);
+
   addAndMakeVisible(&titleBar);
   addAndMakeVisible(&pluginBody);
   startTimer(100);
@@ -27,7 +30,7 @@ void MainComponent::resized()
 {
   auto area = getLocalBounds();
 
-  titleBar.setBounds(area.removeFromTop(AppStyle.titleHeight));
+  titleBar.setBounds(area.removeFromTop(AppStyle.titleBarHeight));
   pluginBody.setBounds(area);
 }
 

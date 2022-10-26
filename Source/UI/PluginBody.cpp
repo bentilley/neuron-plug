@@ -9,25 +9,28 @@
 #include "Styles.hpp"
 
 PluginBody::PluginBody(WellsAudioProcessor& p)
-    : processor(p), editor_num_neurons{p.midiGenerator->num_neurons()}, neuronTitleBar(p),
-      midiNotesBar(p), inputWeightsBar(p), thresholdsBar(p), connectionWeightsMatrix(p)
+    : processor(p), editor_num_neurons{p.midiGenerator->num_neurons()}, beatClockBar(p),
+      midiInputBar(p), neuronTitleBar(p), midiNotesBar(p), inputWeightsBar(p), thresholdsBar(p),
+      connectionWeightsMatrix(p)
 {
+  addAndMakeVisible(beatClockBar);
+  addAndMakeVisible(midiInputBar);
   addAndMakeVisible(neuronTitleBar);
   addAndMakeVisible(midiNotesBar);
   addAndMakeVisible(inputWeightsBar);
   addAndMakeVisible(thresholdsBar);
   addAndMakeVisible(connectionWeightsMatrix);
 }
-PluginBody::~PluginBody() {}
-
-void PluginBody::paint(Graphics& g) {}
 
 void PluginBody::resized()
 {
   auto area = getLocalBounds();
+  area.removeFromTop(AppStyle.blockPadding.getTop());
+
+  beatClockBar.setBounds(area.removeFromTop(AppStyle.controlsBarHeight));
+  midiInputBar.setBounds(area.removeFromTop(AppStyle.controlsBarHeight));
 
   neuronTitleBar.setBounds(area.removeFromTop(AppStyle.neuronTitleBarHeight));
-
   midiNotesBar.setBounds(area.removeFromTop(AppStyle.controlsBarHeight));
   inputWeightsBar.setBounds(area.removeFromTop(AppStyle.controlsBarHeight));
   thresholdsBar.setBounds(area.removeFromTop(AppStyle.controlsBarHeight));
@@ -37,6 +40,9 @@ void PluginBody::resized()
 
 void PluginBody::updateComponents()
 {
+  beatClockBar.updateComponents();
+  midiInputBar.updateComponents();
+
   int processor_num_neurons = processor.midiGenerator->num_neurons();
   if (processor_num_neurons != editor_num_neurons) {
     int neuron_diff = processor_num_neurons - editor_num_neurons;
